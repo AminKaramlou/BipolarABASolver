@@ -15,7 +15,7 @@ class BipolarABA:
 
     def deriving_rules(self, sentence):
         """
-        :return: the set of all rules deriving sentence
+        :return: the set of all rules directly deriving sentence
         """
         der_rules = set()
         for rule in self.rules:
@@ -299,22 +299,7 @@ class Deduction:
                 tuple(sort_sentences(list(self.conclusion)))).__hash__()
 
 
-class CyclicPreferenceException(Exception):
-    def __init__(self, message):
-        self.message = message
-
-
-class NonFlatException(Exception):
-    def __init__(self, message):
-        self.message = message
-
-
-class InvalidPreferenceException(Exception):
-    def __init__(self, message):
-        self.message = message
-
-
-class WCPViolationException(Exception):
+class NonBipolarException(Exception):
     def __init__(self, message):
         self.message = message
 
