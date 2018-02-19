@@ -2,217 +2,238 @@ import functools as ft
 
 
 class BipolarABA:
-    def __init__(self, assumptions, rules):
+    def __init__(self, language, rules, assumptions_contrary_mapping):
         """
-        :param assumptions: set of Sentences
-        :param rules: set of Rules
+        :param language: set of Sentences
+        :param rules: set of rules
+        :param assumptions: dictionary of Sentences to Sentences (Assumptions to contraries)
         """
-        self.assumptions = assumptions
+        self.language = language
         self.rules = rules
+        self.assumptions = assumptions_contrary_mapping.keys()
+        self.contraries = assumptions_contrary_mapping.values()
+        self.assumptions_contary_mapping = assumptions_contrary_mapping
+        self._validate_bipolar()
 
-    def __str__(self):
-        return str(self.__dict__)
+    def _validate_bipolar(self):
+        print("here")
+        print(self.rules)
+        for r in self.rules:
+            if r.consequent not in self.assumptions and r.consequent not in self.contraries:
+                print("Here")
+                raise NonBipolarException("The head of a rule in a BipolarABA framework must be an assumption or "
+                                          "the contrary of an assumption.")
+            if len(r.antecedent) != 1:
+                raise NonBipolarException("The body of a rule in a BipolarABA frameowork can only contain one sentence.")
+            for antecedent in r.antecedent:
+                if antecedent not in self.assumptions:
+                    raise NonBipolarException("The body of a rule in BipolarABA framework can only contain assumptions.")
+        print("Here")
 
     def is_closed(self, sentence):
         pass
 
-    def deriving_rules(self, sentence):
-        """
-        :return: the set of all rules directly deriving sentence
-        """
-        der_rules = set()
-        for rule in self.rules:
-            if rule.consequent == sentence:
-                der_rules.add(rule)
-        return der_rules
+    def __str__(self):
+        return str(self.__dict__)
 
-    def deduction_exists(self, to_deduce, deduce_from):
-        """
-        :param to_deduce: a Sentence
-        :param deduce_from: set of Sentences
-        :return: True, if to_deduce can be deduced from deduce_from
-        """
-        rules_applied = set()
-        deduced = deduce_from.copy()
-        new_rule_used = True
-        while new_rule_used:
-            new_rule_used = False
-            for rule in self.rules:
-                if rule not in rules_applied:
-                    if rule.antecedent.issubset(deduced):
-                        new_rule_used = True
-                        if rule.consequent == to_deduce:
-                            return True
-                        else:
-                            deduced.add(rule.consequent)
-                        rules_applied.add(rule)
 
-        return False
-
-    def generate_all_deductions(self, deduce_from):
-        """
-        :param deduce_from: set of Sentences
-        :return: set of all Sentences that can be derived from deduce_from
-        """
-        rules_applied = set()
-        deduced = deduce_from.copy()
-        new_rule_used = True
-        while new_rule_used:
-            new_rule_used = False
-            for rule in self.rules:
-                if rule not in rules_applied:
-                    if rule.antecedent.issubset(deduced):
-                        new_rule_used = True
-                        deduced.add(rule.consequent)
-                        rules_applied.add(rule)
-
-        return deduced
-
-    def set_combinations(self, iterable):
-        """
-        Compute all combinations of sets of sets
-        example:
-        set_combinations({{b}},{{e},{f}}) returns {{b,e},{b,f}}
-        """
-        return self._set_combinations(iter(iterable))
-
-    def _set_combinations(self, iter):
-        current_set = next(iter, None)
-        if current_set is not None:
-            sets_to_combine_with = self._set_combinations(iter)
-            resulting_combinations = set()
-            for c in current_set:
-                if not sets_to_combine_with:
-                    resulting_combinations.add(frozenset(c))
-                for s in sets_to_combine_with:
-                    resulting_combinations.add(frozenset(c.union(s)))
-
-            return resulting_combinations
-
-        return set()
-
-    #TODO: rename to avoid confusion between supporting sets and 'arguments' in abstract argumentation
-    def generate_arguments(self, generate_for):
-        """
-        :param generate_for: a Sentence
-        :return: set of sets of assumptions, where each set contains assumptions deducing generate_for
-        """
-        return self._generate_arguments(generate_for, set())
-
-    def _generate_arguments(self, generate_for, rules_seen):
-        if generate_for in self.assumptions:
-            return {frozenset({generate_for})}
-
-        der_rules = self.deriving_rules(generate_for)
-        results = set()
-        for rule in der_rules:
-            if rule not in rules_seen:
-                supporting_assumptions = set()
-                args_lacking = False
-                if not rule.antecedent:
-                    empty_set = set()
-                    empty_set.add(frozenset())
-                    supporting_assumptions.add(frozenset(empty_set))
-                _rules_seen = rules_seen.copy()
-                _rules_seen.add(rule)
-                for ant in rule.antecedent:
-                    args = self._generate_arguments(ant, _rules_seen)
-                    if not args:
-                        args_lacking = True
-                        break
-                    supporting_assumptions.add(frozenset(args))
-
-                if not args_lacking:
-                    results = results.union(self.set_combinations(supporting_assumptions))
-        return results
-
-    def generate_arguments_and_attacks(self, generate_for):
-        """
-        generate arguments supporting generate_for and all attacks between the arguments
-        :param generate_for:
-        :return: tuple (deductions, attacks, all_deductions)
-                 deductions: dictionary that maps sentences to sets of Deductions that deduce them
-                 attacks: set of all attacks generated
-                 all_deductions: set of all Deductions generated
-        """
-        deductions = {}
-        attacks = set()
-        # maps attackees to attackers in normal attacks
-        atk_map = {}
-        # maps attackees to attackers in reverse attacks
-        reverse_atk_map = {}
-
-        # generate trivial deductions for all assumptions:
-        for assumption in self.assumptions:
-            deductions[assumption] = set()
-            deductions[assumption].add(Deduction({assumption}, {assumption}))
-
-        # generate supporting assumptions
-        for sentence in generate_for:
-            args = self.generate_arguments(sentence)
-            if args:
-                deductions[sentence] = set()
-
-                for arg in args:
-                    arg_deduction = Deduction(arg, {sentence})
-                    deductions[sentence].add(arg_deduction)
-
-                    if sentence.is_contrary and sentence.contrary() in self.assumptions:
-                        trivial_arg = Deduction({sentence.contrary()}, {sentence.contrary()})
-
-                        if self.attack_successful(arg, sentence.contrary()):
-                            attacks.add(Attack(arg_deduction, trivial_arg, NORMAL_ATK))
-
-                            f_arg = frozenset(arg)
-                            if sentence.contrary() not in atk_map:
-                                atk_map[sentence.contrary()] = set()
-                            atk_map[sentence.contrary()].add(f_arg)
-
-                        else:
-                            attacks.add(Attack(trivial_arg, arg_deduction, REVERSE_ATK))
-
-                            f_arg = frozenset(arg)
-                            if f_arg not in reverse_atk_map:
-                                reverse_atk_map[f_arg] = set()
-                            reverse_atk_map[f_arg].add(sentence.contrary())
-
-        all_deductions = ft.reduce(lambda x, y: x.union(y), deductions.values())
-
-        for n_attackee, n_attacker_sets in atk_map.items():
-            attackees = [ded for ded in all_deductions if n_attackee in ded.premise]
-            for n_attacker in n_attacker_sets:
-                attackers = [ded for ded in all_deductions if n_attacker.issubset(ded.premise)]
-                for attackee in attackees:
-                    for attacker in attackers:
-                        attacks.add(Attack(attacker, attackee, NORMAL_ATK))
-
-        for r_attackee, r_attacker_sets in reverse_atk_map.items():
-            attackees = [ded for ded in all_deductions if r_attackee.issubset(ded.premise)]
-            for r_attacker in r_attacker_sets:
-                attackers = [ded for ded in all_deductions if r_attacker in ded.premise]
-                for attackee in attackees:
-                    for attacker in attackers:
-                        attacks.add(Attack(attacker, attackee, REVERSE_ATK))
-
-        return (deductions, attacks, all_deductions)
-
-    def generate_arguments_and_attacks_for_contraries(self):
-        """
-        generate arguments supporting generate_for and all attacks between the arguments
-        :return:
-        """
-        return self.generate_arguments_and_attacks([asm.contrary() for asm in self.assumptions])
-
-    def attack_successful(self, attacker, attackee):
-        """
-        :param attacker: set of Sentences
-        :param attackee: a Sentence
-        :return: True if attacker attacks attackee successfully, false otherwise
-        """
-        for atk in attacker:
-            if self.is_preferred(attackee, atk):
-                return False
-        return True
+    # def deriving_rules(self, sentence):
+    #     """
+    #     :return: the set of all rules directly deriving sentence
+    #     """
+    #     der_rules = set()
+    #     for rule in self.rules:
+    #         if rule.consequent == sentence:
+    #             der_rules.add(rule)
+    #     return der_rules
+    #
+    # def deduction_exists(self, to_deduce, deduce_from):
+    #     """
+    #     :param to_deduce: a Sentence
+    #     :param deduce_from: set of Sentences
+    #     :return: True, if to_deduce can be deduced from deduce_from
+    #     """
+    #     rules_applied = set()
+    #     deduced = deduce_from.copy()
+    #     new_rule_used = True
+    #     while new_rule_used:
+    #         new_rule_used = False
+    #         for rule in self.rules:
+    #             if rule not in rules_applied:
+    #                 if rule.antecedent.issubset(deduced):
+    #                     new_rule_used = True
+    #                     if rule.consequent == to_deduce:
+    #                         return True
+    #                     else:
+    #                         deduced.add(rule.consequent)
+    #                     rules_applied.add(rule)
+    #
+    #     return False
+    #
+    # def generate_all_deductions(self, deduce_from):
+    #     """
+    #     :param deduce_from: set of Sentences
+    #     :return: set of all Sentences that can be derived from deduce_from
+    #     """
+    #     rules_applied = set()
+    #     deduced = deduce_from.copy()
+    #     new_rule_used = True
+    #     while new_rule_used:
+    #         new_rule_used = False
+    #         for rule in self.rules:
+    #             if rule not in rules_applied:
+    #                 if rule.antecedent.issubset(deduced):
+    #                     new_rule_used = True
+    #                     deduced.add(rule.consequent)
+    #                     rules_applied.add(rule)
+    #
+    #     return deduced
+    #
+    # def set_combinations(self, iterable):
+    #     """
+    #     Compute all combinations of sets of sets
+    #     example:
+    #     set_combinations({{b}},{{e},{f}}) returns {{b,e},{b,f}}
+    #     """
+    #     return self._set_combinations(iter(iterable))
+    #
+    # def _set_combinations(self, iter):
+    #     current_set = next(iter, None)
+    #     if current_set is not None:
+    #         sets_to_combine_with = self._set_combinations(iter)
+    #         resulting_combinations = set()
+    #         for c in current_set:
+    #             if not sets_to_combine_with:
+    #                 resulting_combinations.add(frozenset(c))
+    #             for s in sets_to_combine_with:
+    #                 resulting_combinations.add(frozenset(c.union(s)))
+    #
+    #         return resulting_combinations
+    #
+    #     return set()
+    #
+    # #TODO: rename to avoid confusion between supporting sets and 'arguments' in abstract argumentation
+    # def generate_arguments(self, generate_for):
+    #     """
+    #     :param generate_for: a Sentence
+    #     :return: set of sets of assumptions, where each set contains assumptions deducing generate_for
+    #     """
+    #     return self._generate_arguments(generate_for, set())
+    #
+    # def _generate_arguments(self, generate_for, rules_seen):
+    #     if generate_for in self.assumptions:
+    #         return {frozenset({generate_for})}
+    #
+    #     der_rules = self.deriving_rules(generate_for)
+    #     results = set()
+    #     for rule in der_rules:
+    #         if rule not in rules_seen:
+    #             supporting_assumptions = set()
+    #             args_lacking = False
+    #             if not rule.antecedent:
+    #                 empty_set = set()
+    #                 empty_set.add(frozenset())
+    #                 supporting_assumptions.add(frozenset(empty_set))
+    #             _rules_seen = rules_seen.copy()
+    #             _rules_seen.add(rule)
+    #             for ant in rule.antecedent:
+    #                 args = self._generate_arguments(ant, _rules_seen)
+    #                 if not args:
+    #                     args_lacking = True
+    #                     break
+    #                 supporting_assumptions.add(frozenset(args))
+    #
+    #             if not args_lacking:
+    #                 results = results.union(self.set_combinations(supporting_assumptions))
+    #     return results
+    #
+    # def generate_arguments_and_attacks(self, generate_for):
+    #     """
+    #     generate arguments supporting generate_for and all attacks between the arguments
+    #     :param generate_for:
+    #     :return: tuple (deductions, attacks, all_deductions)
+    #              deductions: dictionary that maps sentences to sets of Deductions that deduce them
+    #              attacks: set of all attacks generated
+    #              all_deductions: set of all Deductions generated
+    #     """
+    #     deductions = {}
+    #     attacks = set()
+    #     # maps attackees to attackers in normal attacks
+    #     atk_map = {}
+    #     # maps attackees to attackers in reverse attacks
+    #     reverse_atk_map = {}
+    #
+    #     # generate trivial deductions for all assumptions:
+    #     for assumption in self.assumptions:
+    #         deductions[assumption] = set()
+    #         deductions[assumption].add(Deduction({assumption}, {assumption}))
+    #
+    #     # generate supporting assumptions
+    #     for sentence in generate_for:
+    #         args = self.generate_arguments(sentence)
+    #         if args:
+    #             deductions[sentence] = set()
+    #
+    #             for arg in args:
+    #                 arg_deduction = Deduction(arg, {sentence})
+    #                 deductions[s rules, assumptions)entence].add(arg_deduction)
+    #
+    #                 if sentence.is_contrary and sentence.contrary() in self.assumptions:
+    #                     trivial_arg = Deduction({sentence.contrary()}, {sentence.contrary()})
+    #
+    #                     if self.attack_successful(arg, sentence.contrary()):
+    #                         attacks.add(Attack(arg_deduction, trivial_arg, NORMAL_ATK))
+    #
+    #                         f_arg = frozenset(arg)
+    #                         if sentence.contrary() not in atk_map:
+    #                             atk_map[sentence.contrary()] = set()
+    #                         atk_map[sentence.contrary()].add(f_arg)
+    #
+    #                     else:
+    #                         attacks.add(Attack(trivial_arg, arg_deduction, REVERSE_ATK))
+    #
+    #                         f_arg = frozenset(arg)
+    #                         if f_arg not in reverse_atk_map:
+    #                             reverse_atk_map[f_arg] = set()
+    #                         reverse_atk_map[f_arg].add(sentence.contrary())
+    #
+    #     all_deductions = ft.reduce(lambda x, y: x.union(y), deductions.values())
+    #
+    #     for n_attackee, n_attacker_sets in atk_map.items():
+    #         attackees = [ded for ded in all_deductions if n_attackee in ded.premise]
+    #         for n_attacker in n_attacker_sets:
+    #             attackers = [ded for ded in all_deductions if n_attacker.issubset(ded.premise)]
+    #             for attackee in attackees:
+    #                 for attacker in attackers:
+    #                     attacks.add(Attack(attacker, attackee, NORMAL_ATK))
+    #
+    #     for r_attackee, r_attacker_sets in reverse_atk_map.items():
+    #         attackees = [ded for ded in all_deductions if r_attackee.issubset(ded.premise)]
+    #         for r_attacker in r_attacker_sets:
+    #             attackers = [ded for ded in all_deductions if r_attacker in ded.premise]
+    #             for attackee in attackees:
+    #                 for attacker in attackers:
+    #                     attacks.add(Attack(attacker, attackee, REVERSE_ATK))
+    #
+    #     return (deductions, attacks, all_deductions)
+    #
+    # def generate_arguments_and_attacks_for_contraries(self):
+    #     """
+    #     generate arguments supporting generate_for and all attacks between the arguments
+    #     :return:
+    #     """
+    #     return self.generate_arguments_and_attacks([asm.contrary() for asm in self.assumptions])
+    #
+    # def attack_successful(self, attacker, attackee):
+    #     """
+    #     :param attacker: set of Sentences
+    #     :param attackee: a Sentence
+    #     :return: True if attacker attacks attackee successfully, false otherwise
+    #     """
+    #     for atk in attacker:
+    #         if self.is_preferred(attackee, atk):
+    #             return False
+    #     return True
 
 
 class Rule:
@@ -237,26 +258,20 @@ class Rule:
 
 
 class Sentence:
-    def __init__(self, symbol=None, is_contrary=False):
+    def __init__(self, symbol):
         """
         :param symbol: string
-        :param is_contrary: boolean
         """
         self.symbol = symbol
-        self.is_contrary = is_contrary
 
     def __eq__(self, other):
-        return self.is_contrary == other.is_contrary and \
-               self.symbol == other.symbol
+        return self.symbol == other.symbol
 
     def __str__(self):
         return str(self.__dict__)
 
     def __hash__(self):
-        return (self.symbol, self.is_contrary).__hash__()
-
-    def contrary(self):
-        return Sentence(self.symbol, not self.is_contrary)
+        return self.symbol.__hash__()
 
 
 class Attack:
@@ -312,7 +327,7 @@ def sort_sentences(list):
     :param list: list of Sentences
     :return: list of Sentences sorted by symbol and is_contrary
     """
-    return sorted(list, key=lambda sentence: (sentence.symbol, sentence.is_contrary))
+    return sorted(list, key=lambda sentence: sentence.symbol)
 
 
 def convert_to_attacks_between_sets(attacks):
