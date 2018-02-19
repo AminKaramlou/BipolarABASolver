@@ -10,17 +10,14 @@ class BipolarABA:
         """
         self.language = language
         self.rules = rules
-        self.assumptions = assumptions_contrary_mapping.keys()
-        self.contraries = assumptions_contrary_mapping.values()
-        self.assumptions_contary_mapping = assumptions_contrary_mapping
+        self.assumptions = set(assumptions_contrary_mapping.keys())
+        self.contraries = set(assumptions_contrary_mapping.values())
+        self.assumptions_contrary_mapping = assumptions_contrary_mapping
         self._validate_bipolar()
 
     def _validate_bipolar(self):
-        print("here")
-        print(self.rules)
         for r in self.rules:
             if r.consequent not in self.assumptions and r.consequent not in self.contraries:
-                print("Here")
                 raise NonBipolarException("The head of a rule in a BipolarABA framework must be an assumption or "
                                           "the contrary of an assumption.")
             if len(r.antecedent) != 1:
@@ -28,7 +25,6 @@ class BipolarABA:
             for antecedent in r.antecedent:
                 if antecedent not in self.assumptions:
                     raise NonBipolarException("The body of a rule in BipolarABA framework can only contain assumptions.")
-        print("Here")
 
     def is_closed(self, sentence):
         pass
@@ -295,6 +291,7 @@ class Attack:
 
     def __hash__(self):
         return (self.attacker, self.attackee, type).__hash__()
+
 
 class Deduction:
     def __init__(self, premise, conclusion):
