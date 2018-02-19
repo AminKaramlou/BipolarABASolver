@@ -13,6 +13,9 @@ class BipolarABA:
     def __str__(self):
         return str(self.__dict__)
 
+    def is_closed(self, sentence):
+        pass
+
     def deriving_rules(self, sentence):
         """
         :return: the set of all rules directly deriving sentence
