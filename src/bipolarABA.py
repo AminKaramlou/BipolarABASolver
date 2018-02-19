@@ -1,4 +1,4 @@
-import functools as ft
+# import functools as ft
 
 
 class BipolarABA:
@@ -21,17 +21,17 @@ class BipolarABA:
                 raise NonBipolarException("The head of a rule in a BipolarABA framework must be an assumption or "
                                           "the contrary of an assumption.")
             if len(r.antecedent) != 1:
-                raise NonBipolarException("The body of a rule in a BipolarABA frameowork can only contain one sentence.")
+                raise NonBipolarException("The body of a rule in a BipolarABA framework can only contain one sentence.")
             for antecedent in r.antecedent:
                 if antecedent not in self.assumptions:
-                    raise NonBipolarException("The body of a rule in BipolarABA framework can only contain assumptions.")
+                    raise NonBipolarException("The body of a rule in a BipolarABA framework can only"
+                                              " contain assumptions.")
 
     def is_closed(self, sentence):
         pass
 
     def __str__(self):
         return str(self.__dict__)
-
 
     # def deriving_rules(self, sentence):
     #     """
@@ -363,18 +363,17 @@ def print_rule(rule):
     print("consequent:")
     print(rule.consequent)
 
-
-def print_attack(attack):
-    str = ""
-
-    if attack.type == NORMAL_ATK:
-        str = "Normal Attack: "
-    elif attack.type == REVERSE_ATK:
-        str = "Reverse Attack: "
-
-    str += format_deduction(attack.attacker)
-    str += "   ->   "
-    str += format_deduction(attack.attackee)
+# def print_attack(attack):
+#     str = ""
+#
+#     if attack.type == NORMAL_ATK:
+#         str = "Normal Attack: "
+#     elif attack.type == REVERSE_ATK:
+#         str = "Reverse Attack: "
+#
+#     str += format_deduction(attack.attacker)
+#     str += "   ->   "
+#    str += format_deduction(attack.attackee)
 
     print(str)
 

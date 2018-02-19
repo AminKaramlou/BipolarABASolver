@@ -1,1 +1,3 @@
-{}
+{
+  "tests/test_bipolarABA.py::Test_BipolarABA_creation::test_valid_bipolar_aba_framework_creation": true
+}
