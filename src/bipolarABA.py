@@ -32,44 +32,35 @@ class BipolarABA:
                     raise NonBipolarException("The body of a rule in a BipolarABA framework can only"
                                               " contain assumptions.")
 
-    def is_closed(self, sentence):
-        pass
-
     def __str__(self):
         return str(self.__dict__)
 
-    # def deriving_rules(self, sentence):
-    #     """
-    #     :return: the set of all rules directly deriving sentence
-    #     """
-    #     der_rules = set()
-    #     for rule in self.rules:
-    #         if rule.consequent == sentence:
-    #             der_rules.add(rule)
-    #     return der_rules
-    #
-    # def deduction_exists(self, to_deduce, deduce_from):
-    #     """
-    #     :param to_deduce: a Sentence
-    #     :param deduce_from: set of Sentences
-    #     :return: True, if to_deduce can be deduced from deduce_from
-    #     """
-    #     rules_applied = set()
-    #     deduced = deduce_from.copy()
-    #     new_rule_used = True
-    #     while new_rule_used:
-    #         new_rule_used = False
-    #         for rule in self.rules:
-    #             if rule not in rules_applied:
-    #                 if rule.antecedent.issubset(deduced):
-    #                     new_rule_used = True
-    #                     if rule.consequent == to_deduce:
-    #                         return True
-    #                     else:
-    #                         deduced.add(rule.consequent)
-    #                     rules_applied.add(rule)
-    #
-    #     return False
+    def deriving_rules(self, sentence):
+        """
+        :return: the set of all rules directly deriving sentence
+        """
+        der_rules = set()
+        for rule in self.rules:
+            if rule.consequent == sentence:
+                der_rules.add(rule)
+        return der_rules
+
+    def deduction_exists(self, to_deduce, deduce_from):
+        """
+        :param to_deduce: a Sentence
+        :param deduce_from: set of Sentences
+        :return: True, if to_deduce can be deduced from deduce_from
+        """
+        rules_left = self.rules
+        deduced = deduce_from
+        while rules_left:
+            if rule.antecedent.issubset(deduced):
+                if rule.consequent == to_deduce:
+                    return True
+                else:
+                    deduced.add(rule.consequent)
+                rules_left.remove(rule)
+        return False
     #
     # def generate_all_deductions(self, deduce_from):
     #     """
