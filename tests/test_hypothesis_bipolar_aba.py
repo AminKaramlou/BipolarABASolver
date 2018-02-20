@@ -1,4 +1,4 @@
-from hypothesis import strategies, given, assume
+from hypothesis import strategies, given
 from src.bipolarABA import Sentence, BipolarABA, Rule, NonBipolarException
 import pytest
 
@@ -8,7 +8,7 @@ AssumptionMappingStrategy = strategies.dictionaries(SentenceStrategy, SentenceSt
 
 
 @given(strategies.sets(SentenceStrategy),
-       strategies.sets(RuleStrategy), AssumptionMappingStrategy,)
+       strategies.sets(RuleStrategy), AssumptionMappingStrategy)
 def test_bipolar_aba_creation(language, rules, assumption_map):
 
     assumptions = set(assumption_map.keys())
