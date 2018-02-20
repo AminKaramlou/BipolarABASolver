@@ -16,6 +16,11 @@ class BipolarABA:
         self._validate_bipolar()
 
     def _validate_bipolar(self):
+        if not self.assumptions <= self.language:
+            raise NonBipolarException("Assumptions in a BipolarABA framework should be part of the language.")
+        if not self.contraries <= self.language:
+            raise NonBipolarException("Contraries in a BipolarABA framework should be part of the language.")
+
         for r in self.rules:
             if r.consequent not in self.assumptions and r.consequent not in self.contraries:
                 raise NonBipolarException("The head of a rule in a BipolarABA framework must be an assumption or "
@@ -245,6 +250,9 @@ class Rule:
         return self.antecedent == other.antecedent and \
                self.consequent == other.consequent
 
+    def __repr__(self):
+        return str(self.__dict__)
+
     def __str__(self):
         return str(self.__dict__)
 
@@ -262,6 +270,9 @@ class Sentence:
 
     def __eq__(self, other):
         return self.symbol == other.symbol
+
+    def __repr__(self):
+        return str(self.__dict__)
 
     def __str__(self):
         return str(self.__dict__)
