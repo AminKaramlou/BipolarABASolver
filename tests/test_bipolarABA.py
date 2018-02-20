@@ -71,7 +71,7 @@ class TestBipolarABAcreation(TestCase):
             BipolarABA(self.language, self.rules, self.assumptions_map)
         assert str(e.value) == "Assumptions in a BipolarABA framework should be part of the language."
 
-    def test_assumption_not_in_language_throws_exception(self):
+    def test_contrary_not_in_language_throws_exception(self):
 
         self.assumptions_map[self.alpha] = Sentence('Not in language')
 
