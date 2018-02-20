@@ -39,7 +39,7 @@ class TestBipolarABAcreation(TestCase):
         self.rules.add(rule_5)
 
         with pytest.raises(NonBipolarException) as e:
-            bipolar_aba_framework = BipolarABA(self.language, self.rules, self.assumptions_map)  # noqa
+            BipolarABA(self.language, self.rules, self.assumptions_map)
         assert str(e.value) == "The head of a rule in a BipolarABA framework must be an assumption or " \
                                "the contrary of an assumption."
 
@@ -50,7 +50,7 @@ class TestBipolarABAcreation(TestCase):
         self.rules.add(rule_5)
 
         with pytest.raises(NonBipolarException) as e:
-            bipolar_aba_framework = BipolarABA(self.language, self.rules, self.assumptions_map)  # noqa
+            BipolarABA(self.language, self.rules, self.assumptions_map)
         assert str(e.value) == "The body of a rule in a BipolarABA framework can only contain one sentence."
 
     def test_framework_creation_with_non_assumption_in_rule_body_throws_exception(self):
