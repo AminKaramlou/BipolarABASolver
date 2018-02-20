@@ -20,8 +20,9 @@ class ExtensionCalculator:
 
     def get_preferred_extensions(self):
         # Start with maximal subset so that we only have to check for admissibility
-        candidates = reversed(list(powerset(self.framework.assumptions)))
-        result = set()
+        candidates = (list(powerset(self.framework.assumptions)))
+        candidates.reverse()
+        print(candidates)
         for c in candidates:
             if self.is_admissible_extension(c):
                 result.add(c)
