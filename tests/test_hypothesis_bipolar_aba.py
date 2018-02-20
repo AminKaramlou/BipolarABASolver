@@ -7,7 +7,7 @@ RuleStrategy = strategies.builds(Rule, strategies.sets(SentenceStrategy), Senten
 AssumptionMappingStrategy = strategies.dictionaries(SentenceStrategy, SentenceStrategy)
 
 
-@given(strategies.sets(SentenceStrategy), strategies.lists(RuleStrategy), AssumptionMappingStrategy)
+@given(strategies.sets(SentenceStrategy), strategies.sets(RuleStrategy), AssumptionMappingStrategy)
 @settings(suppress_health_check=[HealthCheck.filter_too_much, HealthCheck.too_slow])
 def test_valid_bipolar_aba_creation(language, rules, assumption_map):
 
