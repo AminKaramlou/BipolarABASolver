@@ -1,5 +1,9 @@
 # import functools as ft
+from src.utils import powerset, set_combinations
 
+class NonBipolarException(Exception):
+    def __init__(self, message):
+        self.message = message
 
 class BipolarABA:
     def __init__(self, language, rules, assumptions_contrary_mapping):
@@ -52,15 +56,24 @@ class BipolarABA:
         :return: True, if to_deduce can be deduced from deduce_from
         """
         rules_left = self.rules
-        deduced = deduce_from
+        deduced = deduce_from.copy()
         while rules_left:
-            if rule.antecedent.issubset(deduced):
-                if rule.consequent == to_deduce:
-                    return True
-                else:
-                    deduced.add(rule.consequent)
-                rules_left.remove(rule)
+            for rule in rules_left:
+                if rule.antecedent.issubset(deduced):
+                    if rule.consequent == to_deduce:
+                        return True
+                    else:
+                        deduced.add(rule.consequent)
+                    rules_left.remove(rule)
         return False
+
+    def argument_exists(self, to_deduce, deduce_from):
+        return self.deduction_exists(self, to_deduce, deduce_from) and deduce_from <= self.assumptions
+
+    def attack_exists(self, attacking_set, target_set):
+        return any(self.argument_exists(beta, subset) for subset in powerset(attacking_set) for beta in target_set)
+
+
     #
     # def generate_all_deductions(self, deduce_from):
     #     """
@@ -81,63 +94,42 @@ class BipolarABA:
     #
     #     return deduced
     #
-    # def set_combinations(self, iterable):
-    #     """
-    #     Compute all combinations of sets of sets
-    #     example:
-    #     set_combinations({{b}},{{e},{f}}) returns {{b,e},{b,f}}
-    #     """
-    #     return self._set_combinations(iter(iterable))
-    #
-    # def _set_combinations(self, iter):
-    #     current_set = next(iter, None)
-    #     if current_set is not None:
-    #         sets_to_combine_with = self._set_combinations(iter)
-    #         resulting_combinations = set()
-    #         for c in current_set:
-    #             if not sets_to_combine_with:
-    #                 resulting_combinations.add(frozenset(c))
-    #             for s in sets_to_combine_with:
-    #                 resulting_combinations.add(frozenset(c.union(s)))
-    #
-    #         return resulting_combinations
-    #
-    #     return set()
-    #
+
     # #TODO: rename to avoid confusion between supporting sets and 'arguments' in abstract argumentation
-    # def generate_arguments(self, generate_for):
-    #     """
-    #     :param generate_for: a Sentence
-    #     :return: set of sets of assumptions, where each set contains assumptions deducing generate_for
-    #     """
-    #     return self._generate_arguments(generate_for, set())
-    #
-    # def _generate_arguments(self, generate_for, rules_seen):
-    #     if generate_for in self.assumptions:
-    #         return {frozenset({generate_for})}
-    #
-    #     der_rules = self.deriving_rules(generate_for)
-    #     results = set()
-    #     for rule in der_rules:
-    #         if rule not in rules_seen:
-    #             supporting_assumptions = set()
-    #             args_lacking = False
-    #             if not rule.antecedent:
-    #                 empty_set = set()
-    #                 empty_set.add(frozenset())
-    #                 supporting_assumptions.add(frozenset(empty_set))
-    #             _rules_seen = rules_seen.copy()
-    #             _rules_seen.add(rule)
-    #             for ant in rule.antecedent:
-    #                 args = self._generate_arguments(ant, _rules_seen)
-    #                 if not args:
-    #                     args_lacking = True
-    #                     break
-    #                 supporting_assumptions.add(frozenset(args))
-    #
-    #             if not args_lacking:
-    #                 results = results.union(self.set_combinations(supporting_assumptions))
-    #     return results
+    def generate_arguments(self, generate_for):
+        """
+        :param generate_for: a Sentence
+        :return: set of sets of assumptions, where each set contains assumptions deducing generate_for
+        """
+        return self._generate_arguments(generate_for, set())
+
+    def _generate_arguments(self, generate_for, rules_seen):
+
+        der_rules = self.deriving_rules(generate_for)
+        results = set()
+        if generate_for in self.assumptions:
+            results.add({frozenset({generate_for})})
+
+        for rule in der_rules:
+            if rule not in rules_seen:
+                supporting_assumptions = set()
+                args_lacking = False
+                if not rule.antecedent:
+                    empty_set = set()
+                    empty_set.add(frozenset())
+                    supporting_assumptions.add(frozenset({frozenset()}))
+                _rules_seen = rules_seen.copy()
+                _rules_seen.add(rule)
+                for ant in rule.antecedent:
+                    args = self._generate_arguments(ant, _rules_seen)
+                    if not args:
+                        args_lacking = True
+                        break
+                    supporting_assumptions.add(frozenset(args))
+
+                if not args_lacking:
+                    results = results.union(self.set_combinations(supporting_assumptions))
+        return results
     #
     # def generate_arguments_and_attacks(self, generate_for):
     #     """
@@ -215,17 +207,7 @@ class BipolarABA:
     #     :return:
     #     """
     #     return self.generate_arguments_and_attacks([asm.contrary() for asm in self.assumptions])
-    #
-    # def attack_successful(self, attacker, attackee):
-    #     """
-    #     :param attacker: set of Sentences
-    #     :param attackee: a Sentence
-    #     :return: True if attacker attacks attackee successfully, false otherwise
-    #     """
-    #     for atk in attacker:
-    #         if self.is_preferred(attackee, atk):
-    #             return False
-    #     return True
+
 
 
 class Rule:
@@ -272,53 +254,50 @@ class Sentence:
         return self.symbol.__hash__()
 
 
-class Attack:
-    def __init__(self, attacker, attackee, type):
-        """
-        :param attacker: a Deudction whose conclusion is the contrary of the premise of the attackee
-        :param attackee: a Deduction whose premise is the contrary of the conclusion of the attacker
-        :param type: NORMAL_ATK or REVERSE_ATK
-        """
-        self.attacker = attacker
-        self.attackee = attackee
-        self.type = type
+#class Attack:
+#    def __init__(self, attacker, attackee, type):
+#        """
+#        :param attacker: a Deudction whose conclusion is the contrary of the premise of the attackee
+#        :param attackee: a Deduction whose premise is the contrary of the conclusion of the attacker
+#        :param type: NORMAL_ATK or REVERSE_ATK
+#        """
+#        self.attacker = attacker
+#        self.attackee = attackee
+#        self.type = type
+#
+#    def __eq__(self, other):
+#        return self.attacker == other.attacker and \
+#               self.attackee == other.attackee and \
+#               self.type == other.type
+#
+#    def __str__(self):
+#        return str(self.__dict__)
+#
+#    def __hash__(self):
+#        return (self.attacker, self.attackee, type).__hash__()
+#
+#
+#class Deduction:
+#    def __init__(self, premise, conclusion):
+#        """
+#        :param premise: set of Sentence
+#        :param conclusion: set of Sentence
+#        """
+#        self.premise = premise
+#        self.conclusion = conclusion
+#
+#    def __eq__(self, other):
+#        return self.premise == other.premise and \
+#               self.conclusion == other.conclusion
+#
+#    def __str__(self):
+#        return str(self.__dict__)
+#
+#    def __hash__(self):
+#        return (tuple(sort_sentences(list(self.premise))),
+#                tuple(sort_sentences(list(self.conclusion)))).__hash__()
 
-    def __eq__(self, other):
-        return self.attacker == other.attacker and \
-               self.attackee == other.attackee and \
-               self.type == other.type
 
-    def __str__(self):
-        return str(self.__dict__)
-
-    def __hash__(self):
-        return (self.attacker, self.attackee, type).__hash__()
-
-
-class Deduction:
-    def __init__(self, premise, conclusion):
-        """
-        :param premise: set of Sentence
-        :param conclusion: set of Sentence
-        """
-        self.premise = premise
-        self.conclusion = conclusion
-
-    def __eq__(self, other):
-        return self.premise == other.premise and \
-               self.conclusion == other.conclusion
-
-    def __str__(self):
-        return str(self.__dict__)
-
-    def __hash__(self):
-        return (tuple(sort_sentences(list(self.premise))),
-                tuple(sort_sentences(list(self.conclusion)))).__hash__()
-
-
-class NonBipolarException(Exception):
-    def __init__(self, message):
-        self.message = message
 
 
 def sort_sentences(list):
@@ -329,41 +308,41 @@ def sort_sentences(list):
     return sorted(list, key=lambda sentence: sentence.symbol)
 
 
-def convert_to_attacks_between_sets(attacks):
-    """
-    :param attacks: collection for Attacks
-    :return: set of tuples representing attacks, each with 3 elements:
-             1: premise of the attacker (set of Sentences)
-             2: premise of the attackee (set of Sentences)
-             3. attack type
-    """
-    res = set()
-    for atk in attacks:
-        res.add((frozenset(atk.attacker.premise), frozenset(atk.attackee.premise), atk.type))
-    return res
+#def convert_to_attacks_between_sets(attacks):
+#    """
+#    :param attacks: collection for Attacks
+#    :return: set of tuples representing attacks, each with 3 elements:
+#             1: premise of the attacker (set of Sentences)
+#             2: premise of the attackee (set of Sentences)
+#             3. attack type
+#    """
+#    res = set()
+#    for atk in attacks:
+#        res.add((frozenset(atk.attacker.premise), frozenset(atk.attackee.premise), atk.type))
+#    return res
+#
+#
+## USEFUL FOR DEBUGGING #
+#def print_deduction(deduction):
+#    print(format_deduction)
+#
+#
+#def format_deduction(deduction):
+#    str = ""
+#
+#    str += format_set(deduction.premise)
+#    str += " |- "
+#    str += format_set(deduction.conclusion)
+
+#    return str
 
 
-# USEFUL FOR DEBUGGING #
-def print_deduction(deduction):
-    print(format_deduction)
-
-
-def format_deduction(deduction):
-    str = ""
-
-    str += format_set(deduction.premise)
-    str += " |- "
-    str += format_set(deduction.conclusion)
-
-    return str
-
-
-def print_rule(rule):
-    print("antecedent:")
-    for ant in rule.antecedent:
-        print(ant)
-    print("consequent:")
-    print(rule.consequent)
+#def print_rule(rule):
+#    print("antecedent:")
+#    for ant in rule.antecedent:
+#        print(ant)
+#    print("consequent:")
+#    print(rule.consequent)
 
 # def print_attack(attack):
 #     str = ""
@@ -377,41 +356,41 @@ def print_rule(rule):
 #     str += "   ->   "
 #    str += format_deduction(attack.attackee)
 
-    print(str)
+#    print(str)
+#
+#
+#def format_sets(sets):
+#    str = ""
+#
+#    it = iter(sets)
+#    first_set = next(it, None)
+#    if first_set is not None:
+#        str += format_set(first_set)
+#    for set in it:
+#        str += ", "
+#        str += format_set(set)
+#
+#    return str
+#
+#
+#def format_set(set):
+#    str = "{"
+#
+#    it = iter(set)
+#    first_sentence = next(it, None)
+#    if first_sentence is not None:
+#        str += format_sentence(first_sentence)
+#    for sentence in it:
+#        str += ", "
+#        str += format_sentence(sentence)
 
-
-def format_sets(sets):
-    str = ""
-
-    it = iter(sets)
-    first_set = next(it, None)
-    if first_set is not None:
-        str += format_set(first_set)
-    for set in it:
-        str += ", "
-        str += format_set(set)
-
-    return str
-
-
-def format_set(set):
-    str = "{"
-
-    it = iter(set)
-    first_sentence = next(it, None)
-    if first_sentence is not None:
-        str += format_sentence(first_sentence)
-    for sentence in it:
-        str += ", "
-        str += format_sentence(sentence)
-
-    str += "}"
-
-    return str
-
-
-def format_sentence(sentence):
-    if sentence.is_contrary:
-        return "!{}".format(sentence.symbol)
-    else:
-        return sentence.symbol
+#    str += "}"
+#
+#    return str
+#
+#
+#def format_sentence(sentence):
+#    if sentence.is_contrary:
+#        return "!{}".format(sentence.symbol)
+#     else:
+#         return sentence.symbol
