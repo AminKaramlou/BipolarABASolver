@@ -2,16 +2,14 @@ from hypothesis import strategies, given, assume
 from src.bipolarABA import Sentence, BipolarABA, Rule, NonBipolarException
 import pytest
 
-SentenceStrategy = strategies.builds(Sentence, strategies.text(max_size=50))
-RuleStrategy = strategies.builds(Rule, strategies.sets(SentenceStrategy, max_size=100), SentenceStrategy)
-AssumptionMappingStrategy = strategies.dictionaries(SentenceStrategy, SentenceStrategy, max_size=1000000)
+SentenceStrategy = strategies.builds(Sentence, strategies.text())
+RuleStrategy = strategies.builds(Rule, strategies.sets(SentenceStrategy), SentenceStrategy)
+AssumptionMappingStrategy = strategies.dictionaries(SentenceStrategy, SentenceStrategy)
 
 
-@given(strategies.sets(SentenceStrategy, max_size=1000000),
-       strategies.sets(RuleStrategy, max_size=10000000), AssumptionMappingStrategy,)
+@given(strategies.sets(SentenceStrategy),
+       strategies.sets(RuleStrategy), AssumptionMappingStrategy,)
 def test_bipolar_aba_creation(language, rules, assumption_map):
-    if len (language) > 100000:
-        print("BIG LANGUAGE")
 
     assumptions = set(assumption_map.keys())
     contraries = set(assumption_map.values())
