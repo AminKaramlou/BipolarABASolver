@@ -55,9 +55,7 @@ class BipolarABA:
         :param deduce_from: set of Sentences
         :return: True, if to_deduce can be deduced from deduce_from
         """
-        rules_left = self.rules
-        deduce_from = set(deduce_from)
-        print(type(deduce_from))
+        rules_left = self.rules.copy()
         deduced = deduce_from.copy()
         while rules_left:
             for rule in rules_left:
@@ -67,18 +65,15 @@ class BipolarABA:
                     else:
                         deduced.add(rule.consequent)
                     rules_left.remove(rule)
+                    break
+            return False
         return False
 
     def argument_exists(self, to_deduce, deduce_from):
-        print('6.2')
-        print(deduce_from)
         return deduce_from <= self.assumptions and self.deduction_exists(to_deduce, deduce_from)
 
     def attack_exists(self, attacking_set, target_set):
-        print('6.1')
-        print(attacking_set)
-        print(powerset(attacking_set))
-        return any(self.argument_exists(beta, subset) for subset in powerset(attacking_set) for beta in target_set)
+        return any(self.argument_exists(self.assumptions_contrary_mapping[beta], subset) for subset in powerset(attacking_set) for beta in target_set)
 
 
     #
@@ -115,15 +110,13 @@ class BipolarABA:
         der_rules = self.deriving_rules(generate_for)
         results = set()
         if generate_for in self.assumptions:
-            results.add({frozenset({generate_for})})
+            results.add(frozenset({generate_for}))
 
         for rule in der_rules:
             if rule not in rules_seen:
                 supporting_assumptions = set()
                 args_lacking = False
                 if not rule.antecedent:
-                    empty_set = set()
-                    empty_set.add(frozenset())
                     supporting_assumptions.add(frozenset({frozenset()}))
                 _rules_seen = rules_seen.copy()
                 _rules_seen.add(rule)
@@ -135,7 +128,7 @@ class BipolarABA:
                     supporting_assumptions.add(frozenset(args))
 
                 if not args_lacking:
-                    results = results.union(self.set_combinations(supporting_assumptions))
+                    results = results.union(set_combinations(supporting_assumptions))
         return results
     #
     # def generate_arguments_and_attacks(self, generate_for):

@@ -14,7 +14,7 @@ class TestExtensionCalculator(TestCase):
         self.chi = Sentence('chi')
         self.language = {self.alpha, self.beta, self.gamma, self.delta, self.phi, self.psi, self.chi}
 
-        self.assumptions_map = {self.alpha: self.beta, self.beta: self.phi, self.gamma: self.beta, self.delta: self.chi}
+        self.assumptions_map = {self.alpha: self.beta, self.beta: self.phi, self.gamma: self.psi, self.delta: self.chi}
 
         rule_1 = Rule({self.alpha}, self.phi)
         rule_2 = Rule({self.gamma}, self.beta)
@@ -25,8 +25,16 @@ class TestExtensionCalculator(TestCase):
 
         self.bipolar_aba_framework = BipolarABA(self.language, self.rules, self.assumptions_map)
 
+        self.extension_calculator = ExtensionCalculator(self.bipolar_aba_framework)
+
+    def test_conflict_free(self):
+        test_set = {self.beta}
+        assert self.extension_calculator.is_conflict_free(test_set)
+
+        test_set = {self.beta, self.gamma, self.alpha}
+        assert not self.extension_calculator.is_conflict_free(test_set)
+
     def test_extension_calculation(self):
-        print("Testing................................................")
-        extension_calculator = ExtensionCalculator(self.bipolar_aba_framework)
-        print(extension_calculator.get_preferred_extensions())
-        return
+        preferred_extensions = self.extension_calculator.get_preferred_extensions()
+        assert preferred_extensions[0] == {self.beta, self.gamma}
+        assert preferred_extensions[1] == {self.alpha}
