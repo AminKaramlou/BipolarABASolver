@@ -56,6 +56,8 @@ class BipolarABA:
         :return: True, if to_deduce can be deduced from deduce_from
         """
         rules_left = self.rules
+        deduce_from = set(deduce_from)
+        print(type(deduce_from))
         deduced = deduce_from.copy()
         while rules_left:
             for rule in rules_left:
@@ -68,9 +70,14 @@ class BipolarABA:
         return False
 
     def argument_exists(self, to_deduce, deduce_from):
-        return self.deduction_exists(self, to_deduce, deduce_from) and deduce_from <= self.assumptions
+        print('6.2')
+        print(deduce_from)
+        return deduce_from <= self.assumptions and self.deduction_exists(to_deduce, deduce_from)
 
     def attack_exists(self, attacking_set, target_set):
+        print('6.1')
+        print(attacking_set)
+        print(powerset(attacking_set))
         return any(self.argument_exists(beta, subset) for subset in powerset(attacking_set) for beta in target_set)
 
 

@@ -1,7 +1,7 @@
 from src.bipolarABA import BipolarABA, Rule, Sentence, NonBipolarException
 from unittest import TestCase
 from src.extension_calculator import ExtensionCalculator
-import pytest
+
 
 class TestExtensionCalculator(TestCase):
     def setUp(self):
@@ -26,5 +26,7 @@ class TestExtensionCalculator(TestCase):
         self.bipolar_aba_framework = BipolarABA(self.language, self.rules, self.assumptions_map)
 
     def test_extension_calculation(self):
+        print("Testing................................................")
         extension_calculator = ExtensionCalculator(self.bipolar_aba_framework)
         print(extension_calculator.get_preferred_extensions())
+        return
