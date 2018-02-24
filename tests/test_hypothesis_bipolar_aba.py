@@ -1,24 +1,21 @@
 from hypothesis import strategies, given
-from src.bipolarABA import Sentence, BipolarABA, Rule, NonBipolarException
+from src.bipolarABA import Sentence, Assumption, BipolarABA, Rule, NonBipolarException
 import pytest
 
-SentenceStrategy = strategies.builds(Sentence, strategies.text())
+AssumptionStrategy = strategies.builds(Assumption, strategies.text(), strategies.text())
+SentenceStrategy = strategies.one_of(strategies.builds(Sentence, strategies.text()), AssumptionStrategy)
 RuleStrategy = strategies.builds(Rule, strategies.sets(SentenceStrategy), SentenceStrategy)
-AssumptionMappingStrategy = strategies.dictionaries(SentenceStrategy, SentenceStrategy)
 
 
 @given(strategies.sets(SentenceStrategy),
-       strategies.sets(RuleStrategy), AssumptionMappingStrategy)
-def test_bipolar_aba_creation(language, rules, assumption_map):
+       strategies.sets(RuleStrategy), strategies.sets(AssumptionStrategy))
+def test_bipolar_aba_creation(language, rules, assumptions):
 
-    assumptions = set(assumption_map.keys())
-    contraries = set(assumption_map.values())
-
+    contraries = {a.contrary for a in assumptions}
     try:
-        bipolar_aba_framework = BipolarABA(language, rules, assumption_map)
+        bipolar_aba_framework = BipolarABA(language, rules, assumptions)
         assert bipolar_aba_framework.language == language
         assert bipolar_aba_framework.rules == rules
-        assert bipolar_aba_framework.assumptions_contrary_mapping == assumption_map
         assert bipolar_aba_framework.assumptions == assumptions
         assert bipolar_aba_framework.contraries == contraries
     except NonBipolarException as e:

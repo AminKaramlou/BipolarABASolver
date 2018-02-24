@@ -8,17 +8,16 @@ class NonBipolarException(Exception):
 
 
 class BipolarABA:
-    def __init__(self, language, rules, assumptions_contrary_mapping):
+    def __init__(self, language, rules, assumptions):
         """
         :param language: set of Sentences
         :param rules: set of rules
-        :param assumptions: dictionary of Sentences to Sentences (Assumptions to contraries)
+        :param assumptions: set of Assumptions
         """
         self.language = language
         self.rules = rules
-        self.assumptions = set(assumptions_contrary_mapping.keys())
-        self.contraries = set(assumptions_contrary_mapping.values())
-        self.assumptions_contrary_mapping = assumptions_contrary_mapping
+        self.assumptions = assumptions
+        self.contraries = {a.contrary for a in assumptions}
         self._validate_bipolar()
 
     def _validate_bipolar(self):
@@ -75,7 +74,7 @@ class BipolarABA:
         return deduce_from <= self.assumptions and self.deduction_exists(to_deduce, deduce_from)
 
     def attack_exists(self, attacking_set, target_set):
-        return any(self.argument_exists(self.assumptions_contrary_mapping[beta], subset)
+        return any(self.argument_exists(beta.contrary, subset)
                    for subset in powerset(attacking_set) for beta in target_set)
 
     # def generate_all_deductions(self, deduce_from):
@@ -245,13 +244,23 @@ class Sentence:
         return self.symbol == other.symbol
 
     def __repr__(self):
-        return str(self.__dict__)
+        return self.symbol
 
     def __str__(self):
-        return str(self.__dict__)
+        return self.symbol
 
     def __hash__(self):
         return self.symbol.__hash__()
+
+
+class Assumption(Sentence):
+    def __init__(self, symbol, contrary_symbol):
+        """
+        :param symbol: string
+        :param contrary_symbol: string
+        """
+        self.contrary = Sentence(contrary_symbol)
+        super().__init__(symbol)
 
 
 # class Attack:

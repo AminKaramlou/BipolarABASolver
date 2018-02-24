@@ -14,13 +14,9 @@ class ExtensionCalculator:
         return not self.framework.attack_exists(assumption_set, assumption_set)
 
     def defends(self, defender_set, defended_set):
-        print('Checking if {} defends {}'.format(defender_set, defended_set))
         attacker_sets = set()
         for sentence in defended_set:
-            contrary = self.framework.generate_arguments(self.framework.assumptions_contrary_mapping[sentence])
-            attacker_sets.union(contrary)
-        for item in attacker_sets:
-            print(str(item))
+            attacker_sets.union(self.framework.generate_arguments(sentence.contrary))
 
         return all(self.framework.attack_exists(defender_set, attacker)
                    for attacker in attacker_sets if self.is_closed(attacker))
@@ -33,12 +29,9 @@ class ExtensionCalculator:
         # Start with maximal subset so that we only have to check for admissibility
         candidates = list(powerset(self.framework.assumptions))
         candidates.reverse()
-        result = []
         while candidates:
             candidate = candidates.pop(0)
             if self.is_admissible_extension(candidate):
-                print('Found extension:' + str(candidate))
-                result.append(candidate)
+                yield candidate
                 subsets = list(powerset(candidate))
                 candidates = [c for c in candidates if c not in subsets]
-        return result
