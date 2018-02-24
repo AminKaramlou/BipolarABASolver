@@ -16,7 +16,7 @@ class ExtensionCalculator:
     def defends(self, defender_set, defended_set):
         attacker_sets = set()
         for sentence in defended_set:
-            attacker_sets = attacker_sets.union(self.framework.generate_arguments(sentence.contrary))
+            attacker_sets = attacker_sets.union(self.framework.generate_arguments(self.framework.contrary_of(sentence)))
 
         return all(self.framework.attack_exists(defender_set, attacker)
                    for attacker in attacker_sets if self.is_closed(attacker))
@@ -35,4 +35,4 @@ class ExtensionCalculator:
                 print('Found extension' + str(candidate))
                 yield candidate
                 subsets = list(powerset(candidate))
-                #candidates = [c for c in candidates if c not in subsets]
+                candidates = [c for c in candidates if c not in subsets]

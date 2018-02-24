@@ -71,7 +71,7 @@ class TestBipolarABAcreation(TestCase):
 
     def test_contrary_not_in_language_throws_exception(self):
 
-        self.alpha.contrary = Sentence('Not in language')
+        self.alpha.contrary_symbol = 'Not in language'
 
         with pytest.raises(NonBipolarException) as e:
             BipolarABA(self.language, self.rules, self.assumptions)

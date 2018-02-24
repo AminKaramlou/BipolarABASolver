@@ -17,14 +17,12 @@ class BipolarABA:
         self.language = language
         self.rules = rules
         self.assumptions = assumptions
-        self.contraries = {a.contrary for a in assumptions}
+        self.contraries = {self.contrary_of(a) for a in self.assumptions}
         self._validate_bipolar()
 
     def _validate_bipolar(self):
         if not self.assumptions <= self.language:
             raise NonBipolarException("Assumptions in a BipolarABA framework should be part of the language.")
-        if not self.contraries <= self.language:
-            raise NonBipolarException("Contraries in a BipolarABA framework should be part of the language.")
 
         for r in self.rules:
             if r.consequent not in self.assumptions and r.consequent not in self.contraries:
@@ -39,6 +37,16 @@ class BipolarABA:
 
     def __str__(self):
         return str(self.__dict__)
+
+    def contrary_of(self, assumption):
+        """
+        :param assumption: Assumption which is part of the language
+        :return: Sentence which is Contrary of the assumption
+        """
+        try:
+            return next(sentence for sentence in self.language if sentence.symbol == assumption.contrary_symbol)
+        except StopIteration:
+            raise NonBipolarException("Contraries in a BipolarABA framework should be part of the language.")
 
     def deriving_rules(self, sentence):
         """
@@ -79,7 +87,7 @@ class BipolarABA:
         for i in target_set:
             print(type(i))
             print(i)
-        return any(self.argument_exists(beta.contrary, subset)
+        return any(self.argument_exists(self.contrary_of(beta), subset)
                    for subset in powerset(attacking_set) for beta in target_set)
 
     # def generate_all_deductions(self, deduce_from):
@@ -133,7 +141,6 @@ class BipolarABA:
 
                 if not args_lacking:
                     results = results.union(set_combinations(supporting_assumptions))
-        print(str(results))
         return results
     #
     # def generate_arguments_and_attacks(self, generate_for):
@@ -264,7 +271,7 @@ class Assumption(Sentence):
         :param symbol: string
         :param contrary_symbol: string
         """
-        self.contrary = Sentence(contrary_symbol)
+        self.contrary_symbol = contrary_symbol
         super().__init__(symbol)
 
 
