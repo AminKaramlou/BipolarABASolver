@@ -7,7 +7,7 @@ class ExtensionCalculator:
 
     def is_closed(self, assumption_set):
         other_assumptions = self.framework.assumptions - assumption_set
-        return not any(self.framework.deduction_exists(a, subset)
+        return not any(self.framework.argument_exists(a, subset)
                        for subset in powerset(assumption_set) for a in other_assumptions)
 
     def is_conflict_free(self, assumption_set):
@@ -16,7 +16,7 @@ class ExtensionCalculator:
     def defends(self, defender_set, defended_set):
         attacker_sets = set()
         for sentence in defended_set:
-            attacker_sets.union(self.framework.generate_arguments(sentence.contrary))
+            attacker_sets = attacker_sets.union(self.framework.generate_arguments(sentence.contrary))
 
         return all(self.framework.attack_exists(defender_set, attacker)
                    for attacker in attacker_sets if self.is_closed(attacker))
@@ -32,6 +32,7 @@ class ExtensionCalculator:
         while candidates:
             candidate = candidates.pop(0)
             if self.is_admissible_extension(candidate):
+                print('Found extension' + str(candidate))
                 yield candidate
                 subsets = list(powerset(candidate))
-                candidates = [c for c in candidates if c not in subsets]
+                #candidates = [c for c in candidates if c not in subsets]

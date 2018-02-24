@@ -6,7 +6,7 @@ from src.extension_calculator import ExtensionCalculator
 class TestExtensionCalculator(TestCase):
     def setUp(self):
         self.alpha = Assumption('alpha', 'beta')
-        self.beta = Assumption('beta', 'phi')
+        self.beta  = Assumption('beta', 'phi')
         self.gamma = Assumption('gamma', 'psi')
         self.delta = Assumption('delta', 'chi')
         self.phi = Sentence('phi')

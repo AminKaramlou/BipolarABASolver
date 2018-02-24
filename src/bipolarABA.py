@@ -74,6 +74,11 @@ class BipolarABA:
         return deduce_from <= self.assumptions and self.deduction_exists(to_deduce, deduce_from)
 
     def attack_exists(self, attacking_set, target_set):
+        print('44444444444444444444444444444')
+        print(str(attacking_set) + str(target_set))
+        for i in target_set:
+            print(type(i))
+            print(i)
         return any(self.argument_exists(beta.contrary, subset)
                    for subset in powerset(attacking_set) for beta in target_set)
 
@@ -106,7 +111,6 @@ class BipolarABA:
         return self._generate_arguments(generate_for, set())
 
     def _generate_arguments(self, generate_for, rules_seen):
-
         der_rules = self.deriving_rules(generate_for)
         results = set()
         if generate_for in self.assumptions:
@@ -129,6 +133,7 @@ class BipolarABA:
 
                 if not args_lacking:
                     results = results.union(set_combinations(supporting_assumptions))
+        print(str(results))
         return results
     #
     # def generate_arguments_and_attacks(self, generate_for):
@@ -223,10 +228,10 @@ class Rule:
                self.consequent == other.consequent
 
     def __repr__(self):
-        return str(self.__dict__)
+        return '{} implies {}'.format(str(self.antecedent), str(self.consequent))
 
     def __str__(self):
-        return str(self.__dict__)
+        return '{} implies {}'.format(str(self.antecedent), str(self.consequent))
 
     def __hash__(self):
         return (tuple(sort_sentences(list(self.antecedent))),
