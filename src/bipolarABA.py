@@ -1,9 +1,11 @@
 # import functools as ft
 from src.utils import powerset, set_combinations
 
+
 class NonBipolarException(Exception):
     def __init__(self, message):
         self.message = message
+
 
 class BipolarABA:
     def __init__(self, language, rules, assumptions_contrary_mapping):
@@ -73,10 +75,9 @@ class BipolarABA:
         return deduce_from <= self.assumptions and self.deduction_exists(to_deduce, deduce_from)
 
     def attack_exists(self, attacking_set, target_set):
-        return any(self.argument_exists(self.assumptions_contrary_mapping[beta], subset) for subset in powerset(attacking_set) for beta in target_set)
+        return any(self.argument_exists(self.assumptions_contrary_mapping[beta], subset)
+                   for subset in powerset(attacking_set) for beta in target_set)
 
-
-    #
     # def generate_all_deductions(self, deduce_from):
     #     """
     #     :param deduce_from: set of Sentences
@@ -209,7 +210,6 @@ class BipolarABA:
     #     return self.generate_arguments_and_attacks([asm.contrary() for asm in self.assumptions])
 
 
-
 class Rule:
     def __init__(self, antecedent=set(), consequent=None):
         """
@@ -254,7 +254,7 @@ class Sentence:
         return self.symbol.__hash__()
 
 
-#class Attack:
+# class Attack:
 #    def __init__(self, attacker, attackee, type):
 #        """
 #        :param attacker: a Deudction whose conclusion is the contrary of the premise of the attackee
@@ -277,7 +277,7 @@ class Sentence:
 #        return (self.attacker, self.attackee, type).__hash__()
 #
 #
-#class Deduction:
+# class Deduction:
 #    def __init__(self, premise, conclusion):
 #        """
 #        :param premise: set of Sentence
@@ -298,8 +298,6 @@ class Sentence:
 #                tuple(sort_sentences(list(self.conclusion)))).__hash__()
 
 
-
-
 def sort_sentences(list):
     """
     :param list: list of Sentences
@@ -308,7 +306,7 @@ def sort_sentences(list):
     return sorted(list, key=lambda sentence: sentence.symbol)
 
 
-#def convert_to_attacks_between_sets(attacks):
+# def convert_to_attacks_between_sets(attacks):
 #    """
 #    :param attacks: collection for Attacks
 #    :return: set of tuples representing attacks, each with 3 elements:
@@ -322,12 +320,12 @@ def sort_sentences(list):
 #    return res
 #
 #
-## USEFUL FOR DEBUGGING #
-#def print_deduction(deduction):
+# USEFUL FOR DEBUGGING #
+# def print_deduction(deduction):
 #    print(format_deduction)
 #
 #
-#def format_deduction(deduction):
+# def format_deduction(deduction):
 #    str = ""
 #
 #    str += format_set(deduction.premise)
@@ -337,7 +335,7 @@ def sort_sentences(list):
 #    return str
 
 
-#def print_rule(rule):
+# def print_rule(rule):
 #    print("antecedent:")
 #    for ant in rule.antecedent:
 #        print(ant)
@@ -359,7 +357,7 @@ def sort_sentences(list):
 #    print(str)
 #
 #
-#def format_sets(sets):
+# def format_sets(sets):
 #    str = ""
 #
 #    it = iter(sets)
@@ -373,7 +371,7 @@ def sort_sentences(list):
 #    return str
 #
 #
-#def format_set(set):
+# def format_set(set):
 #    str = "{"
 #
 #    it = iter(set)
@@ -389,7 +387,7 @@ def sort_sentences(list):
 #    return str
 #
 #
-#def format_sentence(sentence):
+# def format_sentence(sentence):
 #    if sentence.is_contrary:
 #        return "!{}".format(sentence.symbol)
 #     else:

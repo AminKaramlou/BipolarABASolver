@@ -1,4 +1,4 @@
-from src.bipolarABA import BipolarABA, Rule, Sentence, NonBipolarException
+from src.bipolarABA import BipolarABA, Rule, Sentence
 from unittest import TestCase
 from src.extension_calculator import ExtensionCalculator
 
