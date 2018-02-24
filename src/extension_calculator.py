@@ -32,7 +32,6 @@ class ExtensionCalculator:
         while candidates:
             candidate = candidates.pop(0)
             if self.is_admissible_extension(candidate):
-                print('Found extension' + str(candidate))
                 yield candidate
                 subsets = list(powerset(candidate))
                 candidates = [c for c in candidates if c not in subsets]

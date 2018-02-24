@@ -6,7 +6,7 @@ from src.extension_calculator import ExtensionCalculator
 class TestExtensionCalculator(TestCase):
     def setUp(self):
         self.alpha = Assumption('alpha', 'beta')
-        self.beta  = Assumption('beta', 'phi')
+        self.beta = Assumption('beta', 'phi')
         self.gamma = Assumption('gamma', 'psi')
         self.delta = Assumption('delta', 'chi')
         self.phi = Sentence('phi')
@@ -25,6 +25,10 @@ class TestExtensionCalculator(TestCase):
         self.bipolar_aba_framework = BipolarABA(self.language, self.rules, self.assumptions)
 
         self.extension_calculator = ExtensionCalculator(self.bipolar_aba_framework)
+
+    def test_is_closed(self):
+        test_set = {self.gamma}
+        assert not self.extension_calculator.is_closed(test_set)
 
     def test_conflict_free(self):
         test_set = {self.beta}
