@@ -76,3 +76,41 @@ class TestBipolarABAcreation(TestCase):
         with pytest.raises(NonBipolarException) as e:
             BipolarABA(self.language, self.rules, self.assumptions)
         assert str(e.value) == "Contraries in a BipolarABA framework should be part of the language."
+
+
+class TestExtensionCalculation(TestCase):
+    def setUp(self):
+        self.alpha = Assumption('alpha', 'beta')
+        self.beta = Assumption('beta', 'phi')
+        self.gamma = Assumption('gamma', 'psi')
+        self.delta = Assumption('delta', 'chi')
+        self.phi = Sentence('phi')
+        self.psi = Sentence('psi')
+        self.chi = Sentence('chi')
+        self.language = {self.alpha, self.beta, self.gamma, self.delta, self.phi, self.psi, self.chi}
+        self.assumptions = {self.alpha, self.beta, self.gamma, self.delta}
+
+        rule_1 = Rule({self.alpha}, self.phi)
+        rule_2 = Rule({self.gamma}, self.beta)
+        rule_3 = Rule({self.delta}, self.chi)
+        rule_4 = Rule({self.alpha}, self.chi)
+
+        self.rules = {rule_1, rule_2, rule_3, rule_4}
+
+        self.bipolar_aba_framework = BipolarABA(self.language, self.rules, self.assumptions)
+
+    def test_simple_is_closed_example(self):
+        test_set = {self.gamma}
+        assert not self.bipolar_aba_framework.is_closed(test_set)
+
+    def test_simple_conflict_free_example(self):
+        test_set = {self.beta}
+        assert self.bipolar_aba_framework.is_conflict_free(test_set)
+
+        test_set = {self.beta, self.gamma, self.alpha}
+        assert not self.bipolar_aba_framework.is_conflict_free(test_set)
+
+    def test_simple_preferred_extension_calculation(self):
+        preferred_extensions = list(self.bipolar_aba_framework.get_preferred_extensions())
+        assert {self.beta, self.gamma} in preferred_extensions
+        assert {self.alpha} in preferred_extensions

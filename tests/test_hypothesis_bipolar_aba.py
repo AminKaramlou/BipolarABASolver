@@ -32,4 +32,4 @@ def test_bipolar_aba_creation(language, rules, assumptions):
             symbols = {s.symbol for s in language}
             assert not contrary_symbols <= symbols
         else:
-            pytest.fail("Unexpected exception: ")
+            pytest.fail("Unexpected exception: " + e.message)
