@@ -1,5 +1,5 @@
 from src.utils import powerset, set_combinations
-from functools import partial
+
 
 class NonBipolarException(Exception):
     def __init__(self, message):
