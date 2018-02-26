@@ -224,3 +224,9 @@ class Assumption(Sentence):
         """
         self.contrary_symbol = contrary_symbol
         super().__init__(symbol)
+
+    def __eq__(self, other):
+        return self.symbol == other.symbol and self.contrary_symbol == other.contrary_symbol
+
+    def __hash__(self):
+        return (self.symbol, self.contrary_symbol).__hash__()
