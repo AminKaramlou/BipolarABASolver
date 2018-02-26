@@ -65,6 +65,8 @@ class BipolarABA:
         """
         rules_applied = set()
         deduced = deduce_from.copy()
+        if to_deduce in deduced:
+            return True
         new_rule_used = True
         while new_rule_used:
             new_rule_used = False
@@ -124,7 +126,8 @@ class BipolarABA:
                        for subset in powerset(assumption_set) for a in other_assumptions)
 
     def get_closure(self, assumption_set):
-        filter(lambda a: any(self.argument_exists(a, subset) for subset in powerset(assumption_set)), self.assumptions)
+        return set(filter(lambda a: any(self.argument_exists(a, subset) for subset in powerset(assumption_set)),
+                          self.assumptions))
 
     def is_conflict_free(self, assumption_set):
         return not self.attack_exists(assumption_set, assumption_set)
@@ -134,7 +137,7 @@ class BipolarABA:
         for sentence in defended_set:
             attacker_sets = attacker_sets.union(self.generate_arguments(self.contrary_of(sentence)))
 
-        return all(self.attack_exists(defender_set, attacker)
+        return all(self.attack_exists(attacker, defender_set)
                    for attacker in attacker_sets if self.is_closed(attacker))
 
     def is_admissible_extension(self, assumption_set):
@@ -155,14 +158,15 @@ class BipolarABA:
     def is_set_stable_extension(self, assumption_set):
         other_assumptions = self.assumptions - assumption_set
         return self.is_closed(assumption_set) and self.is_conflict_free(assumption_set) and \
-               all(self.attack_exists(self.get_closure({a}), assumption_set) for a in other_assumptions)
+            all(self.attack_exists(assumption_set, self.get_closure({a})) for a in other_assumptions)
 
     def get_set_stable_extensions(self):
         candidates = list(powerset(self.assumptions))
         candidates.reverse()
         while candidates:
             candidate = candidates.pop(0)
-            if self.is_admissible_extension(candidate):
+            print("Considering " + str(candidate))
+            if self.is_set_stable_extension(candidate):
                 yield candidate
                 subsets = list(powerset(candidate))
                 candidates = [c for c in candidates if c not in subsets]
