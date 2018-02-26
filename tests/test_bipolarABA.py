@@ -114,3 +114,7 @@ class TestExtensionCalculation(TestCase):
         preferred_extensions = list(self.bipolar_aba_framework.get_preferred_extensions())
         assert {self.beta, self.gamma} in preferred_extensions
         assert {self.alpha} in preferred_extensions
+
+    def test_simple_set_stable_extension_calculation(self):
+        set_stable_extensions = list(self.bipolar_aba_framework.get_set_stable_extensions())
+        print(set_stable_extensions)

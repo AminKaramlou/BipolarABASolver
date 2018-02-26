@@ -1,5 +1,5 @@
 from src.utils import powerset, set_combinations
-
+from functools import partial
 
 class NonBipolarException(Exception):
     def __init__(self, message):
@@ -123,6 +123,9 @@ class BipolarABA:
         return not any(self.argument_exists(a, subset)
                        for subset in powerset(assumption_set) for a in other_assumptions)
 
+    def get_closure(self, assumption_set):
+        filter(lambda a: any(self.argument_exists(a, subset) for subset in powerset(assumption_set)), self.assumptions)
+
     def is_conflict_free(self, assumption_set):
         return not self.attack_exists(assumption_set, assumption_set)
 
@@ -140,6 +143,21 @@ class BipolarABA:
 
     def get_preferred_extensions(self):
         # Start with maximal subset so that we only have to check for admissibility
+        candidates = list(powerset(self.assumptions))
+        candidates.reverse()
+        while candidates:
+            candidate = candidates.pop(0)
+            if self.is_admissible_extension(candidate):
+                yield candidate
+                subsets = list(powerset(candidate))
+                candidates = [c for c in candidates if c not in subsets]
+
+    def is_set_stable_extension(self, assumption_set):
+        other_assumptions = self.assumptions - assumption_set
+        return self.is_closed(assumption_set) and self.is_conflict_free(assumption_set) and \
+               all(self.attack_exists(self.get_closure({a}), assumption_set) for a in other_assumptions)
+
+    def get_set_stable_extensions(self):
         candidates = list(powerset(self.assumptions))
         candidates.reverse()
         while candidates:
