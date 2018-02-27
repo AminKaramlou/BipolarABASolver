@@ -10,6 +10,11 @@ def powerset(iterable):
     return map(set, chain.from_iterable(combinations(xs, n) for n in range(len(xs)+1)))
 
 
+def strict_subsets(iterable):
+    xs = list(iterable)
+    return map(set, chain.from_iterable(combinations(xs, n) for n in range(len(xs))))
+
+
 def set_combinations(iterable):
     """
     Compute all combinations of sets of sets
