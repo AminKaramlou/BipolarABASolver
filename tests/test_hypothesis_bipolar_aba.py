@@ -1,5 +1,6 @@
 from hypothesis import strategies, given
 from src.bipolarABA import Sentence, Assumption, BipolarABA, Rule, NonBipolarException
+from src.utils import powerset
 import pytest
 
 AssumptionStrategy = strategies.builds(Assumption, strategies.text(), strategies.text())
@@ -18,6 +19,13 @@ def test_bipolar_aba_creation(language, rules, assumptions):
         assert bipolar_aba_framework.rules == rules
         assert bipolar_aba_framework.assumptions == assumptions
         assert {c.symbol for c in bipolar_aba_framework.contraries} == contrary_symbols
+        preferred_extensions = list(bipolar_aba_framework.get_preferred_extensions())
+        for extension in preferred_extensions:
+            assert bipolar_aba_framework.is_closed(extension)
+            assert bipolar_aba_framework.is_conflict_free(extension)
+            assert bipolar_aba_framework.is_admissible_extension(extension)
+            for subset in powerset(extension):
+                assert subset not in preferred_extensions
     except NonBipolarException as e:
         if e.message == "The head of a rule in a BipolarABA framework must be an assumption or " \
                         "the contrary of an assumption.":
