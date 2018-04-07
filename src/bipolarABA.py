@@ -165,7 +165,6 @@ class BipolarABA:
         candidates.reverse()
         while candidates:
             candidate = candidates.pop(0)
-            print("Considering " + str(candidate))
             if self.is_set_stable_extension(candidate):
                 yield candidate
                 subsets = list(powerset(candidate))
