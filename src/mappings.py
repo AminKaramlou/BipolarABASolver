@@ -1,4 +1,4 @@
-from src.bipolarABA import BipolarABA, Rule, Sentence, Assumption
+from src.bipolar_aba import BipolarABA, Rule, Sentence, Assumption
 
 
 def map_baf_to_naba_framework(baf_framework):

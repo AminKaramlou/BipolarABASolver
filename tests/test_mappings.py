@@ -1,7 +1,7 @@
 from unittest import TestCase
-from src.BAF import BAF
+from src.baf import BAF
 from src.mappings import map_baf_to_naba_framework, map_baf_to_daba_framework
-from src.bipolarABA import Assumption, Rule, Sentence
+from src.bipolar_aba import Assumption, Rule, Sentence
 
 
 class TestBAFcreation(TestCase):
