@@ -3,7 +3,7 @@ import pytest
 from src.BAF import BAF, InvalidBAFException
 
 
-class TestBAFcreation(TestCase):
+class TestBAFCreation(TestCase):
     def setUp(self):
         self.arguments = {'a', 'b', 'c', 'd', 'e'}
         self.supports = {('a', 'b'), ('a', 'c'), ('d', 'e')}
