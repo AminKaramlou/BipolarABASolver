@@ -38,7 +38,7 @@ def test_bipolar_aba_creation(language, rules, assumptions):
                 assert subset not in preferred_extensions
     except NonBipolarException as e:
         if e.message == "The head of a rule in a BipolarABA framework must be an assumption or " \
-                          "the contrary of an assumption.":
+                        "the contrary of an assumption.":
             # assert any(r.consequent not in assumptions and r.consequent.symbol not in contrary_symbols for r in rules)
             pass
         elif e.message == "The body of a rule in a BipolarABA framework can only contain assumptions.":

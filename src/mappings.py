@@ -1,4 +1,3 @@
-from src.BAF import BAF
 from src.bipolarABA import BipolarABA, Rule, Sentence, Assumption
 
 
@@ -38,4 +37,3 @@ def map_baf_to_daba_framework(baf_framework):
                        Assumption(support[1], support[1] + '_contrary')))
 
     return BipolarABA(language, rules, assumptions)
-
