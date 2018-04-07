@@ -2,6 +2,7 @@ from unittest import TestCase
 from src.bipolar_aba_parser import generate_bipolar_aba_framework_from_file
 from src.bipolar_aba import Sentence, Assumption, Rule
 
+
 class TestBipolarABAParser(TestCase):
     def test_generate_aba_plus_from_file(self):
         framework = generate_bipolar_aba_framework_from_file("./tests/example_bipolar_aba_file_to_parse.pl")

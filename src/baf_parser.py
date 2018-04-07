@@ -6,7 +6,7 @@ The Prolog-style syntax can be found under the syntax section.
 from src.baf import BAF
 import re
 
-####### SYNTAX #######
+# Syntax #
 # arg(a). means "a" is an argument
 ARG_PREDICATE = "arg"
 
@@ -43,7 +43,6 @@ def generate_baf_framework(input_string):
     input = input_string.replace('\r', '')
     input = input.replace('\n', '')
     declarations = input.split(".")
-
 
     arg_declarations = [decl for decl in declarations if ARG_PREDICATE in decl]
     arguments = generate_arguments(arg_declarations)

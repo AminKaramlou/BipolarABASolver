@@ -6,7 +6,7 @@ The Prolog-style syntax can be found under the syntax section.
 from src.bipolar_aba import BipolarABA, Assumption, Sentence, Rule
 import re
 
-####### SYNTAX #######
+# SYNTAX #
 # myAsm(a). means "a" is an assumptions
 ASSUMP_PREDICATE = "myAsm"
 
@@ -46,7 +46,6 @@ def generate_bipolar_aba_framework(input_string):
     input = input.replace('\n', '')
     declarations = input.split(".")
 
-
     assump_declarations = [decl for decl in declarations if ASSUMP_PREDICATE in decl]
     assumption_symbols = generate_assumption_symbols(assump_declarations)
 
@@ -54,7 +53,7 @@ def generate_bipolar_aba_framework(input_string):
     language, assumption_objects = generate_assumption_objects(contr_declarations, assumption_symbols)
 
     rule_declarations = [decl for decl in declarations if RULE_PREDICATE in decl]
-    rules = generate_rules(rule_declarations,language, assumption_objects)
+    rules = generate_rules(rule_declarations, language, assumption_objects)
 
     return BipolarABA(language, rules, assumption_objects)
 
