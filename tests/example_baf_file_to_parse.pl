@@ -1,0 +1,10 @@
+arg(a).
+arg(b).
+arg(c).
+arg(d).
+att(a,b).
+att(b,a).
+sup(c,b).
+att(b,c).
+att(d,c).
+sup(c,d).
