@@ -1,5 +1,5 @@
 from hypothesis import strategies, given, settings
-from src.bipolarABA import Sentence, Assumption, BipolarABA, Rule, NonBipolarException
+from src.bipolar_aba import Sentence, Assumption, BipolarABA, Rule, NonBipolarException
 from src.utils import strict_subsets
 import pytest
 

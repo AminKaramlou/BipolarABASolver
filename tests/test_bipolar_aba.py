@@ -1,4 +1,4 @@
-from src.bipolarABA import BipolarABA, Rule, Sentence, Assumption, NonBipolarException
+from src.bipolar_aba import BipolarABA, Rule, Sentence, Assumption, NonBipolarException
 from unittest import TestCase
 import pytest
 

@@ -1,6 +1,6 @@
 from unittest import TestCase
 import pytest
-from src.BAF import BAF, InvalidBAFException
+from src.baf import BAF, InvalidBAFException
 
 
 class TestBAFCreation(TestCase):
