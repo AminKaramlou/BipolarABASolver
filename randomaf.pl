@@ -36,7 +36,7 @@ options :-
  fail.
 options.
 
-option(frameworkdir, 'EDIT ME').
+option(frameworkdir, './').
 
 option(default(method), 1).
 option(default(n_FWs),  1).
@@ -49,16 +49,16 @@ option(method(1,default_options),
   15,           % #assumptions
   20,           % #distinct rule heads
   [2,5],        % #rules per distinct rule head
-  [0,6],        % #sentences per body
-  [0,6]]).      % #assumptions per body
+  1,            % #sentences per body
+  1]).          % #assumptions per body
 
 option(method(2,default_options),
  [40,           % #sentences
   15,           % #assumptions
   20,           % #distinct rule heads
   [2,5],        % #rules per distinct rule head
-  [0,6],        % #sentences per body
-  [0,6]]).      % #assumptions per body
+  1,            % #sentences per body
+  1]).          % #assumptions per body
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -73,8 +73,8 @@ Default options:
  NA      15,      % #assumptions
  NRH     20,      % #distinct rule heads
  RPH     [2,5],   % #rules per distinct rule head
- SPB     [0,6],   % #sentences per body
- APB     [0,6]]   % #assumptions per body 
+ SPB     1,       % #sentences per body
+ APB     1]       % #assumptions per body
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -222,18 +222,22 @@ option(method(indvary(1), nsteps), 8).
 option(method(indvary(1), parameter), 1).
 option(method(indvary(1), initialvalue), 20).
 option(method(indvary(1), stepquantity), 10).
-option(method(indvary(1), param_template), [_NS,15,20,[2,5],[0,6],[0,6]]).
+option(method(indvary(1), param_template), [_NS,15,20,[2,5],1,1]).
 
 %%%%%%%%%%%%%%%% (a2) ### number of rules (by rules per head)
 
-% gives: [[2,5],[5,8],[8,11],[11,14],[14,17],[17,20],[20,23],[23,26]]
+% gives: [[1,3],[3,5],[5,7],[7,9],[9,11],[11,13],[13,15]]
 
-option(method(indvary(2), nsteps), 8).
+option(method(indvary(2), nsteps), 7).
 
 option(method(indvary(2), parameter), 4).
-option(method(indvary(2), initialvalue), [2,5]).
-option(method(indvary(2), stepquantity), 3).
-option(method(indvary(2), param_template), [40,15,20,_RPH,[0,6],[0,6]]).
+option(method(indvary(2), initialvalue), [1,3]).
+option(method(indvary(2), stepquantity), 2).
+option(method(indvary(2), param_template), [40,15,20,_RPH,1,1]).
+
+/*
+
+OTHER POSSIBILITIES:
 
 %%%%%%%%%%%%%%%% (a3) ### sentences per body
 
@@ -244,11 +248,9 @@ option(method(indvary(3), nsteps), 8).
 option(method(indvary(3), parameter), 5).
 option(method(indvary(3), initialvalue), [0,3]).
 option(method(indvary(3), stepquantity), 3).
-option(method(indvary(3), param_template), [50,15,20,[2,5],_SPB,[0,6]]).
+option(method(indvary(3), param_template), [50,15,20,[2,5],_SPB,1]).
 
-/*
 
-OTHER POSSIBILITIES:
 
 %%%%%%%%%%%%%%%% (a4) ### assumptions
 
@@ -259,7 +261,7 @@ option(method(indvary(4), nsteps), 8).
 option(method(indvary(4), parameter), 2).
 option(method(indvary(4), initialvalue), 12).
 option(method(indvary(4), stepquantity), 3).
-option(method(indvary(4), param_template), [40,_NA,20,[2,5],[0,6],[0,6]]).
+option(method(indvary(4), param_template), [40,_NA,20,[2,5],1,1]).
 
 %%%%%%%%%%%%%%%% (a5) ### distinct rule heads
 
@@ -270,7 +272,7 @@ option(method(indvary(5), nsteps), 8).
 option(method(indvary(5), parameter), 3).
 option(method(indvary(5), initialvalue), 8).
 option(method(indvary(5), stepquantity), 3).
-option(method(indvary(5), param_template), [40,15,_RH,[2,5],[0,6],[0,6]]).
+option(method(indvary(5), param_template), [40,15,_RH,[2,5],1,1]).
 
 %%%%%%%%%%%%%%%% (a6) ### rules per distinct rule head
 
@@ -281,7 +283,7 @@ option(method(indvary(6), nsteps), 8).
 option(method(indvary(6), parameter), 4).
 option(method(indvary(6), initialvalue), [2,5]).
 option(method(indvary(6), stepquantity), 3).
-option(method(indvary(6), param_template), [40,15,20,_RPH,[0,6],[0,6]]).
+option(method(indvary(6), param_template), [40,15,20,_RPH,1,1]).
 
 %%%%%%%%%%%%%%%% (a7) ### sentences per body
 
@@ -292,7 +294,7 @@ option(method(indvary(7), nsteps), 8).
 option(method(indvary(7), parameter), 5).
 option(method(indvary(7), initialvalue), [0,3]).
 option(method(indvary(7), stepquantity), 3).
-option(method(indvary(7), param_template), [50,15,20,[2,5],_SPB,[0,6]]).
+option(method(indvary(7), param_template), [50,15,20,[2,5],_SPB,1]).
 
 %%%%%%%%%%%%%%%% (a8) ### assumptions per body
 
@@ -322,8 +324,8 @@ Default options:
  NA      15,      % #assumptions
  NRH     20,      % #distinct rule heads
  RPH     [2,5],   % #rules per distinct rule head
- SPB     [0,6],   % #sentences per body
- APB     [0,6]]   % #assumptions per body
+ SPB     1,       % #sentences per body
+ APB     1]       % #assumptions per body
 
 Thus, the parameters have the form: 
   [N,p(37),N/2,[2,N/8],[0,N/7],[0,N/7]]
