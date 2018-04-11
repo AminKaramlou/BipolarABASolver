@@ -104,7 +104,7 @@ exp_[acyclic/cycles]_[a(n)/b]_step_N_batch_L_N.pl
 
 make_exp_frameworks(N_FWs, BatchLetter) :-
  % indvary
- make_exp_frameworks_indvary([1,2,3], N_FWs, BatchLetter),
+ % make_exp_frameworks_indvary([1,2,3], N_FWs, BatchLetter),
  % depvary
  option(method(depvary, nsteps), NDepVarySteps),
  make_list_nums(NDepVarySteps, DepVarySteps),
@@ -213,6 +213,9 @@ parameter_value(ExpType, Step, Value) :-
  option(method(ExpType, stepquantity), StepQuantity),
  Value is InitialValue + ((Step - 1) * StepQuantity).
 
+/*
+
+OTHER POSSIBILITIES:
 %%%%%%%%%%%%%%%% (a1) ### sentences
 
 % gives: [20,30,40,50,60,70,80,90]
@@ -235,9 +238,7 @@ option(method(indvary(2), initialvalue), [1,3]).
 option(method(indvary(2), stepquantity), 2).
 option(method(indvary(2), param_template), [40,15,20,_RPH,1,1]).
 
-/*
 
-OTHER POSSIBILITIES:
 
 %%%%%%%%%%%%%%%% (a3) ### sentences per body
 
@@ -343,12 +344,10 @@ option(method(depvary, nsteps), 10).
 option(method(depvary, firstparaminit), 16).
 option(method(depvary, firstparamstep), 8).
 
-depvary_nonfirstparams(NS, [NA,NRH,[2,MaxRPH],[0,MaxSPB],[0,MaxAPB]]) :-
+depvary_nonfirstparams(NS, [NA,NRH,[2,MaxRPH],1,1]) :-
  choose_value(p(37), NS, NA),
  NRH is round(NS / 2),
- MaxRPH is round(NS / 8),
- MaxSPB is round(NS / 7),
- MaxAPB is round(NS / 7).
+ MaxRPH is round(NS / 8).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
