@@ -20,8 +20,6 @@ RULE_PREDICATE = "myRule"
 ASSUMP_REGEX = r"myAsm\((.+)\)"
 CONTR_REGEX = r"contrary\((.+),(.+)\)"
 RULE_REGEX = r"myRule\((.+),\[(.*)\]\)"
-LT_REGEX = r"myPrefLT\((.+),(.+)\)"
-LE_REGEX = r"myPrefLE\((.+),(.+)\)"
 
 DUPLICATE_USE_FOUND = "_duplicate"
 
