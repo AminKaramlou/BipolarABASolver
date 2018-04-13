@@ -397,7 +397,8 @@ fw_loop(N_FW, N_FWs, Method, FileStem, Options) :-  %   [N_Ss_IN, N_As_IN, N_RHs
  make_contraries(Method, [O_Ss,O_As,O_NonAs], Options, Cs),
  list_to_ord_set(Cs, O_Cs),
  append(O_As, O_Cs, Head_Candidates)
- make_rules(Method, [O_Ss,O_As,Head_Candidates], [N_Ss,N_As,N_NonAs], Options, Rs),
+ N_Head_Candidates is N_As * 2
+ make_rules(Method, [O_Ss,O_As,Head_Candidates], [N_Ss,N_As,N_Head_Candidates], Options, Rs),
  output_framework(N_FW, N_FWs, FileStem, As, Cs, Rs, Method, [N_Ss,N_As|Options]),
  N_FW1 is N_FW + 1,
  fw_loop(N_FW1, N_FWs, Method, FileStem, Options).
@@ -453,23 +454,23 @@ contrary_loop_1([A|As], O_Ss, N_Ss, [A-C|AC_Pairs]) :-
 
 %%%%
 
-make_rules(1, [_O_Ss,O_As,O_NonAs], [N_Ss,_N_As,N_NonAs], [_,_,N_RHs_IN|RestOptions], Rs) :-
- choose_value(N_RHs_IN, N_NonAs, N_RHs),
- rule_head_loop(0, N_RHs, 1, O_NonAs, [O_NonAs,O_As], N_Ss, RestOptions, [], Rs).
-make_rules(2, [_O_Ss,O_As,O_NonAs], [N_Ss,_N_As,N_NonAs], [_,_,N_RHs_IN|RestOptions], Rs) :-
- choose_value(N_RHs_IN, N_NonAs, N_RHs),
- rule_head_loop_strat(0, N_RHs, 1, O_NonAs, [O_NonAs,O_As], N_Ss, RestOptions, [], Rs).
+make_rules(1, [_O_Ss,O_As,Head_Candidates], [N_Ss,_N_As,N_Head_Candidates], [_,_,N_RHs_IN|RestOptions], Rs) :-
+ choose_value(N_RHs_IN, N_Head_Candidates, N_RHs),
+ rule_head_loop(0, N_RHs, 1, Head_Candidates, [Head_Candidates,O_As], N_Ss, RestOptions, [], Rs).
+make_rules(2, [_O_Ss,O_As,Head_Candidates], [N_Ss,_N_As,N_Head_Candidates], [_,_,N_RHs_IN|RestOptions], Rs) :-
+ choose_value(N_RHs_IN, N_Head_Candidates, N_RHs),
+ rule_head_loop_strat(0, N_RHs, 1, Head_Candidates, [Head_Candidates,O_As], N_Ss, RestOptions, [], Rs).
 
 rule_head_loop(N_RHs, N_RHs, _, _, _, _, _, Rs, Rs) :-
  !.
-rule_head_loop(N_RH, N_RHs, Method, Candidates, [O_NonAs,O_As], N_Ss, Options, Rs_IN, Rs) :-
+rule_head_loop(N_RH, N_RHs, Method, Candidates, [Head_Candidates,O_As], N_Ss, Options, Rs_IN, Rs) :-
  get_number_of_rules_per_head(Method, Options, N_RsPH),
  random_select(Head, Candidates, RestCandidates),               % this method could be parameterized
  ord_del_element(O_NonAs, Head, O_NonAs_NonHead),
  rule_loop(0, N_RsPH, Method, [O_NonAs_NonHead,O_As], N_Ss, [Head|Options], [], New_Rs),
  append(Rs_IN, New_Rs, Rs_OUT),
  N_RH1 is N_RH + 1,
- rule_head_loop(N_RH1, N_RHs, Method, RestCandidates, [O_NonAs,O_As], N_Ss, Options, Rs_OUT, Rs).
+ rule_head_loop(N_RH1, N_RHs, Method, RestCandidates, [Head_Candidates ,O_As], N_Ss, Options, Rs_OUT, Rs).
 
 get_number_of_rules_per_head(1, [N_RsPH_IN|_], N_RsPH) :-
  choose_value(N_RsPH_IN, _, N_RsPH).
