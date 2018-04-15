@@ -40,8 +40,15 @@ def generate_bipolar_aba_framework(input_string):
     :param input_string: A string defining an ABA+ framework
     :return: BipolarABA object generated from file
     """
-    input = input_string.replace('\r', '')
-    input = input.replace('\n', '')
+
+    def format_input_string(string):
+        string = re.sub(re.compile("/\*.*?\*/", re.DOTALL), "",
+                        string)  # remove all occurrence of streamed comments (/*COMMENT */) from string
+        string = re.sub(re.compile("\%.*?\n"), "",
+                        string)  # remove all occurrence of single line comments (%COMMENT\n ) from string
+        return string.replace('\r', '').replace('\n', '')
+
+    input = format_input_string(input_string)
     declarations = input.split(".")
 
     assump_declarations = [decl for decl in declarations if ASSUMP_PREDICATE in decl]
@@ -94,7 +101,8 @@ def generate_assumption_objects(contr_decls, assumption_symbols):
             if sentence not in assumption_symbols:
                 raise InvalidContraryDeclarationException("Contraries cannot be declared for non-assumptions!")
 
-            if sentence in (s.symbol for s in language):
+            if sentence in (s.symbol for s in assumptions):
+                print(sentence)
                 raise DuplicateSymbolException("The contrary of an assumption can only be mapped to a single symbol!")
 
             assumptions.add(Assumption(sentence, contrary))
