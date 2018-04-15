@@ -396,7 +396,6 @@ fw_loop(N_FW, N_FWs, Method, FileStem, Options) :-  %   [N_Ss_IN, N_As_IN, N_RHs
  list_to_ord_set(NonAs, O_NonAs),
  append(O_As, O_NonAs, O_Ss),
  make_contraries(Method, [O_Ss,O_As,O_NonAs], Options, Cs, AC_Pairs),
- format('~w ~46t ~w~72|~n', [Cs, 'Page']),
  list_to_ord_set(Cs, O_Cs),
  append(O_As, O_Cs, Head_Candidates),
  N_Head_Candidates is N_As * 2,
