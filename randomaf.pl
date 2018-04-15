@@ -104,7 +104,7 @@ exp_[acyclic/cycles]_[a(n)/b]_step_N_batch_L_N.pl
 
 make_exp_frameworks(N_FWs, BatchLetter) :-
  % indvary
- % make_exp_frameworks_indvary([1,2,3], N_FWs, BatchLetter),
+ make_exp_frameworks_indvary([1,2], N_FWs, BatchLetter),
  % depvary
  option(method(depvary, nsteps), NDepVarySteps),
  make_list_nums(NDepVarySteps, DepVarySteps),
@@ -213,10 +213,8 @@ parameter_value(ExpType, Step, Value) :-
  option(method(ExpType, stepquantity), StepQuantity),
  Value is InitialValue + ((Step - 1) * StepQuantity).
 
-/*
-
-OTHER POSSIBILITIES:
 %%%%%%%%%%%%%%%% (a1) ### sentences
+
 
 % gives: [20,30,40,50,60,70,80,90]
 
@@ -239,6 +237,9 @@ option(method(indvary(2), stepquantity), 2).
 option(method(indvary(2), param_template), [40,15,20,_RPH,1,1]).
 
 
+/*
+
+OTHER POSSIBILITIES:
 
 %%%%%%%%%%%%%%%% (a3) ### sentences per body
 
@@ -395,9 +396,10 @@ fw_loop(N_FW, N_FWs, Method, FileStem, Options) :-  %   [N_Ss_IN, N_As_IN, N_RHs
  list_to_ord_set(NonAs, O_NonAs),
  append(O_As, O_NonAs, O_Ss),
  make_contraries(Method, [O_Ss,O_As,O_NonAs], Options, Cs),
+ format('~w ~46t ~w~72|~n', [Cs, 'Page']),
  list_to_ord_set(Cs, O_Cs),
- append(O_As, O_Cs, Head_Candidates)
- N_Head_Candidates is N_As * 2
+ append(O_As, O_Cs, Head_Candidates),
+ N_Head_Candidates is N_As * 2,
  make_rules(Method, [O_Ss,O_As,Head_Candidates], [N_Ss,N_As,N_Head_Candidates], Options, Rs),
  output_framework(N_FW, N_FWs, FileStem, As, Cs, Rs, Method, [N_Ss,N_As|Options]),
  N_FW1 is N_FW + 1,
@@ -466,8 +468,8 @@ rule_head_loop(N_RHs, N_RHs, _, _, _, _, _, Rs, Rs) :-
 rule_head_loop(N_RH, N_RHs, Method, Candidates, [Head_Candidates,O_As], N_Ss, Options, Rs_IN, Rs) :-
  get_number_of_rules_per_head(Method, Options, N_RsPH),
  random_select(Head, Candidates, RestCandidates),               % this method could be parameterized
- ord_del_element(O_NonAs, Head, O_NonAs_NonHead),
- rule_loop(0, N_RsPH, Method, [O_NonAs_NonHead,O_As], N_Ss, [Head|Options], [], New_Rs),
+ ord_del_element(Candidates, Head, Remaining_Candidates),
+ rule_loop(0, N_RsPH, Method, [Remaining_Candidates,O_As], N_Ss, [Head|Options], [], New_Rs),
  append(Rs_IN, New_Rs, Rs_OUT),
  N_RH1 is N_RH + 1,
  rule_head_loop(N_RH1, N_RHs, Method, RestCandidates, [Head_Candidates ,O_As], N_Ss, Options, Rs_OUT, Rs).
@@ -490,29 +492,29 @@ rule_head_loop_strat(N_RH, N_RHs, Method, Candidates, [Candidates,O_As], N_Ss, O
 
 rule_loop(N_Rs, N_Rs, _, _, _, _, Rs, Rs) :-
  !.
-rule_loop(N_R, N_Rs, Method, [O_Cand_NonAs,O_As], N_Ss, [Head|Options], Rs_IN, Rs) :-
- try_make_body(Method, [O_Cand_NonAs,O_As], N_Ss, [Head|Options], Rs_IN, O_Body),
+rule_loop(N_R, N_Rs, Method, [Candidates,O_As], N_Ss, [Head|Options], Rs_IN, Rs) :-
+ try_make_body(Method, [Candidates,O_As], N_Ss, [Head|Options], Rs_IN, O_Body),
  N_R1 is N_R + 1,
- rule_loop(N_R1, N_Rs, Method, [O_Cand_NonAs,O_As], N_Ss, [Head|Options], [Head-O_Body|Rs_IN], Rs).
+ rule_loop(N_R1, N_Rs, Method, [Candidates,O_As], N_Ss, [Head|Options], [Head-O_Body|Rs_IN], Rs).
 
 %%%%
 
-try_make_body(Method, [O_Cand_NonAs,O_As], N_Ss, [Head|RestOptions], Rs_IN, O_Body) :-
+try_make_body(Method, [Candidates,O_As], N_Ss, [Head|RestOptions], Rs_IN, O_Body) :-
  get_body_composition(Method, [N_Ss,Head|RestOptions], BodyComposition),
- make_body_from_composition(Method, BodyComposition, [O_Cand_NonAs,O_As], O_Body),
+ make_body_from_composition(Method, BodyComposition, [Candidates,O_As], O_Body),
  \+ member(Head-O_Body, Rs_IN),
  !.
-try_make_body(Method, [O_Cand_NonAs,O_As], N_Ss, [Head|RestOptions], Rs_IN, O_Body) :-
- try_make_body(Method, [O_Cand_NonAs,O_As], N_Ss, [Head|RestOptions], Rs_IN, O_Body).
+try_make_body(Method, [Candidates,O_As], N_Ss, [Head|RestOptions], Rs_IN, O_Body) :-
+ try_make_body(Method, [Candidates,O_As], N_Ss, [Head|RestOptions], Rs_IN, O_Body).
 
 get_body_composition(1, [N_Ss,_,_,N_SsPB_IN,N_AsPB_IN], [N_BodyNonAs,N_BodyAs]) :-
  choose_value(N_SsPB_IN, N_Ss, N_BodySs),
  choose_value(N_AsPB_IN, N_BodySs, N_BodyAs),
  N_BodyNonAs is N_BodySs - N_BodyAs.
 
-make_body_from_composition(1, [N_BodyNonAs,N_BodyAs], [O_Cand_NonAs,O_As], O_Body) :-
+make_body_from_composition(1, [N_BodyNonAs,N_BodyAs], [Candidates,O_As], O_Body) :-
  random_select_many(N_BodyAs, O_As, BodyAs),
- random_select_many(N_BodyNonAs, O_Cand_NonAs, BodyNonAs),
+ random_select_many(N_BodyNonAs, Candidates, BodyNonAs),
  append(BodyAs, BodyNonAs, Body), 
  list_to_ord_set(Body, O_Body).
 
@@ -782,9 +784,7 @@ check_input :-
  findall(A, assumption(A), Asms),
  findall(A, (assumption(A), \+ contrary(A, _)), As),
  findall((S,C), (contrary(S,C), \+ assumption(S)), ContPairs),
- findall(A, (rule(A, _), assumption(A)), Hs),
  list_to_ord_set(As, O_As),
- list_to_ord_set(Hs, O_Hs),
  list_to_ord_set(ContPairs, O_ContPairs),
  (
   Asms = [],
@@ -797,10 +797,6 @@ check_input :-
   ;
   member((S,C), O_ContPairs),
   format('ERROR: ~w declared as contrary of ~w, which is not an assumption~n', [C,S]),
-  fail
-  ;
-  member(A, O_Hs),
-  format('ERROR: ~w head of a rule but declared an assumption~n', [A]),
   fail
  ).
 check_input :-
