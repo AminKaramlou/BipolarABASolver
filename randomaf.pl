@@ -395,13 +395,13 @@ fw_loop(N_FW, N_FWs, Method, FileStem, Options) :-  %   [N_Ss_IN, N_As_IN, N_RHs
  list_to_ord_set(As, O_As),
  list_to_ord_set(NonAs, O_NonAs),
  append(O_As, O_NonAs, O_Ss),
- make_contraries(Method, [O_Ss,O_As,O_NonAs], Options, Cs),
+ make_contraries(Method, [O_Ss,O_As,O_NonAs], Options, Cs, AC_Pairs),
  format('~w ~46t ~w~72|~n', [Cs, 'Page']),
  list_to_ord_set(Cs, O_Cs),
  append(O_As, O_Cs, Head_Candidates),
  N_Head_Candidates is N_As * 2,
  make_rules(Method, [O_Ss,O_As,Head_Candidates], [N_Ss,N_As,N_Head_Candidates], Options, Rs),
- output_framework(N_FW, N_FWs, FileStem, As, Cs, Rs, Method, [N_Ss,N_As|Options]),
+ output_framework(N_FW, N_FWs, FileStem, As, AC_Pairs, Rs, Method, [N_Ss,N_As|Options]),
  N_FW1 is N_FW + 1,
  fw_loop(N_FW1, N_FWs, Method, FileStem, Options).
 
@@ -441,18 +441,18 @@ make_sentences(N_Ss_IN, N_Ss, N, [], Stems, Ss) :-
 
 %%%%
 
-make_contraries(1, [O_Ss,O_As,_O_NonAs], _Options, Cs) :-
+make_contraries(1, [O_Ss,O_As,_O_NonAs], _Options, Cs, AC_Pairs) :-
  length(O_Ss, N_Ss),
- contrary_loop_1(O_As, O_Ss, N_Ss, Cs).
-make_contraries(2, [O_Ss,O_As,_O_NonAs], _Options, Cs) :-
+ contrary_loop_1(O_As, O_Ss, N_Ss, Cs, AC_Pairs).
+make_contraries(2, [O_Ss,O_As,_O_NonAs], _Options, Cs, AC_Pairs) :-
  length(O_Ss, N_Ss),
- contrary_loop_1(O_As, O_Ss, N_Ss, Cs).
+ contrary_loop_1(O_As, O_Ss, N_Ss, Cs, AC_Pairs).
 
-contrary_loop_1([], _, _, []).
-contrary_loop_1([A|As], O_Ss, N_Ss, [A-C|AC_Pairs]) :-
+contrary_loop_1([], _, _, [], []).
+contrary_loop_1([A|As], O_Ss, N_Ss, [C|Cs] ,[A-C|AC_Pairs]) :-
  ord_del_element(O_Ss, A, Candidates),
  random_member(C, Candidates),
- contrary_loop_1(As, O_Ss, N_Ss, AC_Pairs).
+ contrary_loop_1(As, O_Ss, N_Ss, Cs, AC_Pairs).
 
 %%%%
 
