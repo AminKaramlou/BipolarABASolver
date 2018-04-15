@@ -218,7 +218,7 @@ parameter_value(ExpType, Step, Value) :-
 
 % gives: [20,30,40,50,60,70,80,90]
 
-option(method(indvary(1), nsteps), 8).
+option(method(indvary(1), nsteps), 4).
 
 option(method(indvary(1), parameter), 1).
 option(method(indvary(1), initialvalue), 20).
@@ -229,7 +229,7 @@ option(method(indvary(1), param_template), [_NS,15,20,[2,5],1,1]).
 
 % gives: [[1,3],[3,5],[5,7],[7,9],[9,11],[11,13],[13,15]]
 
-option(method(indvary(2), nsteps), 7).
+option(method(indvary(2), nsteps), 4).
 
 option(method(indvary(2), parameter), 4).
 option(method(indvary(2), initialvalue), [1,3]).
@@ -340,7 +340,7 @@ option(method(depvary(Step), default_options), [NS|OtherParams]) :-
  NS is Param1Init + ((Step - 1) * Param1Step),
  depvary_nonfirstparams(NS, OtherParams).
 
-option(method(depvary, nsteps), 10).
+option(method(depvary, nsteps), 2).
 
 option(method(depvary, firstparaminit), 16).
 option(method(depvary, firstparamstep), 8).
