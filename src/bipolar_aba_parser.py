@@ -107,7 +107,8 @@ def generate_assumption_objects(contr_decls, assumption_symbols):
 
             assumptions.add(Assumption(sentence, contrary))
             language.add(Assumption(sentence, contrary))
-            language.add(Sentence(contrary))
+            if contrary not in assumption_symbols:
+                language.add(Sentence(contrary))
 
     return language, assumptions
 
