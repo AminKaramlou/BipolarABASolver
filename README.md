@@ -2,12 +2,11 @@
 [![Build Status](https://travis-ci.com/AminKaram/FYP.svg?token=WUKwGEsuG3EUbwasy9R8&branch=master)](https://travis-ci.com/AminKaram/FYP)  
 # bipolarABA  
   
-  A **Bipolar Assumption Based Argumentation (bABA)** as presented in (Kristijonas Cyras, Claudia Schulz, and Francesca Toni: Capturing Bipolar Argumentation in Non-flat Assumption-Based Argumentation) is a newly proposed structured argumentation framework. baba frameworks have desirable properties which allow them to capture reasoning under a variety of **Bipolar Argumentation Frameworks (BAFs)**.
+**Note:** Basic knowledge of argumentation theory is assumed throughout this documentation. If you are unfamiliar with this it's recommended that you read the material in the useful reading section before continuing.
+
+  **Bipolar Assumption Based Argumentation (bABA)** is a newly proposed formalism for structured argumentation. baba frameworks have desirable properties which allow them to capture reasoning under a variety of **Bipolar Argumentation Frameworks (BAFs)**.
   
-
-This project provides an interface which implements reasoning using the bABA formalism. We present novel algorithms for calculating extensions of these frameworks under various semantics, a problem which is of interest in fields such as AI, Law and Medicine. 
-
-
+This project provides an interface which implements reasoning using the bABA formalism. There are algorithms for calculating extensions of these frameworks under various semantics, a problem which is of interest in fields such as AI, Law and Medicine. 
 
 ## Usage
 Users can specify the components of a bABA framework (i.e. Assumptions, Rules, Contraries). The interface will then calculate extensions of this framework under the preferred and set-stable semantics. 
@@ -29,10 +28,10 @@ The components of a BAF framework are specified as follows:
 
 The following papers provide a background on argumentation theory and this project. 
 
- - PM Dung: [On the acceptability of arguments and its fundamental role in nonmonotonic reasoning, logic programming and n-person games](https://www.sciencedirect.com/science/article/pii/000437029400041X). A seminal paper which tranformed argumentation from a philosophical study to an important subfield of logic and computer science. It's been cited over 3500 times!
+ - PM Dung: [On the acceptability of arguments and its fundamental role in nonmonotonic reasoning, logic programming and n-person games](https://www.sciencedirect.com/science/article/pii/000437029400041X). A seminal paper which tranformed argumentation from aphilosophical stdy to an important subfield of logic and computer science. It's been cited over 3500 times!
  -  Andrea Cohen, Sebastian Gottifredi, Alejandro J. García, Guillermo R. Simari: [A survey of different approaches to support in argumentation systems](https://www.cambridge.org/core/journals/knowledge-engineering-review/article/a-survey-of-different-approaches-to-support-in-argumentation-systems/FB2BCF2F29B88594F1B8570075D17D38)
  - Francesca Toni: [A tutorial on assumption-based argumentation](https://www.tandfonline.com/doi/abs/10.1080/19462166.2013.869878). A great introductory tutorial to Assumption Based Argumentation (ABA). This is one of the best known formalisms for structured argumentation. In fact, bipolar ABA frameworks are a subset of ABA frameworks. 
- - Kristijonas Cyras, Claudia Schulz, and Francesca Toni: [Capturing Bipolar Argumentation in Non-flat Assumption-Based Argumentation](https://www.sciencedirect.com/science/article/pii/000437029400041X). Introduces the bipolar ABA formalism and proves many of the results which have been used to implement our system.
+ - Kristijonas Cyras, Claudia Schulz, and Francesca Toni: [Capturing Bipolar Argumentation in Non-flat Assumption-Based Argumentation](https://www.sciencedirect.com/science/article/pii/000437029400041X). The paper which introduces the bipolar ABA formalism and proves many of the results which have been used to implement our system.
 
 ## Developing  
   

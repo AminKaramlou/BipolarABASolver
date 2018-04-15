@@ -109,6 +109,7 @@ class BipolarABA:
                     supporting_assumptions.add(frozenset({frozenset()}))
                 _rules_seen = rules_seen.copy()
                 _rules_seen.add(rule)
+                rules_seen.add(rule)
                 for ant in rule.antecedent:
                     args = self._generate_arguments(ant, _rules_seen)
                     if not args:
