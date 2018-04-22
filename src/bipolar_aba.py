@@ -85,8 +85,8 @@ class BipolarABA:
         return deduce_from <= self.assumptions and self.deduction_exists(to_deduce, deduce_from)
 
     def attack_exists(self, attacking_set, target_set):
-        return any(self.argument_exists(self.contrary_of(beta), subset)
-                   for subset in powerset(attacking_set) for beta in target_set)
+        return any(self.argument_exists(self.contrary_of(beta), {assumption})
+                   for assumption in attacking_set for beta in target_set)
 
     def generate_arguments(self, generate_for):
         """
@@ -123,11 +123,11 @@ class BipolarABA:
 
     def is_closed(self, assumption_set):
         other_assumptions = self.assumptions - assumption_set
-        return not any(self.argument_exists(a, subset)
-                       for subset in powerset(assumption_set) for a in other_assumptions)
+        return not any(self.argument_exists(a, {assumption})
+                       for assumption in assumption_set for a in other_assumptions)
 
     def get_closure(self, assumption_set):
-        return set(filter(lambda a: any(self.argument_exists(a, subset) for subset in powerset(assumption_set)),
+        return set(filter(lambda a: any(self.argument_exists(a, {assumption}) for assumption in assumption_set),
                           self.assumptions))
 
     def is_conflict_free(self, assumption_set):
@@ -142,8 +142,10 @@ class BipolarABA:
                    for attacker in attacker_sets if self.is_closed(attacker))
 
     def is_admissible_extension(self, assumption_set):
+        other_assumptions = self.assumptions - assumption_set
         return self.is_closed(assumption_set) and self.is_conflict_free(assumption_set) and \
-               self.defends(assumption_set, assumption_set)
+            all(self.attack_exists(assumption_set, {a}) for a in other_assumptions
+                if self.is_closed({a}) and self.attack_exists({a}, assumption_set))
 
     def get_preferred_extensions(self):
         # Start with maximal subset so that we only have to check for admissibility
