@@ -176,9 +176,6 @@ class Assumption(Sentence):
         super().__init__(symbol)
 
     def __eq__(self, other):
-        print('symbols')
-        print(self.symbol)
-        print(other.symbol)
         return self.symbol == other.symbol and self.contrary_symbol == other.contrary_symbol
 
     def __hash__(self):
