@@ -88,39 +88,6 @@ class BipolarABA:
         return any(self.argument_exists(self.contrary_of(beta), {assumption})
                    for assumption in attacking_set for beta in target_set)
 
-    def generate_arguments(self, generate_for):
-        """
-        :param generate_for: a Sentence
-        :return: set of sets of assumptions, where each set contains assumptions deducing generate_for
-        """
-        return self._generate_arguments(generate_for, set())
-
-    def _generate_arguments(self, generate_for, rules_seen):
-        der_rules = self.deriving_rules(generate_for)
-        results = set()
-        if generate_for in self.assumptions:
-            results.add(frozenset({generate_for}))
-
-        for rule in der_rules:
-            if rule not in rules_seen:
-                supporting_assumptions = set()
-                args_lacking = False
-                if not rule.antecedent:
-                    supporting_assumptions.add(frozenset({frozenset()}))
-                _rules_seen = rules_seen.copy()
-                _rules_seen.add(rule)
-                rules_seen.add(rule)
-                for ant in rule.antecedent:
-                    args = self._generate_arguments(ant, _rules_seen)
-                    if not args:
-                        args_lacking = True
-                        break
-                    supporting_assumptions.add(frozenset(args))
-
-                if not args_lacking:
-                    results = results.union(set_combinations(supporting_assumptions))
-        return results
-
     def is_closed(self, assumption_set):
         other_assumptions = self.assumptions - assumption_set
         return not any(self.argument_exists(a, {assumption})
@@ -132,14 +99,6 @@ class BipolarABA:
 
     def is_conflict_free(self, assumption_set):
         return not self.attack_exists(assumption_set, assumption_set)
-
-    def defends(self, defender_set, defended_set):
-        attacker_sets = set()
-        for sentence in defended_set:
-            attacker_sets = attacker_sets.union(self.generate_arguments(self.contrary_of(sentence)))
-
-        return all(self.attack_exists(attacker, defender_set)
-                   for attacker in attacker_sets if self.is_closed(attacker))
 
     def is_admissible_extension(self, assumption_set):
         other_assumptions = self.assumptions - assumption_set
