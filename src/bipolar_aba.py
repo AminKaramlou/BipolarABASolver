@@ -1,4 +1,4 @@
-from src.utils import powerset, set_combinations
+from src.utils import powerset
 
 
 class NonBipolarException(Exception):

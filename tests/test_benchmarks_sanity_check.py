@@ -32,4 +32,3 @@ class TestBenchmarks(TestCase):
                 assert f.is_admissible_extension(extension)
                 for subset in strict_subsets(extension):
                     assert subset not in set_stable_extensions
-
