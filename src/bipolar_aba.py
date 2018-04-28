@@ -63,22 +63,22 @@ class BipolarABA:
         :param deduce_from: set of Sentences
         :return: True, if to_deduce can be deduced from deduce_from
         """
-        rules_applied = set()
-        deduced = deduce_from.copy()
-        if to_deduce in deduced:
-            return True
-        new_rule_used = True
-        while new_rule_used:
-            new_rule_used = False
-            for rule in self.rules:
-                if rule not in rules_applied and rule.antecedent.issubset(deduced):
-                    if rule.consequent == to_deduce:
-                        return True
-                    else:
-                        deduced.add(rule.consequent)
-                    new_rule_used = True
-                    rules_applied.add(rule)
 
+        if to_deduce in deduce_from:
+            return True
+
+        for s in deduce_from:
+            target_rules = {r for r in self.rules if r.antecedent == {s}}
+            for r in target_rules:
+                if r.consequent == to_deduce or self.deduction_exists_helper(to_deduce, r.consequent, self.rules - target_rules):
+                    return True
+        return False
+
+    def deduction_exists_helper(self, to_deduce, sentence, rules):
+        target_rules = {r for r in rules if r.antecedent == {sentence}}
+        for r in target_rules:
+            if r.consequent == to_deduce or self.deduction_exists_helper(to_deduce, r.consequent, rules - target_rules):
+                return True
         return False
 
     def argument_exists(self, to_deduce, deduce_from):
