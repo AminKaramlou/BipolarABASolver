@@ -57,44 +57,33 @@ class BipolarABA:
                 der_rules.add(rule)
         return der_rules
 
-    def deduction_exists(self, to_deduce, deduce_from):
+    def deduction_exists(self, to_deduce, sentence, rules):
         """
         :param to_deduce: a Sentence
         :param deduce_from: set of Sentences
         :return: True, if to_deduce can be deduced from deduce_from
         """
 
-        if to_deduce in deduce_from:
+        if sentence == to_deduce:
             return True
 
-        for s in deduce_from:
-            target_rules = {r for r in self.rules if r.antecedent == {s}}
-            for r in target_rules:
-                if r.consequent == to_deduce or self.deduction_exists_helper(to_deduce, r.consequent, self.rules - target_rules):
-                    return True
-        return False
-
-    def deduction_exists_helper(self, to_deduce, sentence, rules):
         target_rules = {r for r in rules if r.antecedent == {sentence}}
-        for r in target_rules:
-            if r.consequent == to_deduce or self.deduction_exists_helper(to_deduce, r.consequent, rules - target_rules):
-                return True
-        return False
+        return any(self.deduction_exists(to_deduce, r.consequent, rules - target_rules) for r in target_rules)
 
-    def argument_exists(self, to_deduce, deduce_from):
-        return deduce_from <= self.assumptions and self.deduction_exists(to_deduce, deduce_from)
+    def argument_exists(self, to_deduce, assumption):
+        return self.deduction_exists(to_deduce, assumption, self.rules)
 
     def attack_exists(self, attacking_set, target_set):
-        return any(self.argument_exists(self.contrary_of(beta), {assumption})
+        return any(self.argument_exists(self.contrary_of(beta), assumption)
                    for assumption in attacking_set for beta in target_set)
 
     def is_closed(self, assumption_set):
         other_assumptions = self.assumptions - assumption_set
-        return not any(self.argument_exists(a, {assumption})
+        return not any(self.argument_exists(a, assumption)
                        for assumption in assumption_set for a in other_assumptions)
 
     def get_closure(self, assumption_set):
-        return set(filter(lambda a: any(self.argument_exists(a, {assumption}) for assumption in assumption_set),
+        return set(filter(lambda a: any(self.argument_exists(a, assumption) for assumption in assumption_set),
                           self.assumptions))
 
     def is_conflict_free(self, assumption_set):
@@ -187,6 +176,9 @@ class Assumption(Sentence):
         super().__init__(symbol)
 
     def __eq__(self, other):
+        print('symbols')
+        print(self.symbol)
+        print(other.symbol)
         return self.symbol == other.symbol and self.contrary_symbol == other.contrary_symbol
 
     def __hash__(self):
