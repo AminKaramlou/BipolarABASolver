@@ -4,6 +4,7 @@ from src.bipolar_aba_parser import generate_bipolar_aba_framework_from_file
 from src.mappings import map_baf_to_daba_framework
 from src.mappings import map_baf_to_naba_framework
 
+
 @click.command()
 @click.option('--semantics', type=click.Choice(['preferred', 'stable']),
               help='Semantics used to calculate extensions under.')
