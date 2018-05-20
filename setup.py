@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 install_requires = [
+    'click==6.7'
 ]
 dev_requires = [
     'coverage>=4.4.1',
@@ -26,5 +27,9 @@ setup(
     tests_require=dev_requires,
     extras_require={
         'dev': dev_requires,
-    }
+    },
+    entry_points = '''
+    [console_scripts]
+    generate_extensions=src.cli:generate_extensions
+    ''',
 )
