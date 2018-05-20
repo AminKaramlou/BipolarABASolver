@@ -26,5 +26,9 @@ setup(
     tests_require=dev_requires,
     extras_require={
         'dev': dev_requires,
-    }
+    },
+    entry_points = '''
+    [console_scripts]
+    generate_extensions=src.cli:generate_extensions
+    ''',
 )
