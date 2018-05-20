@@ -11,17 +11,19 @@ from src.mappings import map_baf_to_naba_framework
               help='Type of argumentation framework.')
 @click.option('--file',
               help='Path to file defining the argumentation framework.')
-def generate_extensions(semantics, framework_type, framework_file):
-    if framework_type == 'AF' or 'BAF-N':
-        baf = generate_baf_framework_from_file(framework_file)
+def generate_extensions(semantics, framework, file):
+    if framework == 'AF' or 'BAF-N':
+        baf = generate_baf_framework_from_file(file)
         baba_f = map_baf_to_naba_framework(baf)
-    if framework_type == 'BAF-D':
-        baf = generate_baf_framework_from_file(framework_file)
+    if framework == 'BAF-D':
+        baf = generate_baf_framework_from_file(file)
         baba_f = map_baf_to_daba_framework(baf)
-    if framework_type == 'BABA':
-        baba_f = generate_bipolar_aba_framework_from_file(framework_file)
+    if framework == 'BABA':
+        baba_f = generate_bipolar_aba_framework_from_file(file)
 
     if semantics == 'preferred':
-       click.echo(baba_f.get_preferred_extensions())
+        extensions = baba_f.get_preferred_extensions()
     if semantics == 'stable':
-       click.echo(baba_f.get_set_stable_extensions())
+        extensions = baba_f.get_set_stable_extensions()
+    for e in extensions:
+        click.echo("Found {} extension: {}".format(semantics, e))
