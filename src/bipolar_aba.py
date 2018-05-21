@@ -79,12 +79,21 @@ class BipolarABA:
 
     def is_closed(self, assumption_set):
         other_assumptions = self.assumptions - assumption_set
-        return not any(self.argument_exists(a, assumption)
-                       for assumption in assumption_set for a in other_assumptions)
+        return not any(r.antecedent <= assumption_set and r.consequent in other_assumptions for r in self.rules)
 
-    def get_closure(self, assumption_set):
-        return set(filter(lambda a: any(self.argument_exists(a, assumption) for assumption in assumption_set),
-                          self.assumptions))
+    def get_closure(self, assumption):
+        closure = {assumption}
+        rules = {r for r in self.rules if r.antecedent == {assumption} and r.consequent in self.assumptions}
+        already_seen_rules = set()
+        while rules:
+            rule = rules.pop()
+            closure.add(rule.consequent)
+            already_seen_rules.add(rule)
+            rules = rules.union({r for r in self.rules if r not in already_seen_rules
+                                 and r.antecedent == {rule.consequent} and r.consequent in self.assumptions})
+        return closure
+
+
 
     def is_conflict_free(self, assumption_set):
         return not self.attack_exists(assumption_set, assumption_set)
@@ -99,7 +108,7 @@ class BipolarABA:
         '''
         :return: A dictionary containing the initial labelling of assumptions in the spirit of [NAD16].
         '''
-        return {a: Label.UNDEC if self.attack_exists({a}, self.get_closure({a})) else Label.BLANK
+        return {a: Label.UNDEC if self.attack_exists({a}, self.get_closure(a)) else Label.BLANK
                 for a in self.assumptions}
 
     def get_minimal_attackers(self, assumption_set):
@@ -112,7 +121,7 @@ class BipolarABA:
         for k in labelling:
             if labelling[k] == Label.MUST_OUT:
                 if all(labelling[a] in [Label.OUT, Label.MUST_OUT, Label.UNDEC] for a in
-                       self.get_minimal_attackers(self.get_closure({k}))):
+                       self.get_minimal_attackers(self.get_closure(k))):
                     return True
         return False
 
@@ -126,11 +135,11 @@ class BipolarABA:
         return self._is_terminal_labelling(labelling) and all(val != Label.MUST_OUT for val in labelling.values())
 
     def _apply_left_transition_to_labelling(self, labelling, target_assumption):
-        closure = self.get_closure({target_assumption})
+        closure = self.get_closure(target_assumption)
         for a in closure:
             labelling[a] = Label.IN
         for k in labelling:
-            if self.attack_exists(closure, self.get_closure({k})):
+            if self.attack_exists(closure, self.get_closure(k)):
                 labelling[k] = Label.OUT
 
         for k in labelling:
@@ -143,27 +152,27 @@ class BipolarABA:
     def has_must_in_assumption(self, labelling):
         return any(label == Label.BLANK
                    and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
-                           for a in self.get_minimal_attackers(self.get_closure({assumption})))
+                           for a in self.get_minimal_attackers(self.get_closure(assumption)))
                    for assumption, label in labelling.items())
 
     def get_next_must_in_assumption(self, labelling):
         return next(assumption for assumption, label in labelling.items() if
                     label == Label.BLANK and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
-                                                 for a in self.get_minimal_attackers(self.get_closure({assumption}))))
+                                                 for a in self.get_minimal_attackers(self.get_closure(assumption))))
 
     def _propogate_labelling(self, labelling):
         while(self.has_must_in_assumption(labelling)):
             must_in_assumption = self.get_next_must_in_assumption(labelling)
-            closure = self.get_closure({must_in_assumption})
+            closure = self.get_closure(must_in_assumption)
             for a in closure:
                 labelling[a] = Label.IN
             for k in labelling:
-                if self.attack_exists(closure, self.get_closure({k})):
+                if self.attack_exists(closure, self.get_closure(k)):
                     labelling[k] = Label.OUT
 
     def get_most_infuential_assumption(self, labelling):
         def comparison_func(assumption):
-            closure = self.get_closure({assumption})
+            closure = self.get_closure(assumption)
             return len(self.get_minimal_attackers(closure)) + len(self.get_assumptions_attacked_by(closure))
 
         return max((a for a, label in labelling.items() if label == Label.BLANK), key=comparison_func)
@@ -203,14 +212,14 @@ class BipolarABA:
         '''
         :return: A dictionary containing the initial labelling of assumptions in the spirit of [NAD16].
         '''
-        return {a: Label.MUST_OUT if self.attack_exists({a}, self.get_closure({a})) else Label.BLANK
+        return {a: Label.MUST_OUT if self.attack_exists({a}, self.get_closure(a)) else Label.BLANK
                 for a in self.assumptions}
 
     def _is_set_stable_hopeless_labelling(self, labelling):
         for k in labelling:
             if labelling[k] == Label.MUST_OUT:
                 if all(labelling[a] in [Label.OUT, Label.MUST_OUT] for a in
-                       self.get_minimal_attackers(self.get_closure({k}))):
+                       self.get_minimal_attackers(self.get_closure(k))):
                     return True
             return False
 
