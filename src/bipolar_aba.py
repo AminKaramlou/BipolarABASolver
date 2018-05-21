@@ -99,7 +99,7 @@ class BipolarABA:
         '''
         :return: A dictionary containing the initial labelling of assumptions in the spirit of [NAD16].
         '''
-        {a: Label.UNDEC if self.attack_exists({a}, {a}) else Label.BLANK for a in self.assumptions}
+        return {a: Label.UNDEC if self.attack_exists({a}, {a}) else Label.BLANK for a in self.assumptions}
 
 
     def _is_terminal_labelling(self, labelling):
@@ -121,37 +121,34 @@ class BipolarABA:
             if self.attack_exists({k}, {target_assumption}) and labelling[k] != Label.OUT:
                 labelling[k] = Label.MUST_OUT
 
-        return labelling
-
     def _apply_right_transition_to_labelling(self, labelling, target_assumption):
         labelling[target_assumption] = Label.UNDEC
-        return labelling
-
-
 
     def get_preferred_extensions(self):
         labelling = self._assign_initial_labelling()
-        return self._enumerate_preferred_extensions(labelling, {})
+        extensions = set()
+        self._enumerate_preferred_extensions(labelling, extensions)
+        return extensions
 
     def _enumerate_preferred_extensions(self, current_labelling, extensions):
         if self._is_dead_end_labelling(current_labelling):
-            return extensions
+            return
         if self._is_terminal_labelling(current_labelling):
             if self._is_admissible_labelling(current_labelling):
-                adm_set = {assumption for assumption, label in current_labelling.items() if label == Label.IN}
-                if all (not adm_set.is_subset(e) for e in extensions):
+                adm_set = frozenset({assumption for assumption, label in current_labelling.items() if label == Label.IN})
+                if all (not adm_set <= e for e in extensions):
                     extensions.add(adm_set)
-            return extensions
+            return
 
-        target_assumption = next(assumption for assumption, label in current_labelling if label == Label.BLANK)
+        target_assumption = next(assumption for assumption, label in current_labelling.items() if label == Label.BLANK)
 
-        left_labelling = self._apply_left_transition_to_labelling(current_labelling, target_assumption)
-        extensions = extensions.union(self._enumerate_preferred_extensions(left_labelling, target_assumption))
+        left_labelling = current_labelling.copy()
+        self._apply_left_transition_to_labelling(left_labelling, target_assumption)
+        self._enumerate_preferred_extensions(left_labelling, extensions)
 
-        right_labelling = self._apply_left_transition_to_labelling(current_labelling, target_assumption)
-        extensions = extensions.union(self._enumerate_preferred_extensions(right_labelling, target_assumption))
-
-        return extensions
+        right_labelling = current_labelling.copy()
+        self._apply_left_transition_to_labelling(right_labelling, target_assumption)
+        self._enumerate_preferred_extensions(right_labelling, extensions)
 
 
     def is_set_stable_extension(self, assumption_set):
