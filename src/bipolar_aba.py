@@ -1,6 +1,7 @@
 from src.utils import powerset
 from enum import Enum
 
+
 class NonBipolarException(Exception):
     def __init__(self, message):
         self.message = message
@@ -102,7 +103,6 @@ class BipolarABA:
         return {a: Label.UNDEC if self.attack_exists({a}, self.get_closure({a})) else Label.BLANK
                 for a in self.assumptions}
 
-
     def get_minimal_attackers(self, assumption_set):
         return {a for a in self.assumptions if self.attack_exists({a}, assumption_set)}
 
@@ -121,7 +121,7 @@ class BipolarABA:
         return self._is_terminal_labelling(labelling) and any(val == Label.MUST_OUT for val in labelling.values())
 
     def _is_admissible_labelling(self, labelling):
-        return self._is_terminal_labelling(labelling) and all(val !=Label.MUST_OUT for val in labelling.values())
+        return self._is_terminal_labelling(labelling) and all(val != Label.MUST_OUT for val in labelling.values())
 
     def _apply_left_transition_to_labelling(self, labelling, target_assumption):
         labelling[target_assumption] = Label.IN
@@ -147,8 +147,8 @@ class BipolarABA:
             return
         if self._is_terminal_labelling(current_labelling):
             if self._is_admissible_labelling(current_labelling):
-                adm_set = frozenset({assumption for assumption, label in current_labelling.items() if label == Label.IN})
-                if all (not adm_set <= e for e in extensions):
+                adm_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
+                if all(not adm_set <= e for e in extensions):
                     extensions.add(adm_set)
             return
 
