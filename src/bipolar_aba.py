@@ -123,7 +123,6 @@ class BipolarABA:
             rules = rules.union(self.deriving_rules(body_assumption)) - already_seen_rules
         return result
 
-
     def generate_all_deductions_by_assumption(self, assumption):
         result = set()
         rules = {r for r in self.rules if r.antecedent == {assumption}}
