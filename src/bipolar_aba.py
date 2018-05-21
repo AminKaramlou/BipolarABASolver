@@ -125,7 +125,7 @@ class BipolarABA:
     def _apply_left_transition_to_labelling(self, labelling, target_assumption):
         labelling[target_assumption] = Label.IN
         for k in labelling:
-            if self.attack_exists({target_assumption}, {k}):
+            if self.attack_exists({target_assumption}, self.get_closure({k})):
                 labelling[k] = Label.OUT
 
         for k in labelling:
@@ -164,7 +164,7 @@ class BipolarABA:
         self._enumerate_preferred_extensions(left_labelling, extensions)
 
         right_labelling = current_labelling.copy()
-        self._apply_left_transition_to_labelling(right_labelling, target_assumption)
+        self._apply_right_transition_to_labelling(right_labelling, target_assumption)
         print('Right Transition on ' + str(target_assumption))
         self._enumerate_preferred_extensions(right_labelling, extensions)
 
