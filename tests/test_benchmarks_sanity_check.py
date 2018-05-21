@@ -24,11 +24,11 @@ class TestBenchmarks(TestCase):
                 for subset in strict_subsets(extension):
                     assert subset not in preferred_extensions
 
-            # set_stable_extensions = list(f.get_set_stable_extensions())
-            # for extension in set_stable_extensions:
-            #     assert extension in preferred_extensions
-            #     assert f.is_closed(extension)
-            #     assert f.is_conflict_free(extension)
-            #     assert f.is_admissible_extension(extension)
-            #     for subset in strict_subsets(extension):
-            #         assert subset not in set_stable_extensions
+            set_stable_extensions = list(f.get_set_stable_extensions())
+            for extension in set_stable_extensions:
+                assert extension in preferred_extensions
+                assert f.is_closed(extension)
+                assert f.is_conflict_free(extension)
+                assert f.is_admissible_extension(extension)
+                for subset in strict_subsets(extension):
+                   assert subset not in set_stable_extensions

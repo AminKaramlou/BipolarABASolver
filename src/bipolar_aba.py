@@ -93,10 +93,10 @@ class BipolarABA:
     def is_admissible_extension(self, assumption_set):
         other_assumptions = self.assumptions - assumption_set
         return self.is_closed(assumption_set) and self.is_conflict_free(assumption_set) and \
-            all(self.attack_exists(assumption_set, {a}) for a in other_assumptions
-                if self.is_closed({a}) and self.attack_exists({a}, assumption_set))
+               all(self.attack_exists(assumption_set, {a}) for a in other_assumptions
+                   if self.is_closed({a}) and self.attack_exists({a}, assumption_set))
 
-    def _assign_initial_labelling(self):
+    def _assign_preferred_initial_labelling(self):
         '''
         :return: A dictionary containing the initial labelling of assumptions in the spirit of [NAD16].
         '''
@@ -170,7 +170,7 @@ class BipolarABA:
         return max((a for a, label in labelling.items() if label == Label.BLANK), key=comparison_func)
 
     def get_preferred_extensions(self):
-        labelling = self._assign_initial_labelling()
+        labelling = self._assign_preferred_initial_labelling()
         extensions = set()
         self._enumerate_preferred_extensions(labelling, extensions)
         return extensions
@@ -197,31 +197,52 @@ class BipolarABA:
                 extensions.add(adm_set)
             return
 
-        target_assumption = self.get_most_infuential_assumption(current_labelling)
+    def _apply_set_stable_right_transition_to_labelling(self, labelling, target_assumption):
+        labelling[target_assumption] = Label.MUST_OUT
 
-        left_labelling = current_labelling.copy()
-        self._apply_left_transition_to_labelling(left_labelling, target_assumption)
-        self._enumerate_preferred_extensions(left_labelling, extensions)
+    def _assign_set_stable__initial_labelling(self):
+        '''
+        :return: A dictionary containing the initial labelling of assumptions in the spirit of [NAD16].
+        '''
+        return {a:  Label.BLANK for a in self.assumptions}
 
-        right_labelling = current_labelling.copy()
-        self._apply_right_transition_to_labelling(right_labelling, target_assumption)
-        self._enumerate_preferred_extensions(right_labelling, extensions)
+    def _is_set_stable_hopeless_labelling(self, labelling):
+        for k in labelling:
+            if labelling[k] == Label.MUST_OUT:
+                if all(labelling[a] in [Label.OUT, Label.MUST_OUT] for a in
+                    self.get_minimal_attackers(self.get_closure({k}))):
+                    return True
+            return False
 
-    def is_set_stable_extension(self, assumption_set):
-        other_assumptions = self.assumptions - assumption_set
-        return self.is_closed(assumption_set) and self.is_conflict_free(assumption_set) and \
-            all(self.attack_exists(assumption_set, self.get_closure({a})) for a in other_assumptions)
+    def _is_set_stable_labelling(self, labelling):
+        return self._is_terminal_labelling(labelling) and all(val != Label.MUST_OUT for val in labelling.values())
 
     def get_set_stable_extensions(self):
-        candidates = list(powerset(self.assumptions))
-        candidates.reverse()
-        while candidates:
-            candidate = candidates.pop(0)
-            if self.is_set_stable_extension(candidate):
-                yield candidate
-                subsets = list(powerset(candidate))
-                candidates = [c for c in candidates if c not in subsets]
+        labelling = self._assign_set_stable_initial_labelling()
+        extensions = set()
+        self._enumerate_set_stable_extensions(labelling, extensions)
+        return extensions
 
+    def _enumerate_set_stable_extensions(self, current_labelling, extensions):
+        self._propogate_labelling(current_labelling)
+        if self._is_set_stable_hopeless_labelling(current_labelling):
+            return
+
+        while (not self._is_terminal_labelling(current_labelling)):
+            target_assumption = self.get_most_infuential_assumption(current_labelling)
+            left_labelling = current_labelling.copy()
+            self._apply_left_transition_to_labelling(left_labelling, target_assumption)
+            if not self._is_set_stable_hopeless_labelling(left_labelling):
+                self._enumerate_set_stable_extensions(left_labelling, extensions)
+
+            self._apply_set_stable_right_transition_to_labelling(current_labelling, target_assumption)
+            if self._is_set_stable_hopeless_labelling(current_labelling):
+                return
+
+        if self._is_stable_labelling(current_labelling):
+            adm_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
+            extensions.add(adm_set)
+            return
 
 class Rule:
     def __init__(self, antecedent=set(), consequent=None):
