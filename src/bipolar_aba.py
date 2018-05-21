@@ -1,4 +1,3 @@
-from src.utils import powerset
 from enum import Enum
 
 
@@ -93,8 +92,8 @@ class BipolarABA:
     def is_admissible_extension(self, assumption_set):
         other_assumptions = self.assumptions - assumption_set
         return self.is_closed(assumption_set) and self.is_conflict_free(assumption_set) and \
-               all(self.attack_exists(assumption_set, {a}) for a in other_assumptions
-                   if self.is_closed({a}) and self.attack_exists({a}, assumption_set))
+            all(self.attack_exists(assumption_set, {a}) for a in other_assumptions
+                if self.is_closed({a}) and self.attack_exists({a}, assumption_set))
 
     def _assign_preferred_initial_labelling(self):
         '''
@@ -200,17 +199,18 @@ class BipolarABA:
     def _apply_set_stable_right_transition_to_labelling(self, labelling, target_assumption):
         labelling[target_assumption] = Label.MUST_OUT
 
-    def _assign_set_stable__initial_labelling(self):
+    def _assign_set_stable_initial_labelling(self):
         '''
         :return: A dictionary containing the initial labelling of assumptions in the spirit of [NAD16].
         '''
-        return {a:  Label.BLANK for a in self.assumptions}
+        return {a: Label.MUST_OUT if self.attack_exists({a}, self.get_closure({a})) else Label.BLANK
+                for a in self.assumptions}
 
     def _is_set_stable_hopeless_labelling(self, labelling):
         for k in labelling:
             if labelling[k] == Label.MUST_OUT:
                 if all(labelling[a] in [Label.OUT, Label.MUST_OUT] for a in
-                    self.get_minimal_attackers(self.get_closure({k}))):
+                       self.get_minimal_attackers(self.get_closure({k}))):
                     return True
             return False
 
@@ -239,10 +239,11 @@ class BipolarABA:
             if self._is_set_stable_hopeless_labelling(current_labelling):
                 return
 
-        if self._is_stable_labelling(current_labelling):
+        if self._is_set_stable_labelling(current_labelling):
             adm_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
             extensions.add(adm_set)
             return
+
 
 class Rule:
     def __init__(self, antecedent=set(), consequent=None):
