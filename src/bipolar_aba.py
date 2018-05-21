@@ -167,7 +167,7 @@ class BipolarABA:
             closure = self.get_closure({assumption})
             return len(self.get_minimal_attackers(closure)) + len(self.get_assumptions_attacked_by(closure))
 
-        return max((a for a, label in labelling.items() if label == Label.BLANK), key = comparison_func)
+        return max((a for a, label in labelling.items() if label == Label.BLANK), key=comparison_func)
 
     def get_preferred_extensions(self):
         labelling = self._assign_initial_labelling()
