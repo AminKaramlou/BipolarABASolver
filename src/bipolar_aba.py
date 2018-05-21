@@ -93,8 +93,6 @@ class BipolarABA:
                                  and r.antecedent == {rule.consequent} and r.consequent in self.assumptions})
         return closure
 
-
-
     def is_conflict_free(self, assumption_set):
         return not self.attack_exists(assumption_set, assumption_set)
 
@@ -111,11 +109,44 @@ class BipolarABA:
         return {a: Label.UNDEC if self.attack_exists({a}, self.get_closure(a)) else Label.BLANK
                 for a in self.assumptions}
 
+    def generate_minimal_attacks(self, assumption):
+        result = set()
+        if self.contrary_of(assumption) in self.assumptions:
+            result.add(self.contrary_of(assumption))
+        rules = self.deriving_rules(self.contrary_of(assumption))
+        already_seen_rules = set()
+        while rules:
+            rule = rules.pop()
+            body_assumption = next(iter(rule.antecedent))
+            result.add(body_assumption)
+            already_seen_rules.add(rule)
+            rules = rules.union(self.deriving_rules(body_assumption)) - already_seen_rules
+        return result
+
+
+    def generate_all_deductions_by_assumption(self, assumption):
+        result = set()
+        rules = {r for r in self.rules if r.antecedent == {assumption}}
+        already_seen_rules = set()
+        while rules:
+            rule = rules.pop()
+            result.add(rule.consequent)
+            already_seen_rules.add(rule)
+            rules = rules.union({r for r in self.rules if r not in already_seen_rules
+                                 and r.antecedent == {rule.consequent}})
+        return result
+
     def get_minimal_attackers(self, assumption_set):
-        return {a for a in self.assumptions if self.attack_exists({a}, assumption_set)}
+        result = set()
+        for assumption in assumption_set:
+            result = result.union(self.generate_minimal_attacks(assumption))
+        return result
 
     def get_assumptions_attacked_by(self, assumption_set):
-        return {a for a in self.assumptions if self.attack_exists(assumption_set, {a})}
+        deduced = set()
+        for assumption in assumption_set:
+            deduced = deduced.union(self.generate_all_deductions_by_assumption(assumption))
+        return {a for a in self.assumptions if self.contrary_of(a) in deduced}
 
     def _is_preferred_hopeless_labelling(self, labelling):
         for k in labelling:
@@ -188,7 +219,7 @@ class BipolarABA:
         if self._is_preferred_hopeless_labelling(current_labelling):
             return
 
-        while (not self._is_terminal_labelling(current_labelling)):
+        while not self._is_terminal_labelling(current_labelling):
             target_assumption = self.get_most_infuential_assumption(current_labelling)
             left_labelling = current_labelling.copy()
             self._apply_left_transition_to_labelling(left_labelling, target_assumption)
@@ -237,7 +268,7 @@ class BipolarABA:
         if self._is_set_stable_hopeless_labelling(current_labelling):
             return
 
-        while (not self._is_terminal_labelling(current_labelling)):
+        while not self._is_terminal_labelling(current_labelling):
             target_assumption = self.get_most_infuential_assumption(current_labelling)
             left_labelling = current_labelling.copy()
             self._apply_left_transition_to_labelling(left_labelling, target_assumption)
