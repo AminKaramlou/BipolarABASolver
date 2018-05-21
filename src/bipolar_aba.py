@@ -1,5 +1,5 @@
 from src.utils import powerset
-
+from enum import Enum
 
 class NonBipolarException(Exception):
     def __init__(self, message):
@@ -95,16 +95,64 @@ class BipolarABA:
             all(self.attack_exists(assumption_set, {a}) for a in other_assumptions
                 if self.is_closed({a}) and self.attack_exists({a}, assumption_set))
 
+    def _assign_initial_labelling(self):
+        '''
+        :return: A dictionary containing the initial labelling of assumptions in the spirit of [NAD16].
+        '''
+        {a: Label.UNDEC if self.attack_exists({a}, {a}) else Label.BLANK for a in self.assumptions}
+
+
+    def _is_terminal_labelling(self, labelling):
+        return all(val != Label.BLANK for val in labelling.values())
+
+    def _is_dead_end_labelling(self, labelling):
+        return self._is_terminal_labelling(labelling) and any(val == Label.MUST_OUT for val in labelling.values())
+
+    def _is_admissible_labelling(self, labelling):
+        return self._is_terminal_labelling(labelling) and all(val !=Label.MUST_OUT for val in labelling.values())
+
+    def _apply_left_transition_to_labelling(self, labelling, target_assumption):
+        labelling[target_assumption] = Label.IN
+        for k in labelling:
+            if self.attack_exists({target_assumption}, {k}):
+                labelling[k] = Label.OUT
+
+        for k in labelling:
+            if self.attack_exists({k}, {target_assumption}) and labelling[k] != Label.OUT:
+                labelling[k] = Label.MUST_OUT
+
+        return labelling
+
+    def _apply_right_transition_to_labelling(self, labelling, target_assumption):
+        labelling[target_assumption] = Label.UNDEC
+        return labelling
+
+
+
     def get_preferred_extensions(self):
-        # Start with maximal subset so that we only have to check for admissibility
-        candidates = list(powerset(self.assumptions))
-        candidates.reverse()
-        while candidates:
-            candidate = candidates.pop(0)
-            if self.is_admissible_extension(candidate):
-                yield candidate
-                subsets = list(powerset(candidate))
-                candidates = [c for c in candidates if c not in subsets]
+        labelling = self._assign_initial_labelling()
+        return self._enumerate_preferred_extensions(labelling, {})
+
+    def _enumerate_preferred_extensions(self, current_labelling, extensions):
+        if self._is_dead_end_labelling(current_labelling):
+            return extensions
+        if self._is_terminal_labelling(current_labelling):
+            if self._is_admissible_labelling(current_labelling):
+                adm_set = {assumption for assumption, label in current_labelling.items() if label == Label.IN}
+                if all (not adm_set.is_subset(e) for e in extensions):
+                    extensions.add(adm_set)
+            return extensions
+
+        target_assumption = next(assumption for assumption, label in current_labelling if label == Label.BLANK)
+
+        left_labelling = self._apply_left_transition_to_labelling(current_labelling, target_assumption)
+        extensions = extensions.union(self._enumerate_preferred_extensions(left_labelling, target_assumption))
+
+        right_labelling = self._apply_left_transition_to_labelling(current_labelling, target_assumption)
+        extensions = extensions.union(self._enumerate_preferred_extensions(right_labelling, target_assumption))
+
+        return extensions
+
 
     def is_set_stable_extension(self, assumption_set):
         other_assumptions = self.assumptions - assumption_set
@@ -180,3 +228,11 @@ class Assumption(Sentence):
 
     def __hash__(self):
         return (self.symbol, self.contrary_symbol).__hash__()
+
+
+class Label(Enum):
+    IN = 1
+    OUT = 2
+    UNDEC = 3
+    BLANK = 4
+    MUST_OUT = 5
