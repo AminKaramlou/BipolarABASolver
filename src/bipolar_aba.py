@@ -109,7 +109,7 @@ class BipolarABA:
     def get_assumptions_attacked_by(self, assumption_set):
         return {a for a in self.assumptions if self.attack_exists(assumption_set, {a})}
 
-    def _is_hopeless_labelling(self, labelling):
+    def _is_preferred_hopeless_labelling(self, labelling):
         for k in labelling:
             if labelling[k] == Label.MUST_OUT:
                 if all(labelling[a] in [Label.OUT, Label.MUST_OUT, Label.UNDEC] for a in
@@ -138,7 +138,7 @@ class BipolarABA:
             if self.attack_exists({k}, {target_assumption}) and labelling[k] != Label.OUT:
                 labelling[k] = Label.MUST_OUT
 
-    def _apply_right_transition_to_labelling(self, labelling, target_assumption):
+    def _apply_preferred_right_transition_to_labelling(self, labelling, target_assumption):
         labelling[target_assumption] = Label.UNDEC
 
     def has_must_in_assumption(self, labelling):
@@ -152,7 +152,7 @@ class BipolarABA:
                     label == Label.BLANK and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
                                                  for a in self.get_minimal_attackers(self.get_closure({assumption}))))
 
-    def _propogate_label(self, labelling):
+    def _propogate_labelling(self, labelling):
         while(self.has_must_in_assumption(labelling)):
             must_in_assumption = self.get_next_must_in_assumption(labelling)
             closure = self.get_closure({must_in_assumption})
