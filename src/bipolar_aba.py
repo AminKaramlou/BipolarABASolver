@@ -124,9 +124,11 @@ class BipolarABA:
         return self._is_terminal_labelling(labelling) and all(val != Label.MUST_OUT for val in labelling.values())
 
     def _apply_left_transition_to_labelling(self, labelling, target_assumption):
-        labelling[target_assumption] = Label.IN
+        closure = self.get_closure({target_assumption})
+        for a in closure:
+            labelling[a] = Label.IN
         for k in labelling:
-            if self.attack_exists({target_assumption}, self.get_closure({k})):
+            if self.attack_exists(closure, self.get_closure({k})):
                 labelling[k] = Label.OUT
 
         for k in labelling:
@@ -136,6 +138,27 @@ class BipolarABA:
     def _apply_right_transition_to_labelling(self, labelling, target_assumption):
         labelling[target_assumption] = Label.UNDEC
 
+    def has_must_in_assumption(self, labelling):
+        return any(label == Label.BLANK
+                   and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
+                           for a in self.get_minimal_attackers(self.get_closure({assumption})))
+                   for assumption, label in labelling.items())
+
+    def get_next_must_in_assumption(self, labelling):
+        return next(assumption for assumption, label in labelling.items() if
+                    label == Label.BLANK and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
+                           for a in self.get_minimal_attackers(self.get_closure({assumption}))))
+
+    def _propogate_label(self, labelling):
+        while(self.has_must_in_assumption(labelling)):
+            must_in_assumption = self.get_next_must_in_assumption(labelling)
+            closure = self.get_closure({must_in_assumption})
+            for a in closure:
+                labelling[a] = Label.IN
+            for k in labelling:
+                if self.attack_exists(closure, self.get_closure({k})):
+                    labelling[k] = Label.OUT
+
     def get_preferred_extensions(self):
         labelling = self._assign_initial_labelling()
         extensions = set()
@@ -143,8 +166,12 @@ class BipolarABA:
         return extensions
 
     def _enumerate_preferred_extensions(self, current_labelling, extensions):
+
         if self._is_hopeless_labelling(current_labelling):
             return
+
+        self._propogate_label(current_labelling)
+
         if self._is_terminal_labelling(current_labelling):
             if self._is_admissible_labelling(current_labelling):
                 adm_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
