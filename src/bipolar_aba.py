@@ -106,6 +106,9 @@ class BipolarABA:
     def get_minimal_attackers(self, assumption_set):
         return {a for a in self.assumptions if self.attack_exists({a}, assumption_set)}
 
+    def get_assumptions_attacked_by(self, assumption_set):
+        return {a for a in self.assumptions if self.attack_exists(assumption_set, {a})}
+
     def _is_hopeless_labelling(self, labelling):
         for k in labelling:
             if labelling[k] == Label.MUST_OUT:
@@ -147,7 +150,7 @@ class BipolarABA:
     def get_next_must_in_assumption(self, labelling):
         return next(assumption for assumption, label in labelling.items() if
                     label == Label.BLANK and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
-                           for a in self.get_minimal_attackers(self.get_closure({assumption}))))
+                                                 for a in self.get_minimal_attackers(self.get_closure({assumption}))))
 
     def _propogate_label(self, labelling):
         while(self.has_must_in_assumption(labelling)):
@@ -158,6 +161,13 @@ class BipolarABA:
             for k in labelling:
                 if self.attack_exists(closure, self.get_closure({k})):
                     labelling[k] = Label.OUT
+
+    def get_most_infuential_assumption(self, labelling):
+        def comparison_func(assumption):
+            closure = self.get_closure({assumption})
+            return len(self.get_minimal_attackers(closure)) + len(self.get_assumptions_attacked_by(closure))
+
+        return max((a for a, label in labelling.items() if label == Label.BLANK), key = comparison_func)
 
     def get_preferred_extensions(self):
         labelling = self._assign_initial_labelling()
@@ -179,7 +189,7 @@ class BipolarABA:
                     extensions.add(adm_set)
             return
 
-        target_assumption = next(assumption for assumption, label in current_labelling.items() if label == Label.BLANK)
+        target_assumption = self.get_most_infuential_assumption(current_labelling)
 
         left_labelling = current_labelling.copy()
         self._apply_left_transition_to_labelling(left_labelling, target_assumption)
