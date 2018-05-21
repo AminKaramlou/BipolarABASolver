@@ -99,17 +99,18 @@ class BipolarABA:
         '''
         :return: A dictionary containing the initial labelling of assumptions in the spirit of [NAD16].
         '''
-        return {a: Label.UNDEC if self.attack_exists({a}, {a}) else Label.BLANK for a in self.assumptions}
+        return {a: Label.UNDEC if self.attack_exists({a}, self.get_closure({a})) else Label.BLANK
+                for a in self.assumptions}
 
 
-    def get_minimal_attackers(self, assumption):
-        other_assumptions = self.assumptions - {assumption}
-        return {a for a in other_assumptions if self.attack_exists({a}, {assumption})}
+    def get_minimal_attackers(self, assumption_set):
+        return {a for a in self.assumptions if self.attack_exists({a}, assumption_set)}
 
     def _is_hopeless_labelling(self, labelling):
         for k in labelling:
             if labelling[k] == Label.MUST_OUT:
-                if all(labelling[a] in [Label.OUT, Label.MUST_OUT, Label.UNDEC] for a in self.get_minimal_attackers(k)):
+                if all(labelling[a] in [Label.OUT, Label.MUST_OUT, Label.UNDEC] for a in
+                       self.get_minimal_attackers(self.get_closure({k}))):
                     return True
         return False
 

@@ -10,12 +10,11 @@ class TestBenchmarks(TestCase):
         framework_files = os.listdir(framework_dir)
         self.frameworks = []
         for f in framework_files:
-            print(f)
             self.frameworks.append((generate_bipolar_aba_framework_from_file(framework_dir + '/' + f), f))
 
     def test_sanity_checks(self):
         for framework in self.frameworks:
-            print(framework[1])
+            print(framework[1] + 'blahhhhhhhhhhhhhhhhhhhhhhhhhhh')
             f = framework[0]
             preferred_extensions = list(f.get_preferred_extensions())
             for extension in preferred_extensions:
