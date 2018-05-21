@@ -176,17 +176,25 @@ class BipolarABA:
         return extensions
 
     def _enumerate_preferred_extensions(self, current_labelling, extensions):
-
-        if self._is_hopeless_labelling(current_labelling):
+        self._propogate_labelling(current_labelling)
+        if self._is_preferred_hopeless_labelling(current_labelling):
             return
 
-        self._propogate_label(current_labelling)
+        while (not self._is_terminal_labelling(current_labelling)):
+            target_assumption = self.get_most_infuential_assumption(current_labelling)
+            left_labelling = current_labelling.copy()
+            self._apply_left_transition_to_labelling(left_labelling, target_assumption)
+            if not self._is_preferred_hopeless_labelling(left_labelling):
+                self._enumerate_preferred_extensions(left_labelling, extensions)
 
-        if self._is_terminal_labelling(current_labelling):
-            if self._is_admissible_labelling(current_labelling):
-                adm_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
-                if all(not adm_set <= e for e in extensions):
-                    extensions.add(adm_set)
+            self._apply_preferred_right_transition_to_labelling(current_labelling, target_assumption)
+            if self._is_preferred_hopeless_labelling(current_labelling):
+                return
+
+        if self._is_admissible_labelling(current_labelling):
+            adm_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
+            if all(not adm_set <= e for e in extensions):
+                extensions.add(adm_set)
             return
 
         target_assumption = self.get_most_infuential_assumption(current_labelling)
