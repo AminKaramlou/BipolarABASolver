@@ -102,6 +102,17 @@ class BipolarABA:
         return {a: Label.UNDEC if self.attack_exists({a}, {a}) else Label.BLANK for a in self.assumptions}
 
 
+    def get_minimal_attackers(self, assumption):
+        other_assumptions = self.assumptions - {assumption}
+        return {a for a in other_assumptions if self.attack_exists({a}, {assumption})}
+
+    def _is_hopeless_labelling(self, labelling):
+        for k in labelling:
+            if labelling[k] == Label.MUST_OUT:
+                if all(labelling[a] in [Label.OUT, Label.MUST_OUT, Label.UNDEC] for a in self.get_minimal_attackers(k)):
+                    return True
+        return False
+
     def _is_terminal_labelling(self, labelling):
         return all(val != Label.BLANK for val in labelling.values())
 
@@ -131,12 +142,17 @@ class BipolarABA:
         return extensions
 
     def _enumerate_preferred_extensions(self, current_labelling, extensions):
-        if self._is_dead_end_labelling(current_labelling):
+        print(current_labelling)
+        if self._is_hopeless_labelling(current_labelling):
+            print('Found Hopeless Labelling.')
             return
         if self._is_terminal_labelling(current_labelling):
+            print('Found Terminal Labelling.')
             if self._is_admissible_labelling(current_labelling):
+                print('Found Admissible Labelling.')
                 adm_set = frozenset({assumption for assumption, label in current_labelling.items() if label == Label.IN})
                 if all (not adm_set <= e for e in extensions):
+                    print('Found Preferred Labelling.')
                     extensions.add(adm_set)
             return
 
@@ -144,12 +160,13 @@ class BipolarABA:
 
         left_labelling = current_labelling.copy()
         self._apply_left_transition_to_labelling(left_labelling, target_assumption)
+        print('Left Transition on ' + str(target_assumption))
         self._enumerate_preferred_extensions(left_labelling, extensions)
 
         right_labelling = current_labelling.copy()
         self._apply_left_transition_to_labelling(right_labelling, target_assumption)
+        print('Right Transition on ' + str(target_assumption))
         self._enumerate_preferred_extensions(right_labelling, extensions)
-
 
     def is_set_stable_extension(self, assumption_set):
         other_assumptions = self.assumptions - assumption_set
