@@ -79,7 +79,6 @@ class BipolarABA:
         """
         return self.deduction_exists(to_deduce, assumption, self.rules)
 
-
     def get_closure(self, assumption):
         '''
         :param assumption: An assumption object.
@@ -96,8 +95,7 @@ class BipolarABA:
                                  and r.antecedent == {rule.consequent} and r.consequent in self.assumptions})
         return closure
 
-
-    def generate_minimal_attacks_on_assumption(self, assumption):
+    def _generate_minimal_attacks_on_assumption(self, assumption):
         '''
         :param assumption: An Assumption object.
         :return: The set of all Assumption objects attacking assumption.
@@ -115,7 +113,7 @@ class BipolarABA:
             rules = rules.union(self.deriving_rules(body_assumption)) - already_seen_rules
         return result
 
-    def get_minimal_attackers_of_assumption_set(self, assumption_set):
+    def get_minimal_attackers(self, assumption_set):
         '''
         :param assumption_set: A set of Assumption objects
         :return: The set of all Assumption objects attacking assumption_set.
@@ -140,7 +138,6 @@ class BipolarABA:
             rules = rules.union({r for r in self.rules if r not in already_seen_rules
                                  and r.antecedent == {rule.consequent}})
         return result
-
 
     def get_assumptions_attacked_by(self, assumption_set):
         '''
@@ -185,8 +182,9 @@ class BipolarABA:
     def is_admissible_extension(self, assumption_set):
         other_assumptions = self.assumptions - assumption_set
         return self.is_closed(assumption_set) and self.is_conflict_free(assumption_set) and \
-               all(self.attack_exists(assumption_set, {a}) for a in other_assumptions
-                   if self.is_closed({a}) and self.attack_exists({a}, assumption_set))
+            all(self.attack_exists(assumption_set, {a}) for a in other_assumptions
+                if self.is_closed({a}) and self.attack_exists({a}, assumption_set))
+
 
 class Rule:
     def __init__(self, antecedent=set(), consequent=None):

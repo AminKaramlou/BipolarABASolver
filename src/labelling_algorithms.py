@@ -8,14 +8,14 @@ def _is_terminal_labelling(labelling):
 def _has_must_in_assumption(framework, labelling):
     return any(label == Label.BLANK
                and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
-                       for a in framework.get_minimal_attackers_of_assumption_set(framework.get_closure(assumption)))
+                       for a in framework.get_minimal_attackers(framework.get_closure(assumption)))
                for assumption, label in labelling.items())
 
 
 def _get_next_must_in_assumption(framework, labelling):
     return next(assumption for assumption, label in labelling.items() if
                 label == Label.BLANK and all(labelling[a] in [Label.OUT, Label.MUST_OUT] for a in
-                                             framework.get_minimal_attackers_of_assumption_set(framework.get_closure(assumption))))
+                                             framework.get_minimal_attackers(framework.get_closure(assumption))))
 
 
 def _propagate_labelling(framework, labelling):
@@ -32,7 +32,7 @@ def _propagate_labelling(framework, labelling):
 def _get_most_infuential_assumption(framework, labelling):
     def comparison_func(assumption):
         closure = framework.get_closure(assumption)
-        return len(framework.get_minimal_attackers_of_assumption_set(closure)) + len(framework.get_assumptions_attacked_by(closure))
+        return len(framework.get_minimal_attackers(closure)) + len(framework.get_assumptions_attacked_by(closure))
 
     return max((a for a, label in labelling.items() if label == Label.BLANK), key=comparison_func)
 
@@ -62,7 +62,7 @@ def _is_preferred_hopeless_labelling(framework, labelling):
     for k in labelling:
         if labelling[k] == Label.MUST_OUT:
             if all(labelling[a] in [Label.OUT, Label.MUST_OUT, Label.UNDEC] for a in
-                   framework.get_minimal_attackers_of_assumption_set(framework.get_closure(k))):
+                   framework.get_minimal_attackers(framework.get_closure(k))):
                 return True
     return False
 
@@ -113,7 +113,7 @@ def _is_set_stable_hopeless_labelling(framework, labelling):
     for k in labelling:
         if labelling[k] == Label.MUST_OUT:
             if all(labelling[a] in [Label.OUT, Label.MUST_OUT] for a in
-                   framework.get_minimal_attackers_of_assumption_set(framework.get_closure(k))):
+                   framework.get_minimal_attackers(framework.get_closure(k))):
                 return True
         return False
 
