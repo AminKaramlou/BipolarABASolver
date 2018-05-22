@@ -120,7 +120,7 @@ class BipolarABA:
         '''
         result = set()
         for assumption in assumption_set:
-            result = result.union(self.generate_minimal_attacks_on_assumption(assumption))
+            result = result.union(self._generate_minimal_attacks_on_assumption(assumption))
         return result
 
     def generate_all_deductions_by_assumption(self, assumption):
