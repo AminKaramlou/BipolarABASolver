@@ -49,29 +49,47 @@ class BipolarABA:
     def __str__(self):
         return str(self.__dict__)
 
-    def deriving_rules(self, sentence):
-        """
-        :param sentence: A string
-        :return: The set of all rules directly deriving sentence.
-        """
-        der_rules = set()
-        for rule in self.rules:
-            if rule.consequent == sentence:
-                der_rules.add(rule)
-        return der_rules
-
-    def directly_derived_by(self, sentence):
+    def sentences_directly_derived_by(self, sentence):
+        '''
+        :param sentence: A string in self.language
+        :return: A set of strings which are directly derived by a rule with sentence as it's body.
+        '''
         return {rule.consequent for rule in self.rules if rule.antecedent == sentence}
 
-    def directly_attacked_by(self, sentence):
-        derived_sentences = self.directly_derived_by(sentence)
+    def assumptions_directly_attacked_by(self, sentence):
+        '''
+        :param sentence: A string in self.language
+        :return: A set of strings which are assumptions directly derived by a rule with sentence as it's body
+        '''
+        derived_sentences = self.sentences_directly_derived_by(sentence)
         attacked_assumptions = set()
-        for k, v in self.contrary_to_assumption_mapping:
-            if k in derived_sentences:
-                attacked_assumptions = attacked_assumptions.union(v)
+        for s in derived_sentences:
+            attacked_assumptions.update(self.contrary_to_assumption_mapping.get(s, {}))
+        return attacked_assumptions
 
-    def directly_supported_by(self, sentence):
-        return {sentence for sentence in self.directly_derived_by(sentence) if sentence in self.assumptions}
+    def assumptions_directly_supported_by(self, sentence):
+        '''
+        :param sentence: A string in self.language
+        :return: A set of strings which are assumptions directly supported by a rule with sentence as it's body
+        '''
+        return {sentence for sentence in self.sentences_directly_derived_by(sentence) if sentence in self.assumptions}
+
+    def assumptions_which_directly_derive(self, sentence):
+        '''
+        :param sentence: A string in self.language
+        :return: A set of strings which are antecedent's of a rule with sentence as it's consequent.
+        '''
+        return {rule.antecedent for rule in self.rules if rule.consequent == sentence}
+
+    def assumptions_which_directly_attack(self, assumption_set):
+        '''
+        :param sentence: A string in self.language
+        :return: A set of strings in self.assumptions which are antecedent's of a rule with sentence as it's consequent.
+        '''
+        result = set()
+        for a in assumption_set:
+            result.update(self.assumptions_which_directly_derive(self.assumption_to_contrary_mapping[a]))
+        return result
 
     def deduction_exists(self, to_deduce, sentence, rules):
         """
@@ -106,9 +124,21 @@ class BipolarABA:
             rule = rules.pop()
             closure.add(rule.consequent)
             already_seen_rules.add(rule)
-            rules = rules.union({r for r in self.rules if r not in already_seen_rules
+            rules.update({r for r in self.rules if r not in already_seen_rules
                                  and r.antecedent == rule.consequent and r.consequent in self.assumptions})
         return closure
+
+    def get_inverse_closure(self, assumption):
+        inverse_closure = {assumption}
+        rules = {r for r in self.rules if r.consequent == assumption}
+        already_seen_rules = set()
+        while rules:
+            rule = rules.pop()
+            inverse_closure.add(rule.antecedent)
+            already_seen_rules.add(rule)
+            rules.update({r for r in self.rules if r not in already_seen_rules and r.consequent == rule.antecedent})
+        return inverse_closure
+
 
     def _generate_minimal_attacks_on_assumption(self, assumption):
         '''

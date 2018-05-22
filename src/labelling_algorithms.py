@@ -17,7 +17,7 @@ def _has_must_in_assumption(framework, labelling):
     '''
     return any(label == Label.BLANK
                and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
-                       for a in framework.get_minimal_attackers(framework.get_closure(assumption)))
+                       for a in framework.assumptions_which_directly_attack(framework.get_closure(assumption)))
                for assumption, label in labelling.items())
 
 
@@ -27,9 +27,9 @@ def _get_next_must_in_assumption(framework, labelling):
     :param labelling: A dictionary of Assumption, Label pairs.
     :return: A must_in Assumption in framework under labelling in the spirit of [NAD16].
     '''
-    return next(assumption for assumption, label in labelling.items() if
-                label == Label.BLANK and all(labelling[a] in [Label.OUT, Label.MUST_OUT] for a in
-                                             framework.get_minimal_attackers(framework.get_closure(assumption))))
+    return next(assumption for assumption, label in labelling.items() if label == Label.BLANK
+                and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
+                        for a in framework.assumptions_which_directly_attack(framework.get_closure(assumption))))
 
 
 def _propagate_labelling(framework, labelling):
@@ -43,12 +43,12 @@ def _propagate_labelling(framework, labelling):
         closure = framework.get_closure(must_in_assumption)
         for a in closure:
             labelling[a] = Label.IN
-        for k in labelling:
-            if framework.attack_exists(closure, framework.get_closure(k)):
-                labelling[k] = Label.OUT
+            for attacked in framework.assumptions_directly_attacked_by(a):
+                for assumption in framework.get_inverse_closure(attacked):
+                    labelling[assumption] = Label.OUT
 
 
-def _get_most_infuential_assumption(framework, labelling):
+def _get_most_influential_assumption(framework, labelling):
     '''
     :param framework: A BipolarABA object.
     :param labelling: A dictionary of Assumption, Label pairs.
@@ -56,7 +56,11 @@ def _get_most_infuential_assumption(framework, labelling):
     '''
     def comparison_func(assumption):
         closure = framework.get_closure(assumption)
-        return len(framework.get_minimal_attackers(closure)) + len(framework.get_assumptions_attacked_by(closure))
+        score = 0
+        for a in closure:
+            score += len(framework.sentences_directly_derived_by(a)) \
+                     + len(framework.assumptions_which_directly_derive(a))
+        return score
 
     return max((a for a, label in labelling.items() if label == Label.BLANK), key=comparison_func)
 
@@ -70,13 +74,12 @@ def _apply_left_transition_to_labelling(framework, labelling, target_assumption)
     closure = framework.get_closure(target_assumption)
     for a in closure:
         labelling[a] = Label.IN
-    for k in labelling:
-        if framework.attack_exists(closure, framework.get_closure(k)):
-            labelling[k] = Label.OUT
-
-    for k in labelling:
-        if framework.attack_exists({k}, {target_assumption}) and labelling[k] != Label.OUT:
-            labelling[k] = Label.MUST_OUT
+        for attacked in framework.assumptions_directly_attacked_by(a):
+            for assumption in framework.get_inverse_closure(attacked):
+                labelling[assumption] = Label.OUT
+        for a in framework.assumptions_which_directly_derive(framework.assumption_to_contrary_mapping[target_assumption]):
+            if labelling[a] != Label.OUT:
+                labelling[a] = Label.MUST_OUT
 
 
 def _is_admissible_labelling(labelling):
@@ -105,7 +108,7 @@ def _is_preferred_hopeless_labelling(framework, labelling):
     for k in labelling:
         if labelling[k] == Label.MUST_OUT:
             if all(labelling[a] in [Label.OUT, Label.MUST_OUT, Label.UNDEC] for a in
-                   framework.get_minimal_attackers(framework.get_closure(k))):
+                   framework.assumptions_which_directly_attack(framework.get_closure(k))):
                 return True
     return False
 
@@ -131,7 +134,7 @@ def enumerate_preferred_extensions(framework, current_labelling, extensions):
         return
 
     while not _is_terminal_labelling(current_labelling):
-        target_assumption = _get_most_infuential_assumption(framework, current_labelling)
+        target_assumption = _get_most_influential_assumption(framework, current_labelling)
         left_labelling = current_labelling.copy()
         _apply_left_transition_to_labelling(framework, left_labelling, target_assumption)
         if not _is_preferred_hopeless_labelling(framework, left_labelling):
@@ -175,7 +178,7 @@ def _is_set_stable_hopeless_labelling(framework, labelling):
     for k in labelling:
         if labelling[k] == Label.MUST_OUT:
             if all(labelling[a] in [Label.OUT, Label.MUST_OUT] for a in
-                   framework.get_minimal_attackers(framework.get_closure(k))):
+                   framework.assumptions_which_directly_attack(framework.get_closure(k))):
                 return True
         return False
 
@@ -200,7 +203,7 @@ def enumerate_set_stable_extensions(framework, current_labelling, extensions):
         return
 
     while not _is_terminal_labelling(current_labelling):
-        target_assumption = _get_most_infuential_assumption(framework, current_labelling)
+        target_assumption = _get_most_influential_assumption(framework, current_labelling)
         left_labelling = current_labelling.copy()
         _apply_left_transition_to_labelling(framework, left_labelling, target_assumption)
         if not _is_set_stable_hopeless_labelling(framework, left_labelling):
