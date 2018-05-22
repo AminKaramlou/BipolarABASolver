@@ -1,4 +1,5 @@
-from enum import Enum
+from src.labelling_algorithms import assign_initial_labelling_for_set_stable_semantics, \
+    assign_initial_labelling_for_preferred_semantics, enumerate_preferred_extensions, enumerate_set_stable_extensions
 
 
 class NonBipolarException(Exception):
@@ -9,9 +10,9 @@ class NonBipolarException(Exception):
 class BipolarABA:
     def __init__(self, language, rules, assumptions):
         """
-        :param language: set of Sentences
-        :param rules: set of rules
-        :param assumptions: set of Assumptions
+        :param language: A set of Sentences
+        :param rules: A set of rules
+        :param assumptions: A set of Assumptions
         """
         self.language = language
         self.rules = rules
@@ -49,7 +50,7 @@ class BipolarABA:
 
     def deriving_rules(self, sentence):
         """
-        :return: the set of all rules directly deriving sentence
+        :return: The set of all rules directly deriving sentence
         """
         der_rules = set()
         for rule in self.rules:
@@ -59,9 +60,9 @@ class BipolarABA:
 
     def deduction_exists(self, to_deduce, sentence, rules):
         """
-        :param to_deduce: a Sentence
-        :param deduce_from: set of Sentences
-        :return: True, if to_deduce can be deduced from deduce_from
+        :param to_deduce: A Sentence
+        :param sentence: A Sentence
+        :return: True, if to_deduce can be deduced from sentence
         """
 
         if sentence == to_deduce:
@@ -71,17 +72,18 @@ class BipolarABA:
         return any(self.deduction_exists(to_deduce, r.consequent, rules - target_rules) for r in target_rules)
 
     def argument_exists(self, to_deduce, assumption):
+        """
+        :param to_deduce: A Sentence
+        :param assumption: An Assumption
+        :return: True, if there is an argument for to_deduce from assumption
+        """
         return self.deduction_exists(to_deduce, assumption, self.rules)
 
-    def attack_exists(self, attacking_set, target_set):
-        return any(self.argument_exists(self.contrary_of(beta), assumption)
-                   for assumption in attacking_set for beta in target_set)
-
-    def is_closed(self, assumption_set):
-        other_assumptions = self.assumptions - assumption_set
-        return not any(r.antecedent <= assumption_set and r.consequent in other_assumptions for r in self.rules)
-
     def get_closure(self, assumption):
+        '''
+        :param assumption: An assumption object.
+        :return: The closure of the singleton assumption set i.e. Cl(assumption).
+        '''
         closure = {assumption}
         rules = {r for r in self.rules if r.antecedent == {assumption} and r.consequent in self.assumptions}
         already_seen_rules = set()
@@ -93,23 +95,11 @@ class BipolarABA:
                                  and r.antecedent == {rule.consequent} and r.consequent in self.assumptions})
         return closure
 
-    def is_conflict_free(self, assumption_set):
-        return not self.attack_exists(assumption_set, assumption_set)
-
-    def is_admissible_extension(self, assumption_set):
-        other_assumptions = self.assumptions - assumption_set
-        return self.is_closed(assumption_set) and self.is_conflict_free(assumption_set) and \
-            all(self.attack_exists(assumption_set, {a}) for a in other_assumptions
-                if self.is_closed({a}) and self.attack_exists({a}, assumption_set))
-
-    def _assign_preferred_initial_labelling(self):
+    def _generate_minimal_attacks_on_assumption(self, assumption):
         '''
-        :return: A dictionary containing the initial labelling of assumptions in the spirit of [NAD16].
+        :param assumption: An Assumption object.
+        :return: The set of all Assumption objects attacking assumption.
         '''
-        return {a: Label.UNDEC if self.attack_exists({a}, self.get_closure(a)) else Label.BLANK
-                for a in self.assumptions}
-
-    def generate_minimal_attacks(self, assumption):
         result = set()
         if self.contrary_of(assumption) in self.assumptions:
             result.add(self.contrary_of(assumption))
@@ -123,7 +113,21 @@ class BipolarABA:
             rules = rules.union(self.deriving_rules(body_assumption)) - already_seen_rules
         return result
 
+    def get_minimal_attackers(self, assumption_set):
+        '''
+        :param assumption_set: A set of Assumption objects
+        :return: The set of all Assumption objects attacking assumption_set.
+        '''
+        result = set()
+        for assumption in assumption_set:
+            result = result.union(self._generate_minimal_attacks_on_assumption(assumption))
+        return result
+
     def generate_all_deductions_by_assumption(self, assumption):
+        '''
+        :param assumption: An Assumption object.
+        :return: The set of all Sentences deducible from assumption.
+        '''
         result = set()
         rules = {r for r in self.rules if r.antecedent == {assumption}}
         already_seen_rules = set()
@@ -135,153 +139,51 @@ class BipolarABA:
                                  and r.antecedent == {rule.consequent}})
         return result
 
-    def get_minimal_attackers(self, assumption_set):
-        result = set()
-        for assumption in assumption_set:
-            result = result.union(self.generate_minimal_attacks(assumption))
-        return result
-
     def get_assumptions_attacked_by(self, assumption_set):
+        '''
+        :param assumption_set: A set of Assumption objects.
+        :return: The set of all Assumption objects in self.assumptions attacked by assumption_set.
+        '''
         deduced = set()
         for assumption in assumption_set:
             deduced = deduced.union(self.generate_all_deductions_by_assumption(assumption))
         return {a for a in self.assumptions if self.contrary_of(a) in deduced}
 
-    def _is_preferred_hopeless_labelling(self, labelling):
-        for k in labelling:
-            if labelling[k] == Label.MUST_OUT:
-                if all(labelling[a] in [Label.OUT, Label.MUST_OUT, Label.UNDEC] for a in
-                       self.get_minimal_attackers(self.get_closure(k))):
-                    return True
-        return False
-
-    def _is_terminal_labelling(self, labelling):
-        return all(val != Label.BLANK for val in labelling.values())
-
-    def _is_dead_end_labelling(self, labelling):
-        return self._is_terminal_labelling(labelling) and any(val == Label.MUST_OUT for val in labelling.values())
-
-    def _is_admissible_labelling(self, labelling):
-        return self._is_terminal_labelling(labelling) and all(val != Label.MUST_OUT for val in labelling.values())
-
-    def _apply_left_transition_to_labelling(self, labelling, target_assumption):
-        closure = self.get_closure(target_assumption)
-        for a in closure:
-            labelling[a] = Label.IN
-        for k in labelling:
-            if self.attack_exists(closure, self.get_closure(k)):
-                labelling[k] = Label.OUT
-
-        for k in labelling:
-            if self.attack_exists({k}, {target_assumption}) and labelling[k] != Label.OUT:
-                labelling[k] = Label.MUST_OUT
-
-    def _apply_preferred_right_transition_to_labelling(self, labelling, target_assumption):
-        labelling[target_assumption] = Label.UNDEC
-
-    def has_must_in_assumption(self, labelling):
-        return any(label == Label.BLANK
-                   and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
-                           for a in self.get_minimal_attackers(self.get_closure(assumption)))
-                   for assumption, label in labelling.items())
-
-    def get_next_must_in_assumption(self, labelling):
-        return next(assumption for assumption, label in labelling.items() if
-                    label == Label.BLANK and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
-                                                 for a in self.get_minimal_attackers(self.get_closure(assumption))))
-
-    def _propogate_labelling(self, labelling):
-        while(self.has_must_in_assumption(labelling)):
-            must_in_assumption = self.get_next_must_in_assumption(labelling)
-            closure = self.get_closure(must_in_assumption)
-            for a in closure:
-                labelling[a] = Label.IN
-            for k in labelling:
-                if self.attack_exists(closure, self.get_closure(k)):
-                    labelling[k] = Label.OUT
-
-    def get_most_infuential_assumption(self, labelling):
-        def comparison_func(assumption):
-            closure = self.get_closure(assumption)
-            return len(self.get_minimal_attackers(closure)) + len(self.get_assumptions_attacked_by(closure))
-
-        return max((a for a, label in labelling.items() if label == Label.BLANK), key=comparison_func)
-
     def get_preferred_extensions(self):
-        labelling = self._assign_preferred_initial_labelling()
+        '''
+        :return: A set containing all preferred extensions of the framework.
+        '''
+        labelling = assign_initial_labelling_for_preferred_semantics(self)
         extensions = set()
-        self._enumerate_preferred_extensions(labelling, extensions)
+        enumerate_preferred_extensions(self, labelling, extensions)
         return extensions
-
-    def _enumerate_preferred_extensions(self, current_labelling, extensions):
-        self._propogate_labelling(current_labelling)
-        if self._is_preferred_hopeless_labelling(current_labelling):
-            return
-
-        while not self._is_terminal_labelling(current_labelling):
-            target_assumption = self.get_most_infuential_assumption(current_labelling)
-            left_labelling = current_labelling.copy()
-            self._apply_left_transition_to_labelling(left_labelling, target_assumption)
-            if not self._is_preferred_hopeless_labelling(left_labelling):
-                self._enumerate_preferred_extensions(left_labelling, extensions)
-
-            self._apply_preferred_right_transition_to_labelling(current_labelling, target_assumption)
-            if self._is_preferred_hopeless_labelling(current_labelling):
-                return
-
-        if self._is_admissible_labelling(current_labelling):
-            adm_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
-            if all(not adm_set <= e for e in extensions):
-                extensions.add(adm_set)
-            return
-
-    def _apply_set_stable_right_transition_to_labelling(self, labelling, target_assumption):
-        labelling[target_assumption] = Label.MUST_OUT
-
-    def _assign_set_stable_initial_labelling(self):
-        '''
-        :return: A dictionary containing the initial labelling of assumptions in the spirit of [NAD16].
-        '''
-        return {a: Label.MUST_OUT if self.attack_exists({a}, self.get_closure(a)) else Label.BLANK
-                for a in self.assumptions}
-
-    def _is_set_stable_hopeless_labelling(self, labelling):
-        for k in labelling:
-            if labelling[k] == Label.MUST_OUT:
-                if all(labelling[a] in [Label.OUT, Label.MUST_OUT] for a in
-                       self.get_minimal_attackers(self.get_closure(k))):
-                    return True
-            return False
-
-    def _is_set_stable_labelling(self, labelling):
-        return self._is_terminal_labelling(labelling) and all(val != Label.MUST_OUT for val in labelling.values())
 
     def get_set_stable_extensions(self):
-        labelling = self._assign_set_stable_initial_labelling()
+        '''
+        :return: A set containing all set_stable extensions of the framework.
+        '''
+        labelling = assign_initial_labelling_for_set_stable_semantics(self)
         extensions = set()
-        self._enumerate_set_stable_extensions(labelling, extensions)
+        enumerate_set_stable_extensions(self, labelling, extensions)
         return extensions
 
-    def _enumerate_set_stable_extensions(self, current_labelling, extensions):
-        self._propogate_labelling(current_labelling)
-        if self._is_set_stable_hopeless_labelling(current_labelling):
-            return
+    # The remaining functions are currently used only for testing
+    def attack_exists(self, attacking_set, target_set):
+        return any(self.argument_exists(self.contrary_of(beta), assumption)
+                   for assumption in attacking_set for beta in target_set)
 
-        while not self._is_terminal_labelling(current_labelling):
-            target_assumption = self.get_most_infuential_assumption(current_labelling)
-            left_labelling = current_labelling.copy()
-            self._apply_left_transition_to_labelling(left_labelling, target_assumption)
-            if not self._is_set_stable_hopeless_labelling(left_labelling):
-                self._enumerate_set_stable_extensions(left_labelling, extensions)
+    def is_closed(self, assumption_set):
+        other_assumptions = self.assumptions - assumption_set
+        return not any(r.antecedent <= assumption_set and r.consequent in other_assumptions for r in self.rules)
 
-            self._apply_set_stable_right_transition_to_labelling(current_labelling, target_assumption)
-            if self._is_set_stable_hopeless_labelling(current_labelling):
-                return
+    def is_conflict_free(self, assumption_set):
+        return not self.attack_exists(assumption_set, assumption_set)
 
-        if self._is_set_stable_labelling(current_labelling):
-            adm_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
-            extensions.add(adm_set)
-            return
+    def is_admissible_extension(self, assumption_set):
+        other_assumptions = self.assumptions - assumption_set
+        return self.is_closed(assumption_set) and self.is_conflict_free(assumption_set) and \
+            all(self.attack_exists(assumption_set, {a}) for a in other_assumptions
+                if self.is_closed({a}) and self.attack_exists({a}, assumption_set))
 
 
 class Rule:
@@ -342,11 +244,3 @@ class Assumption(Sentence):
 
     def __hash__(self):
         return (self.symbol, self.contrary_symbol).__hash__()
-
-
-class Label(Enum):
-    IN = 1
-    OUT = 2
-    UNDEC = 3
-    BLANK = 4
-    MUST_OUT = 5

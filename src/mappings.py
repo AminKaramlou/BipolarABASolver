@@ -2,6 +2,10 @@ from src.bipolar_aba import BipolarABA, Rule, Sentence, Assumption
 
 
 def map_baf_to_naba_framework(baf_framework):
+    '''
+    :param baf_framework: A BAF object.
+    :return: A BipolarABA object corresponding to the n-ABA framework of BAF in the spirit of [CST17]
+    '''
     assumptions = set()
     non_assumptions = set()
     rules = set()
@@ -21,6 +25,10 @@ def map_baf_to_naba_framework(baf_framework):
 
 
 def map_baf_to_daba_framework(baf_framework):
+    '''
+    :param baf_framework: A BAF object.
+    :return: A BipolarABA object corresponding to the d-ABA framework of BAF in the spirit of [CST17]
+    '''
     assumptions = set()
     non_assumptions = set()
     rules = set()

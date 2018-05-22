@@ -26,7 +26,7 @@ DUPLICATE_USE_FOUND = "_duplicate"
 
 def generate_baf_framework_from_file(filename):
     """
-    :param filename: name of the file definining an ABA+ framework
+    :param filename: Name of the file definining an ABA+ framework
     :return: BAF object generated from file
     """
     file = open(filename, 'r')
@@ -38,7 +38,7 @@ def generate_baf_framework_from_file(filename):
 def generate_baf_framework(input_string):
     """
     :param input_string: A string defining an ABA+ framework
-    :return: BipolarABA object generated from file
+    :return: BAF object generated from file
     """
     input = input_string.replace('\r', '')
     input = input.replace('\n', '')
@@ -58,8 +58,8 @@ def generate_baf_framework(input_string):
 
 def generate_arguments(arg_decls):
     """
-    :param argument_decls: list of argument declarations
-    :return: set of arguments(strings) generated from argument declarations
+    :param argument_decls: A list of argument declarations
+    :return: A set of arguments(strings) generated from argument declarations
     """
     args = set()
 
@@ -76,9 +76,9 @@ def generate_arguments(arg_decls):
 
 def generate_binary_relation(declarations, regex):
     """
-    :param declarations: List of binary (attack or support) declarations
-    :param regex: regex used to extract input arguments
-    :return: dictionary mapping symbols of contraries to symbols of assumptions
+    :param declarations: A List of binary (attack or support) declarations
+    :param regex: A regex used to extract input arguments
+    :return: A dictionary mapping symbols of contraries to symbols of assumptions
     """
 
     results = set()

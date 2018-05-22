@@ -7,9 +7,9 @@ class BAF:
     def __init__(self, arguments, attacks, supports):
         """
 
-        :param arguments: set of strings
-        :param attacks: set of tuple of strings
-        :param supports: set of tuple of strings
+        :param arguments: A set of strings
+        :param attacks: A set of tuple of strings
+        :param supports: A set of tuple of strings
         """
         self.arguments = arguments
         self.attacks = attacks

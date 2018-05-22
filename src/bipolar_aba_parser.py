@@ -26,8 +26,8 @@ DUPLICATE_USE_FOUND = "_duplicate"
 
 def generate_bipolar_aba_framework_from_file(filename):
     """
-    :param filename: name of the file definining an ABA+ framework
-    :return: BipolarABA object generated from file
+    :param filename: Name of the file definining an ABA+ framework
+    :return: A BipolarABA object generated from file
     """
     file = open(filename, 'r')
     input = file.read()
@@ -38,7 +38,7 @@ def generate_bipolar_aba_framework_from_file(filename):
 def generate_bipolar_aba_framework(input_string):
     """
     :param input_string: A string defining an ABA+ framework
-    :return: BipolarABA object generated from file
+    :return: A BipolarABA object generated from file
     """
 
     def format_input_string(string):
@@ -65,8 +65,8 @@ def generate_bipolar_aba_framework(input_string):
 
 def generate_assumption_symbols(assump_decls):
     """
-    :param assump_decls: list of assumption declarations
-    :return: set of assumption symbols(strings) generated from assumption declarations
+    :param assump_decls: A list of assumption declarations
+    :return: A set of assumption symbols(strings) generated from assumption declarations
     """
     symbols = set()
 
@@ -83,9 +83,9 @@ def generate_assumption_symbols(assump_decls):
 
 def generate_assumption_objects(contr_decls, assumption_symbols):
     """
-    :param contr_decls: list of contrary declrations
-    :param assumptions: set of assumption symbols(strings)
-    :return: dictionary mapping symbols of contraries to symbols of assumptions
+    :param contr_decls: A list of contrary declrations
+    :param assumptions: A set of assumption symbols(strings)
+    :return: A dictionary mapping symbols of contraries to symbols of assumptions
     """
     # maps symbols to contraries
     language = set()
@@ -115,10 +115,10 @@ def generate_assumption_objects(contr_decls, assumption_symbols):
 
 def generate_rules(rule_decls, language, assumptions):
     """
-    :param rule_decls: list of rule declarations
-    :param language: set of Sentences
-    :param assumptions: set of Assumptions
-    :return: set of Rules
+    :param rule_decls: A list of rule declarations
+    :param language: A set of Sentences
+    :param assumptions: A set of Assumptions
+    :return: A set of Rules
     """
     rules = set()
 
@@ -142,9 +142,9 @@ def generate_rules(rule_decls, language, assumptions):
 
 def translate_symbol(symbol, assumptions):
     """
-    :param symbol: symbol to translate
-    :param map: dictionary mapping symbols of contraries to symbols of assumptions
-    :return: the Sentence matching the symbol
+    :param symbol: A string to translate
+    :param map: A dictionary mapping symbols of contraries to symbols of assumptions
+    :return: A Sentence object matching the symbol
     """
     for a in assumptions:
         if symbol == a.symbol:
