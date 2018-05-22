@@ -32,7 +32,7 @@ class BipolarABA:
                     raise NonBipolarException("Assumptions and Contraries"
                                               " in a BipolarABA framework should be part of the language.")
             for r in rules:
-                if r.consequent not in (assumptions or assumption_to_contrary_mapping.values()):
+                if r.consequent not in assumptions and r.consequent not in assumption_to_contrary_mapping.values():
                     raise NonBipolarException("The head of a rule in a BipolarABA framework must be an assumption or "
                                               "the contrary of an assumption.")
                 if r.antecedent not in assumptions:

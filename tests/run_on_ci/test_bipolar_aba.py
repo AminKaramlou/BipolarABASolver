@@ -23,7 +23,6 @@ class TestBipolarABAcreation(TestCase):
         assert bipolar_aba_framework.language == self.language
         assert bipolar_aba_framework.rules == self.rules
         assert bipolar_aba_framework.assumptions == self.assumptions
-        assert bipolar_aba_framework.contraries == {self.beta, self.phi, self.chi}
 
     def test_framework_creation_with_invalid_rule_head_throws_exception(self):
 
@@ -62,7 +61,7 @@ class TestBipolarABAcreation(TestCase):
 
         with pytest.raises(NonBipolarException) as e:
             BipolarABA(self.language, self.rules, self.assumptions, self.assumptions_to_contrary_mapping)
-        assert str(e.value) == "Contraries in a BipolarABA framework should be part of the language."
+        assert str(e.value) == "Assumptions and Contraries in a BipolarABA framework should be part of the language."
 
 
 class TestExtensionCalculation(TestCase):
