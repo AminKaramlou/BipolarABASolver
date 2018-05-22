@@ -60,6 +60,19 @@ class BipolarABA:
                 der_rules.add(rule)
         return der_rules
 
+    def directly_derived_by(self, sentence):
+        return {rule.consequent for rule in self.rules if rule.antecedent == sentence}
+
+    def directly_attacked_by(self, sentence):
+        derived_sentences = self.directly_derived_by(sentence)
+        attacked_assumptions = set()
+        for k, v in self.contrary_to_assumption_mapping:
+            if k in derived_sentences:
+                attacked_assumptions = attacked_assumptions.union(v)
+
+    def directly_supported_by(self, sentence):
+        return {sentence for sentence in self.directly_derived_by(sentence) if sentence in self.assumptions}
+
     def deduction_exists(self, to_deduce, sentence, rules):
         """
         :param to_deduce: A string
