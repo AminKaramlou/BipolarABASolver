@@ -1,6 +1,7 @@
 from src.labelling_algorithms import assign_initial_labelling_for_set_stable_semantics, \
     assign_initial_labelling_for_preferred_semantics, enumerate_preferred_extensions, enumerate_set_stable_extensions
 
+
 class NonBipolarException(Exception):
     def __init__(self, message):
         self.message = message
@@ -140,7 +141,6 @@ class BipolarABA:
             deduced = deduced.union(self.generate_all_deductions_by_assumption(assumption))
         return {a for a in self.assumptions if self.contrary_of(a) in deduced}
 
-
     def get_preferred_extensions(self):
         labelling = assign_initial_labelling_for_preferred_semantics(self)
         extensions = set()
@@ -152,6 +152,7 @@ class BipolarABA:
         extensions = set()
         enumerate_set_stable_extensions(self, labelling, extensions)
         return extensions
+
 
 class Rule:
     def __init__(self, antecedent=set(), consequent=None):
@@ -211,5 +212,3 @@ class Assumption(Sentence):
 
     def __hash__(self):
         return (self.symbol, self.contrary_symbol).__hash__()
-
-

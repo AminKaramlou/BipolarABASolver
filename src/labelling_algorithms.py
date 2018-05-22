@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 def _is_terminal_labelling(labelling):
     return all(val != Label.BLANK for val in labelling.values())
 
@@ -13,8 +14,8 @@ def _has_must_in_assumption(framework, labelling):
 
 def _get_next_must_in_assumption(framework, labelling):
     return next(assumption for assumption, label in labelling.items() if
-                label == Label.BLANK and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
-                                             for a in framework.get_minimal_attackers(framework.get_closure(assumption))))
+                label == Label.BLANK and all(labelling[a] in [Label.OUT, Label.MUST_OUT] for a in
+                                             framework.get_minimal_attackers(framework.get_closure(assumption))))
 
 
 def _propogate_labelling(framework, labelling):
@@ -67,11 +68,11 @@ def _is_preferred_hopeless_labelling(framework, labelling):
 
 
 def assign_initial_labelling_for_preferred_semantics(framework):
-   '''
-   :return: A dictionary containing the initial labelling of assumptions in the spirit of [NAD16].
-   '''
-   return {a: Label.UNDEC if framework.attack_exists({a}, framework.get_closure(a)) else Label.BLANK
-           for a in framework.assumptions}
+    '''
+    :return: A dictionary containing the initial labelling of assumptions in the spirit of [NAD16].
+    '''
+    return {a: Label.UNDEC if framework.attack_exists({a}, framework.get_closure(a)) else Label.BLANK
+            for a in framework.assumptions}
 
 
 def enumerate_preferred_extensions(framework, current_labelling, extensions):
