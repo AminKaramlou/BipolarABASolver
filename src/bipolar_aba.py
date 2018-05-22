@@ -10,16 +10,10 @@ class NonBipolarException(Exception):
 class BipolarABA:
     def __init__(self, language, rules, assumptions, assumption_to_contrary_mapping):
         """
-<<<<<<< HEAD
-        :param language: A set of Sentences
-        :param rules: A set of rules
-        :param assumptions: A set of Assumptions
-=======
         :param language: A set of strings
         :param rules: A set of rules
         :param assumptions: A set of strings
         :param assumption_to_contrary_mapping: A dictionary of strings to strings
->>>>>>> Remove Assumption and Sentence classes
         """
         self.language = language
         self.rules = rules
