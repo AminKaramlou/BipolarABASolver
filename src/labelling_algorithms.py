@@ -65,19 +65,20 @@ def _get_most_influential_assumption(framework, labelling):
     return max((a for a, label in labelling.items() if label == Label.BLANK), key=comparison_func)
 
 
-def _apply_left_transition_to_labelling(framework, labelling, assumption):
+def _apply_left_transition_to_labelling(framework, labelling, target_assumption):
     '''
     :param labelling: A dictionary of Assumption, Label pairs.
-    :param assumption: An Assumption object.
+    :param target_assumption: An Assumption object.
     :return: Apply a left-transition of labelling under target_assumption in the spirit of [NAD16].
     '''
-    closure = framework.get_closure(assumption)
+    closure = framework.get_closure(target_assumption)
     for a in closure:
         labelling[a] = Label.IN
         for attacked in framework.assumptions_directly_attacked_by(a):
             for assumption in framework.get_inverse_closure(attacked):
                 labelling[assumption] = Label.OUT
-        for a in framework.assumptions_which_directly_derive(framework.assumption_to_contrary_mapping[assumption]):
+        for a in framework.assumptions_which_directly_derive \
+                    (framework.assumption_to_contrary_mapping[target_assumption]):
             if labelling[a] != Label.OUT:
                 labelling[a] = Label.MUST_OUT
 
