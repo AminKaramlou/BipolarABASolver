@@ -225,14 +225,14 @@ def construct_grounded_labelling(framework):
     :return: A grounded labelling of framework based on the simple algorithm described in argumentation in ai.
     '''
     labelling = {a: Label.UNDEC for a in framework.assumptions}
-    changed = False
+    changed = True
     while changed:
         changed = False
         for a in framework.assumptions:
             if labelling[a] == Label.UNDEC:
                 closure = framework.get_closure(a)
                 if all(labelling[attacker] == Label.OUT
-                        for attacker in framework.assumptions_which_directly_attack(framework.get_closure(a))):
+                        for attacker in framework.assumptions_which_directly_attack(closure)):
                     changed = True
                     for assumption in closure:
                         labelling[assumption] = Label.IN
