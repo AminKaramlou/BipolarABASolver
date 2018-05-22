@@ -48,10 +48,19 @@ class TestBipolarABAcreation(TestCase):
     def test_assumption_not_in_language_throws_exception(self):
 
         self.assumptions.add('Not in language')
+        self.assumptions_to_contrary_mapping['Not in language'] = 'beta'
 
         with pytest.raises(NonBipolarException) as e:
             BipolarABA(self.language, self.rules, self.assumptions, self.assumptions_to_contrary_mapping)
-        assert str(e.value) == "Assumptions in a BipolarABA framework should be part of the language."
+        assert str(e.value) == "Assumptions and contraries in a BipolarABA framework should be part of the language."
+
+    def test_mapping_not_total_throws_exception(self):
+
+        self.assumptions.add('Not in language')
+
+        with pytest.raises(NonBipolarException) as e:
+            BipolarABA(self.language, self.rules, self.assumptions, self.assumptions_to_contrary_mapping)
+        assert str(e.value) == "Assumption to contrary mapping must be a total mapping on assumptions."
 
     def test_contrary_not_in_language_throws_exception(self):
 
@@ -61,7 +70,7 @@ class TestBipolarABAcreation(TestCase):
 
         with pytest.raises(NonBipolarException) as e:
             BipolarABA(self.language, self.rules, self.assumptions, self.assumptions_to_contrary_mapping)
-        assert str(e.value) == "Assumptions and Contraries in a BipolarABA framework should be part of the language."
+        assert str(e.value) == "Assumptions and contraries in a BipolarABA framework should be part of the language."
 
 
 class TestExtensionCalculation(TestCase):

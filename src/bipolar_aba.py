@@ -29,7 +29,7 @@ class BipolarABA:
                 raise NonBipolarException("Assumption to contrary mapping must be a total mapping on assumptions.")
             for a, c in assumption_to_contrary_mapping.items():
                 if a not in language or c not in language:
-                    raise NonBipolarException("Assumptions and Contraries"
+                    raise NonBipolarException("Assumptions and contraries"
                                               " in a BipolarABA framework should be part of the language.")
             for r in rules:
                 if r.consequent not in assumptions and r.consequent not in assumption_to_contrary_mapping.values():
@@ -70,7 +70,7 @@ class BipolarABA:
         if sentence == to_deduce:
             return True
 
-        target_rules = {r for r in rules if r.antecedent == {sentence}}
+        target_rules = {r for r in rules if r.antecedent == sentence}
         return any(self.deduction_exists(to_deduce, r.consequent, rules - target_rules) for r in target_rules)
 
     def argument_exists(self, to_deduce, assumption):
