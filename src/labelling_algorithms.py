@@ -119,8 +119,7 @@ def assign_initial_labelling_for_preferred_semantics(framework):
     :return: A dictionary of Assumption, Label objects
     containing the initial preferred labelling of assumptions in the spirit of [NAD16].
     '''
-    return {a: Label.UNDEC if framework.attack_exists({a}, framework.get_closure(a)) else Label.BLANK
-            for a in framework.assumptions}
+    return construct_grounded_labelling(framework)
 
 
 def enumerate_preferred_extensions(framework, current_labelling, extensions):
@@ -166,8 +165,8 @@ def assign_initial_labelling_for_set_stable_semantics(framework):
     :return: A dictionary of Assumption, Label objects
     containing the initial set-stable labelling in the spirit of [NAD16].
     '''
-    return {a: Label.MUST_OUT if framework.attack_exists({a}, framework.get_closure(a)) else Label.BLANK
-            for a in framework.assumptions}
+    grounded_labelling = construct_grounded_labelling(framework)
+    return {a: Label.MUST_OUT if l == Label.UNDEC else l for a, l in grounded_labelling.items()}
 
 
 def _is_set_stable_hopeless_labelling(framework, labelling):
@@ -218,6 +217,29 @@ def enumerate_set_stable_extensions(framework, current_labelling, extensions):
         set_stable_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
         extensions.add(set_stable_set)
 
+
+def construct_grounded_labelling(framework):
+    '''
+
+    :param framework: A BipolarABA framework.
+    :return: A grounded labelling of framework based on the simple algorithm described in argumentation in ai.
+    '''
+    labelling = {a: Label.UNDEC for a in framework.assumptions}
+    changed = False
+    while changed:
+        changed = False
+        for a in framework.assumptions:
+            if labelling[a] == Label.UNDEC:
+                closure = framework.get_closure(a)
+                if all(labelling[attacker] == Label.OUT
+                        for attacker in framework.assumptions_which_directly_attack(framework.get_closure(a))):
+                    changed = True
+                    for assumption in closure:
+                        labelling[assumption] = Label.IN
+                        for attacked in framework.assumptions_directly_attacked_by(assumption):
+                            for assumption in framework.get_inverse_closure(attacked):
+                                labelling[assumption] = Label.OUT
+    return labelling
 
 class Label(Enum):
     IN = 1
