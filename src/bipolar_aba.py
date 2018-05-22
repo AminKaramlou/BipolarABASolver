@@ -139,6 +139,14 @@ class BipolarABA:
             rules.update({r for r in self.rules if r not in already_seen_rules and r.consequent == rule.antecedent})
         return inverse_closure
 
+    def attacks_own_closure(self, assumption):
+        '''
+        :param assumption: A string in self.assumptions
+        :return: True if the assumption attacks its own closure
+        '''
+        closure = self.get_closure(assumption)
+        return any(a in closure for a in self.assumptions_which_directly_attack(closure))
+
     def _generate_minimal_attacks_on_assumption(self, assumption):
         '''
         :param assumption: A string in self.assumptions.

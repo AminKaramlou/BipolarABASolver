@@ -119,7 +119,20 @@ def assign_initial_labelling_for_preferred_semantics(framework):
     :return: A dictionary of Assumption, Label objects
     containing the initial preferred labelling of assumptions in the spirit of [NAD16].
     '''
-    return construct_grounded_labelling(framework)
+    grounded_labelling = construct_grounded_labelling(framework)
+    labelling = {}
+    for a in framework.assumptions:
+        closure = framework.get_closure(a)
+        if grounded_labelling[a] == Label.IN or grounded_labelling[a] == Label.OUT:
+            labelling[a] = grounded_labelling[a]
+        elif framework.attacks_own_closure(a):
+            for assumption in closure:
+                labelling[assumption] = Label.UNDEC
+        else:
+            labelling[a] = Label.BLANK
+
+
+    return labelling
 
 
 def enumerate_preferred_extensions(framework, current_labelling, extensions):
@@ -166,7 +179,19 @@ def assign_initial_labelling_for_set_stable_semantics(framework):
     containing the initial set-stable labelling in the spirit of [NAD16].
     '''
     grounded_labelling = construct_grounded_labelling(framework)
-    return {a: Label.MUST_OUT if l == Label.UNDEC else l for a, l in grounded_labelling.items()}
+    labelling = {}
+    for a in framework.assumptions:
+        closure = framework.get_closure(a)
+        if grounded_labelling[a] == Label.IN or grounded_labelling[a] == Label.OUT:
+            labelling[a] = grounded_labelling[a]
+        elif framework.attacks_own_closure(a):
+            for assumption in closure:
+                labelling[assumption] = Label.MUST_OUT
+        else:
+            labelling[a] = Label.BLANK
+
+
+    return labelling
 
 
 def _is_set_stable_hopeless_labelling(framework, labelling):
