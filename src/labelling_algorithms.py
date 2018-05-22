@@ -18,7 +18,7 @@ def _get_next_must_in_assumption(framework, labelling):
                                              framework.get_minimal_attackers(framework.get_closure(assumption))))
 
 
-def _propogate_labelling(framework, labelling):
+def _propagate_labelling(framework, labelling):
     while(_has_must_in_assumption(framework, labelling)):
         must_in_assumption = _get_next_must_in_assumption(framework, labelling)
         closure = framework.get_closure(must_in_assumption)
@@ -76,7 +76,7 @@ def assign_initial_labelling_for_preferred_semantics(framework):
 
 
 def enumerate_preferred_extensions(framework, current_labelling, extensions):
-    _propogate_labelling(framework, current_labelling)
+    _propagate_labelling(framework, current_labelling)
     if _is_preferred_hopeless_labelling(framework, current_labelling):
         return
 
@@ -123,7 +123,7 @@ def _is_set_stable_labelling(framework, labelling):
 
 
 def enumerate_set_stable_extensions(framework, current_labelling, extensions):
-    _propogate_labelling(framework, current_labelling)
+    _propagate_labelling(framework, current_labelling)
     if _is_set_stable_hopeless_labelling(framework, current_labelling):
         return
 
