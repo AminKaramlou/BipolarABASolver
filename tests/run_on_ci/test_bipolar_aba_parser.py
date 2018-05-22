@@ -5,7 +5,7 @@ from src.bipolar_aba import Sentence, Assumption, Rule
 
 class TestBipolarABAParser(TestCase):
     def test_generate_aba_plus_from_file(self):
-        framework = generate_bipolar_aba_framework_from_file("./tests/example_bipolar_aba_file_to_parse.pl")
+        framework = generate_bipolar_aba_framework_from_file("./tests/run_on_ci/example_bipolar_aba_file_to_parse.pl")
 
         a = Assumption('a', 'a_c')
         b = Assumption('b', 'b_c')
