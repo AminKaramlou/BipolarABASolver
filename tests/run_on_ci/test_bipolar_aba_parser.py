@@ -12,7 +12,6 @@ class TestBipolarABAParser(TestCase):
         language = assumptions.union(contraries)
         assumption_contrary_mapping = {'a': 'a_c', 'b': 'b_c', 'c': 'c_c'}
 
-
         assert assumptions == framework.assumptions
         assert language == framework.language
         assert assumption_contrary_mapping == framework.assumption_to_contrary_mapping

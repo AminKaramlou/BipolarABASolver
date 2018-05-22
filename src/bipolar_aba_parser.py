@@ -101,7 +101,7 @@ def generate_language_and_mapping(contr_decls, assumption_symbols):
             if sentence not in assumption_symbols:
                 raise InvalidContraryDeclarationException("Contraries cannot be declared for non-assumptions!")
 
-            if sentence in  seen_assumptions:
+            if sentence in seen_assumptions:
                 raise DuplicateSymbolException("The contrary of an assumption can only be mapped to a single symbol!")
 
             mapping[sentence] = contrary

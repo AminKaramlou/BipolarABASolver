@@ -125,7 +125,7 @@ class BipolarABA:
             closure.add(rule.consequent)
             already_seen_rules.add(rule)
             rules.update({r for r in self.rules if r not in already_seen_rules
-                                 and r.antecedent == rule.consequent and r.consequent in self.assumptions})
+                          and r.antecedent == rule.consequent and r.consequent in self.assumptions})
         return closure
 
     def get_inverse_closure(self, assumption):
@@ -138,7 +138,6 @@ class BipolarABA:
             already_seen_rules.add(rule)
             rules.update({r for r in self.rules if r not in already_seen_rules and r.consequent == rule.antecedent})
         return inverse_closure
-
 
     def _generate_minimal_attacks_on_assumption(self, assumption):
         '''
@@ -153,7 +152,7 @@ class BipolarABA:
         already_seen_rules = set()
         while rules:
             rule = rules.pop()
-            result.add(rule.antecedent) # Note that rule.antecedent is guaranteed to be an assumption in BABA
+            result.add(rule.antecedent)  # Note that rule.antecedent is guaranteed to be an assumption in BABA
             already_seen_rules.add(rule)
             rules = rules.union(self.deriving_rules(rule.antecedent)) - already_seen_rules
         return result
@@ -229,6 +228,7 @@ class BipolarABA:
         return self.is_closed(assumption_set) and self.is_conflict_free(assumption_set) and \
             all(self.attack_exists(assumption_set, {a}) for a in other_assumptions
                 if self.is_closed({a}) and self.attack_exists({a}, assumption_set))
+
 
 class Rule:
     def __init__(self, antecedent, consequent):

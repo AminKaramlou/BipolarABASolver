@@ -86,8 +86,8 @@ class TestExtensionCalculation(TestCase):
 
         self.rules = {rule_1, rule_2, rule_3, rule_4}
 
-        self.bipolar_aba_framework = BipolarABA(self.language, self.rules, self.assumptions
-                                                , self.assumptions_to_contrary_mapping)
+        self.bipolar_aba_framework = BipolarABA(self.language, self.rules, self.assumptions,
+                                                self.assumptions_to_contrary_mapping)
 
     def test_simple_is_closed_example(self):
         test_set = {'gamma'}

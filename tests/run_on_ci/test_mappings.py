@@ -26,11 +26,12 @@ class TestBAFcreation(TestCase):
         assert self.language == naba_framework.language
         assert self.assumptions == naba_framework.assumptions
         assert self.contraries == set(naba_framework.contrary_to_assumption_mapping.keys())
-        assert naba_framework.assumption_to_contrary_mapping == {'a': 'a_contrary', 'b': 'b_contrary', 'c': 'c_contrary'
-                                                                , 'd': 'd_contrary', 'e': 'e_contrary'}
+        assert naba_framework.assumption_to_contrary_mapping == {'a': 'a_contrary', 'b': 'b_contrary',
+                                                                 'c': 'c_contrary', 'd': 'd_contrary',
+                                                                 'e': 'e_contrary'}
         assert naba_framework.contrary_to_assumption_mapping == {'a_contrary': {'a'}, 'b_contrary': {'b'},
                                                                  'c_contrary': {'c'}, 'd_contrary': {'d'},
-                                                                 'e_contrary': {'e'},}
+                                                                 'e_contrary': {'e'}}
 
         assert rules == naba_framework.rules
 
@@ -56,11 +57,12 @@ class TestBAFcreation(TestCase):
         assert self.assumptions == daba_framework.assumptions
         assert self.contraries == daba_framework.contrary_to_assumption_mapping.keys()
         assert rules == daba_framework.rules
-        assert daba_framework.assumption_to_contrary_mapping == {'a': 'a_contrary', 'b': 'b_contrary', 'c': 'c_contrary'
-            , 'd': 'd_contrary', 'e': 'e_contrary'}
+        assert daba_framework.assumption_to_contrary_mapping == {'a': 'a_contrary', 'b': 'b_contrary',
+                                                                 'c': 'c_contrary', 'd': 'd_contrary',
+                                                                 'e': 'e_contrary'}
         assert daba_framework.contrary_to_assumption_mapping == {'a_contrary': {'a'}, 'b_contrary': {'b'},
                                                                  'c_contrary': {'c'}, 'd_contrary': {'d'},
-                                                                 'e_contrary': {'e'},}
+                                                                 'e_contrary': {'e'}}
 
         preferred_extensions = list(daba_framework.get_preferred_extensions())
         assert len(preferred_extensions) == 2

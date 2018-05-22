@@ -47,4 +47,3 @@ def map_baf_to_daba_framework(baf_framework):
         rules.add(Rule(support[0], support[1]))
 
     return BipolarABA(language, rules, assumptions, assumptions_contrary_mapping)
-
