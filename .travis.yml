@@ -8,4 +8,4 @@ install:
 script:
   - make install-dev
   - make lint
-  - make coverage
+  - travis_wait make coverage
