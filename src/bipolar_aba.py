@@ -15,9 +15,9 @@ class BipolarABA:
         :param assumptions: A set of strings
         :param assumption_to_contrary_mapping: A dictionary of strings to strings
         """
-        def create_contrary_to_assumption_mapping(assumption_to_contrary_mapping):
+        def _create_contrary_to_assumption_mapping(assumption_to_contrary_mapping):
             mapping = dict()
-            for k, v in assumption_to_contrary_mapping:
+            for k, v in assumption_to_contrary_mapping.items():
                 if v in mapping:
                     mapping[v].add(k)
                 else:
@@ -25,10 +25,13 @@ class BipolarABA:
             return mapping
 
         def _validate_bipolar():
-            if not all(a in language and c in language for a, c in assumption_to_contrary_mapping):
-                raise NonBipolarException("Assumptions and Contraries"
-                                          " in a BipolarABA framework should be part of the language.")
-            for r in self.rules:
+            if assumption_to_contrary_mapping.keys() != assumptions:
+                raise NonBipolarException("Assumption to contrary mapping must be a total mapping on assumptions.")
+            for a, c in assumption_to_contrary_mapping.items():
+                if a not in language or c not in language:
+                    raise NonBipolarException("Assumptions and Contraries"
+                                              " in a BipolarABA framework should be part of the language.")
+            for r in rules:
                 if r.consequent not in (assumptions or assumption_to_contrary_mapping.values()):
                     raise NonBipolarException("The head of a rule in a BipolarABA framework must be an assumption or "
                                               "the contrary of an assumption.")
@@ -36,11 +39,12 @@ class BipolarABA:
                     raise NonBipolarException("The body of a rule in a BipolarABA framework can only"
                                               " contain assumptions.")
 
+        _validate_bipolar()
         self.language = language
         self.rules = rules
         self.assumptions = assumptions
         self.assumption_to_contrary_mapping = assumption_to_contrary_mapping
-        self.contrary_to_assumption_mapping = create_contrary_to_assumption_mapping(assumption_to_contrary_mapping)
+        self.contrary_to_assumption_mapping = _create_contrary_to_assumption_mapping(assumption_to_contrary_mapping)
 
     def __str__(self):
         return str(self.__dict__)
@@ -145,7 +149,7 @@ class BipolarABA:
         deduced = set()
         for assumption in assumption_set:
             deduced = deduced.union(self.generate_all_deductions_by_assumption(assumption))
-        return {a for a in self.assumptions if self.assumption_to_contrary_mapping(a) in deduced}
+        return {a for a in self.assumptions if self.assumption_to_contrary_mapping[a] in deduced}
 
     def get_preferred_extensions(self):
         '''
@@ -167,7 +171,7 @@ class BipolarABA:
 
     # The remaining functions are currently used only for testing
     def attack_exists(self, attacking_set, target_set):
-        return any(self.argument_exists(self.assumption_to_contrary_mapping(beta), assumption)
+        return any(self.argument_exists(self.assumption_to_contrary_mapping[beta], assumption)
                    for assumption in attacking_set for beta in target_set)
 
     def is_closed(self, assumption_set):

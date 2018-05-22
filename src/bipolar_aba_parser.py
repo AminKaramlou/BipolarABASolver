@@ -1,9 +1,8 @@
 """
-This module contains functions for generating ABA_Plus objects from files and strings.
-The Prolog-style syntax can be found under the syntax section.
+This module contains functions for generating BipolarABA objects from files and strings.
 """
 
-from src.bipolar_aba import BipolarABA, Assumption, Sentence, Rule
+from src.bipolar_aba import BipolarABA, Rule
 import re
 
 # SYNTAX #
@@ -55,12 +54,12 @@ def generate_bipolar_aba_framework(input_string):
     assumption_symbols = generate_assumption_symbols(assump_declarations)
 
     contr_declarations = [decl for decl in declarations if CONTR_PREDICATE in decl]
-    language, assumption_objects = generate_assumption_objects(contr_declarations, assumption_symbols)
+    language, assumption_to_contrary_mapping = generate_language_and_mapping(contr_declarations, assumption_symbols)
 
     rule_declarations = [decl for decl in declarations if RULE_PREDICATE in decl]
-    rules = generate_rules(rule_declarations, language, assumption_objects)
+    rules = generate_rules(rule_declarations)
 
-    return BipolarABA(language, rules, assumption_objects)
+    return BipolarABA(language, rules, assumption_symbols, assumption_to_contrary_mapping)
 
 
 def generate_assumption_symbols(assump_decls):
@@ -81,7 +80,7 @@ def generate_assumption_symbols(assump_decls):
     return symbols
 
 
-def generate_assumption_objects(contr_decls, assumption_symbols):
+def generate_language_and_mapping(contr_decls, assumption_symbols):
     """
     :param contr_decls: A list of contrary declrations
     :param assumptions: A set of assumption symbols(strings)
@@ -89,7 +88,8 @@ def generate_assumption_objects(contr_decls, assumption_symbols):
     """
     # maps symbols to contraries
     language = set()
-    assumptions = set()
+    seen_assumptions = set()
+    mapping = {}
 
     for decl in contr_decls:
         cleaned_decl = decl.replace(" ", "")
@@ -101,19 +101,17 @@ def generate_assumption_objects(contr_decls, assumption_symbols):
             if sentence not in assumption_symbols:
                 raise InvalidContraryDeclarationException("Contraries cannot be declared for non-assumptions!")
 
-            if sentence in (s.symbol for s in assumptions):
-                print(sentence)
+            if sentence in  seen_assumptions:
                 raise DuplicateSymbolException("The contrary of an assumption can only be mapped to a single symbol!")
 
-            assumptions.add(Assumption(sentence, contrary))
-            language.add(Assumption(sentence, contrary))
-            if contrary not in assumption_symbols:
-                language.add(Sentence(contrary))
+            mapping[sentence] = contrary
+            language.add(contrary)
+            seen_assumptions.add(sentence)
 
-    return language, assumptions
+    return language.union(assumption_symbols), mapping
 
 
-def generate_rules(rule_decls, language, assumptions):
+def generate_rules(rule_decls):
     """
     :param rule_decls: A list of rule declarations
     :param language: A set of Sentences
@@ -126,30 +124,11 @@ def generate_rules(rule_decls, language, assumptions):
         cleaned_decl = decl.replace(" ", "")
         match = re.match(RULE_REGEX, cleaned_decl)
         if match:
-            consequent_symbol = match.group(1)
-            consequent = translate_symbol(consequent_symbol, assumptions)
-
-            antecedent = set()
-            if match.group(2) != "":
-                antecedent_symbols = match.group(2).split(",")
-
-                for ant in antecedent_symbols:
-                    antecedent.add(translate_symbol(ant, assumptions))
+            consequent = match.group(1)
+            antecedent = match.group(2)
             rules.add(Rule(antecedent, consequent))
 
     return rules
-
-
-def translate_symbol(symbol, assumptions):
-    """
-    :param symbol: A string to translate
-    :param map: A dictionary mapping symbols of contraries to symbols of assumptions
-    :return: A Sentence object matching the symbol
-    """
-    for a in assumptions:
-        if symbol == a.symbol:
-            return a
-    return Sentence(symbol)
 
 
 class InvalidContraryDeclarationException(Exception):
@@ -158,10 +137,5 @@ class InvalidContraryDeclarationException(Exception):
 
 
 class DuplicateSymbolException(Exception):
-    def __init__(self, message):
-        self.message = message
-
-
-class InvalidPreferenceDeclarationException(Exception):
     def __init__(self, message):
         self.message = message
