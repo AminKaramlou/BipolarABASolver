@@ -11,7 +11,7 @@ component:
 	pytest -sv tests
 
 coverage:
-	coverage run --source=src --branch -m pytest tests/ --junitxml=build/test.xml -v
+	coverage run --source=src --branch -m pytest tests/run_on_ci --junitxml=build/test.xml -v
 	coverage report
 	coverage xml -i -o build/coverage.xml
 
