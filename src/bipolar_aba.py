@@ -8,11 +8,18 @@ class NonBipolarException(Exception):
 
 
 class BipolarABA:
-    def __init__(self, language, rules, assumptions):
+    def __init__(self, language, rules, assumptions, assumption_to_contrary_mapping):
         """
+<<<<<<< HEAD
         :param language: A set of Sentences
         :param rules: A set of rules
         :param assumptions: A set of Assumptions
+=======
+        :param language: A set of strings
+        :param rules: A set of rules
+        :param assumptions: A set of strings
+        :param assumption_to_contrary_mapping: A dictionary of strings to strings
+>>>>>>> Remove Assumption and Sentence classes
         """
         self.language = language
         self.rules = rules
@@ -187,10 +194,10 @@ class BipolarABA:
 
 
 class Rule:
-    def __init__(self, antecedent=set(), consequent=None):
+    def __init__(self, antecedent, consequent):
         """
-        :param antecedent: set of Sentences
-        :param consequent: a Sentence
+        :param antecedent: a string (note that in BABA the body only has one element)
+        :param consequent: a string
         """
         self.antecedent = antecedent
         self.consequent = consequent
@@ -208,39 +215,3 @@ class Rule:
     def __hash__(self):
         return (tuple(list(self.antecedent)),
                 self.consequent).__hash__()
-
-
-class Sentence:
-    def __init__(self, symbol):
-        """
-        :param symbol: string
-        """
-        self.symbol = symbol
-
-    def __eq__(self, other):
-        return self.symbol == other.symbol
-
-    def __repr__(self):
-        return self.symbol
-
-    def __str__(self):
-        return self.symbol
-
-    def __hash__(self):
-        return self.symbol.__hash__()
-
-
-class Assumption(Sentence):
-    def __init__(self, symbol, contrary_symbol):
-        """
-        :param symbol: string
-        :param contrary_symbol: string
-        """
-        self.contrary_symbol = contrary_symbol
-        super().__init__(symbol)
-
-    def __eq__(self, other):
-        return self.symbol == other.symbol and self.contrary_symbol == other.contrary_symbol
-
-    def __hash__(self):
-        return (self.symbol, self.contrary_symbol).__hash__()
