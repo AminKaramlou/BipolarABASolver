@@ -53,8 +53,8 @@ def _get_most_influential_assumption(framework, labelling):
         closure = framework.get_closure(assumption)
         score = 0
         for a in closure:
-            score += len(framework.sentences_directly_derived_by(a)) \
-                     + len(framework.assumptions_which_directly_derive(a))
+            score += len(framework.directly_derives[a])\
+                     + len(framework.directly_derived_by[a])
         return score
 
     return max((a for a, label in labelling.items() if label == Label.BLANK), key=comparison_func)
@@ -72,8 +72,7 @@ def _apply_left_transition_to_labelling(framework, labelling, target_assumption)
         for attacked in framework.assumptions_directly_attacked_by(a):
             for assumption in framework.get_inverse_closure(attacked):
                 labelling[assumption] = Label.OUT
-        for a in framework.assumptions_which_directly_derive(framework.assumption_to_contrary_mapping
-                                                             [target_assumption]):
+        for a in framework.directly_derived_by[framework.assumption_to_contrary_mapping [target_assumption]]:
             if labelling[a] != Label.OUT:
                 labelling[a] = Label.MUST_OUT
 

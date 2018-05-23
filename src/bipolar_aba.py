@@ -119,7 +119,7 @@ class BipolarABA:
         '''
         result = set()
         for a in assumption_set:
-            result.update({s for s in self.directly_derives[self.assumption_to_contrary_mapping[a]]
+            result.update({s for s in self.directly_derived_by[self.assumption_to_contrary_mapping[a]]
                            if s in self.assumptions})
         return result
 
