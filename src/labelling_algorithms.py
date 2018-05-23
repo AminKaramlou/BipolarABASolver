@@ -1,6 +1,13 @@
 from enum import Enum
 
 
+def add_closure_to_label_in(labelling, closure, framework):
+    for a in closure:
+        labelling[a] = Label.IN
+        for attacked in framework.assumptions_directly_attacked_by(a):
+            for a in framework.get_inverse_closure(attacked):
+                labelling[a] = Label.OUT
+
 def _is_terminal_labelling(labelling):
     '''
     :param labelling: A dictionary of Assumption, Label pairs.
@@ -41,11 +48,7 @@ def _propagate_labelling(framework, labelling):
     while(_has_must_in_assumption(framework, labelling)):
         must_in_assumption = _get_next_must_in_assumption(framework, labelling)
         closure = framework.get_closure(must_in_assumption)
-        for a in closure:
-            labelling[a] = Label.IN
-            for attacked in framework.assumptions_directly_attacked_by(a):
-                for assumption in framework.get_inverse_closure(attacked):
-                    labelling[assumption] = Label.OUT
+        add_closure_to_label_in(labelling, closure, framework)
 
 
 def _get_most_influential_assumption(framework, labelling):
@@ -78,7 +81,7 @@ def _apply_left_transition_to_labelling(framework, labelling, target_assumption)
             for assumption in framework.get_inverse_closure(attacked):
                 labelling[assumption] = Label.OUT
         for a in framework.assumptions_which_directly_derive(framework.assumption_to_contrary_mapping
-                                                             [target_assumption]):
+                                                  [target_assumption]):
             if labelling[a] != Label.OUT:
                 labelling[a] = Label.MUST_OUT
 
@@ -189,7 +192,6 @@ def assign_initial_labelling_for_set_stable_semantics(framework):
         else:
             labelling[a] = Label.BLANK
 
-
     return labelling
 
 def _is_set_stable_hopeless_labelling(framework, labelling):
@@ -247,21 +249,28 @@ def construct_grounded_labelling(framework):
     :param framework: A BipolarABA framework.
     :return: A grounded labelling of framework based on the simple algorithm described in argumentation in ai.
     '''
+    def add_assumption_to_label_in(a, labelling):
+        closure = framework.get_closure(a)
+        for assumption in closure:
+            labelling[a] = Label.IN
+            for attacked in framework.assumptions_directly_attacked_by(assumption):
+                for cl_attacked in framework.get_inverse_closure(attacked):
+                    labelling[cl_attacked] = Label.OUT
+                    for direct_attacker_gone in framework.assumptions_directly_attacked_by(cl_attacked):
+                        for attacker_gone in framework.get_inverse_closure(direct_attacker_gone):
+                            agressor_count[attacker_gone] -= 1
+
     labelling = {a: Label.UNDEC for a in framework.assumptions}
+    agressor_count = {a: len(framework.assumptions_which_directly_attack(framework.get_closure(a)))
+                      for a in framework.assumptions}
     changed = True
     while changed:
         changed = False
         for a in framework.assumptions:
             if labelling[a] == Label.UNDEC:
-                closure = framework.get_closure(a)
-                if all(labelling[attacker] == Label.OUT
-                        for attacker in framework.assumptions_which_directly_attack(closure)):
+                if agressor_count[a] == 0:
                     changed = True
-                    for assumption in closure:
-                        labelling[assumption] = Label.IN
-                        for attacked in framework.assumptions_directly_attacked_by(assumption):
-                            for assumption in framework.get_inverse_closure(attacked):
-                                labelling[assumption] = Label.OUT
+                    add_assumption_to_label_in(a, labelling)
     return labelling
 
 
