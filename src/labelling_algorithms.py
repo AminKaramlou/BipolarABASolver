@@ -101,7 +101,7 @@ def _is_preferred_hopeless_labelling(framework, labelling):
     :param labelling: A dictionary of Assumption, Label pairs.
     :return: True, if labelling is hopeless in framework under preferred semantics, in the spirit of [NAD16].
     '''
-    for k in labelling:
+    for k in framework.assumptions:
         if labelling[k] == Label.MUST_OUT:
             if all(labelling[a] in [Label.OUT, Label.MUST_OUT, Label.UNDEC] for a in
                    framework.assumptions_which_directly_attack(framework.get_closure(k))):
@@ -193,7 +193,7 @@ def _is_set_stable_hopeless_labelling(framework, labelling):
     :param labelling: A dictionary of Assumption, Label pairs.
     :return: True, if labelling is hopeless in framework under set-stable semantics, in the spirit of [NAD16].
     '''
-    for k in labelling:
+    for k in framework.assumptions:
         if labelling[k] == Label.MUST_OUT:
             if all(labelling[a] in [Label.OUT, Label.MUST_OUT] for a in
                    framework.assumptions_which_directly_attack(framework.get_closure(k))):
