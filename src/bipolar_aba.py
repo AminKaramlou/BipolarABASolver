@@ -47,7 +47,7 @@ class BipolarABA:
                 directly_derives = derivations_mapping[assumption].copy()
                 while directly_derives:
                     next = directly_derives.pop()
-                    if next in assumptions:
+                    if next in assumptions and next not in closure:
                         closure.add(next)
                         directly_derives.update(derivations_mapping[next])
                 mapping[assumption] = closure
@@ -60,8 +60,9 @@ class BipolarABA:
                 directly_derived_by = derived_by_mapping[assumption].copy()
                 while directly_derived_by:
                     next = directly_derived_by.pop()
-                    inverse_closure.add(next)
-                    directly_derived_by.update(derived_by_mapping[next])
+                    if next not in inverse_closure:
+                        inverse_closure.add(next)
+                        directly_derived_by.update(derived_by_mapping[next])
 
                 mapping[assumption] = inverse_closure
             return mapping

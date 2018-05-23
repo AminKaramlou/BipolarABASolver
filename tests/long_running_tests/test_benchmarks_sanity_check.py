@@ -10,6 +10,7 @@ class TestBenchmarks(TestCase):
         framework_files = os.listdir(framework_dir)
         self.frameworks = []
         for f in framework_files:
+            print('generating ' + f)
             self.frameworks.append((generate_bipolar_aba_framework_from_file(framework_dir + '/' + f), f))
 
     def test_sanity_checks(self):
