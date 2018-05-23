@@ -17,18 +17,6 @@ def _is_terminal_labelling(labelling):
     return all(val != Label.BLANK for val in labelling.values())
 
 
-def _has_must_in_assumption(framework, labelling):
-    '''
-    :param framework: A BipolarABA object.
-    :param labelling: A dictionary of Assumption, Label pairs.
-    :return: True if there exists a must_in Assumption in framework under labelling in the spirit of [NAD16].
-    '''
-    return any(label == Label.BLANK
-               and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
-                       for a in framework.assumptions_which_directly_attack(framework.get_closure(assumption)))
-               for assumption, label in labelling.items())
-
-
 def _get_next_must_in_assumption(framework, labelling):
     '''
     :param framework: A BipolarABA object.
@@ -46,8 +34,11 @@ def _propagate_labelling(framework, labelling):
     :param labelling: A dictionary of Assumption, Label pairs.
     :return: propagate labelling in framework in the spirit of [NAD16].
     '''
-    while(_has_must_in_assumption(framework, labelling)):
-        must_in_assumption = _get_next_must_in_assumption(framework, labelling)
+    while(True):
+        try:
+            must_in_assumption = _get_next_must_in_assumption(framework, labelling)
+        except StopIteration:
+            break
         closure = framework.get_closure(must_in_assumption)
         add_closure_to_label_in(labelling, closure, framework)
 
