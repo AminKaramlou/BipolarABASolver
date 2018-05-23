@@ -89,17 +89,6 @@ class TestExtensionCalculation(TestCase):
         self.bipolar_aba_framework = BipolarABA(self.language, self.rules, self.assumptions,
                                                 self.assumptions_to_contrary_mapping)
 
-    def test_simple_is_closed_example(self):
-        test_set = {'gamma'}
-        assert not self.bipolar_aba_framework.is_closed(test_set)
-
-    def test_simple_conflict_free_example(self):
-        test_set = {'beta'}
-        assert self.bipolar_aba_framework.is_conflict_free(test_set)
-
-        test_set = {'beta', 'gamma', 'alpha'}
-        assert not self.bipolar_aba_framework.is_conflict_free(test_set)
-
     def test_simple_preferred_extension_calculation(self):
         preferred_extensions = list(self.bipolar_aba_framework.get_preferred_extensions())
         assert {'beta', 'gamma'} in preferred_extensions

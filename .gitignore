@@ -106,3 +106,5 @@ ENV/
 .idea/
 
 ICCMA_benchmarks/*
+
+*.profile

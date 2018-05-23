@@ -15,7 +15,7 @@ class BipolarABA:
         :param assumptions: A set of strings
         :param assumption_to_contrary_mapping: A dictionary of strings to strings
         """
-        def _create_contrary_to_assumption_mapping(assumption_to_contrary_mapping):
+        def _create_contrary_to_assumption_mapping():
             mapping = dict()
             for k, v in assumption_to_contrary_mapping.items():
                 if v in mapping:
@@ -24,48 +24,54 @@ class BipolarABA:
                     mapping[v] = {k}
             return mapping
 
-        def _directly_derives(assumptions, rules):
-            mapping = {}
+        def generate_direct_attacks_and_supports(contrary_to_assumptions_mapping):
+            direct_attacks = {}
+            direct_supports = {}
+            direct_attacked_by = {}
+            direct_supported_by = {}
+
             for a in assumptions:
-                mapping[a] = {rule.consequent for rule in rules if rule.antecedent == a}
-            return mapping
+                direct_attacks[a] = set()
+                direct_supports[a] = set()
+                direct_supported_by[a] = set()
+                contrary = assumption_to_contrary_mapping[a]
+                direct_attacked_by[a] = {contrary} if contrary in assumptions else set()
 
-        def _directly_derived_by(language, rules):
-            mapping = {}
-            for s in language:
-                mapping[s] = {rule.antecedent for rule in rules if rule.consequent == s}
-            return mapping
+            for r in rules:
+                if r.consequent in self.assumptions:
+                    direct_supported_by[r.consequent].add(r.antecedent)
+                    direct_supports[r.antecedent].add(r.consequent)
+                else:
+                    for a in contrary_to_assumptions_mapping[r.consequent]:
+                        direct_attacked_by[a].add(r.antecedent)
+                        direct_attacks[r.antecedent].add(a)
+            return direct_attacks, direct_supports, direct_attacked_by, direct_supported_by
 
-        def _create_closures(assumptions, derivations_mapping):
+        def _create_closure_and_inverse_closure(direct_supports, direct_supported_by):
             '''
-            :param assumptions: An assumption object.
             :return: The closure of the singleton assumption set i.e. Cl(assumption).
             '''
-            mapping = {}
+            closure_mapping = {}
+            inv_closure_mapping = {}
             for assumption in assumptions:
                 closure = {assumption}
-                directly_derives = derivations_mapping[assumption].copy()
-                while directly_derives:
-                    next = directly_derives.pop()
-                    if next in assumptions and next not in closure:
+                supports = direct_supports[assumption].copy()
+                while supports:
+                    next = supports.pop()
+                    if next not in closure:
                         closure.add(next)
-                        directly_derives.update(derivations_mapping[next])
-                mapping[assumption] = closure
-            return mapping
+                        supports.update(direct_supports[next])
+                closure_mapping[assumption] = closure
 
-        def _create_inverse_closures(assumptions, derived_by_mapping):
-            mapping = {}
-            for assumption in assumptions:
-                inverse_closure = {assumption}
-                directly_derived_by = derived_by_mapping[assumption].copy()
-                while directly_derived_by:
-                    next = directly_derived_by.pop()
-                    if next not in inverse_closure:
-                        inverse_closure.add(next)
-                        directly_derived_by.update(derived_by_mapping[next])
-
-                mapping[assumption] = inverse_closure
-            return mapping
+                inv_closure = {assumption}
+                supported_by = direct_supported_by[assumption].copy()
+                while supported_by:
+                    next = supported_by.pop()
+                    if next not in inv_closure:
+                        inv_closure.add(next)
+                        supported_by.update(direct_supported_by[next])
+                inv_closure_mapping[assumption] = inv_closure
+            return closure_mapping, inv_closure_mapping
 
         def _validate_bipolar():
             if assumption_to_contrary_mapping.keys() != assumptions:
@@ -87,11 +93,11 @@ class BipolarABA:
         self.rules = rules
         self.assumptions = assumptions
         self.assumption_to_contrary_mapping = assumption_to_contrary_mapping
-        self.contrary_to_assumption_mapping = _create_contrary_to_assumption_mapping(assumption_to_contrary_mapping)
-        self.directly_derives = _directly_derives(assumptions, rules)
-        self.directly_derived_by = _directly_derived_by(language, rules)
-        self.closure_mapping = _create_closures(assumptions, self.directly_derives)
-        self.inverse_closure_mapping = _create_inverse_closures(assumptions, self.directly_derived_by)
+        self.contrary_to_assumption_mapping = _create_contrary_to_assumption_mapping()
+        self.direct_attacks, self.direct_supports, self.direct_attacked_by, self.direct_supported_by = \
+            generate_direct_attacks_and_supports(self.contrary_to_assumption_mapping)
+        self.closure_mapping, self.inverse_closure_mapping = \
+            _create_closure_and_inverse_closure(self.direct_supports, self.direct_supported_by)
 
     def __str__(self):
         return str(self.__dict__)
@@ -105,13 +111,9 @@ class BipolarABA:
     def assumptions_directly_attacked_by(self, sentence):
         '''
         :param sentence: A string in self.language
-        :return: A set of strings which are assumptions directly derived by a rule with sentence as it's body
+        :return: A set of strings which are assumptions directly attacked by  sentence.
         '''
-        derived_sentences = self.directly_derives[sentence]
-        attacked_assumptions = set()
-        for s in derived_sentences:
-            attacked_assumptions.update(self.contrary_to_assumption_mapping.get(s, {}))
-        return attacked_assumptions
+        return self.direct_attacks[sentence]
 
     def assumptions_which_directly_attack(self, assumption_set):
         '''
@@ -120,30 +122,8 @@ class BipolarABA:
         '''
         result = set()
         for a in assumption_set:
-            result.update({s for s in self.directly_derived_by[self.assumption_to_contrary_mapping[a]]
-                           if s in self.assumptions})
+            result.update(self.direct_attacked_by[a])
         return result
-
-    def deduction_exists(self, to_deduce, sentence, rules):
-        """
-        :param to_deduce: A string
-        :param sentence: A string
-        :return: True, if to_deduce can be deduced from sentence
-        """
-
-        if sentence == to_deduce:
-            return True
-
-        target_rules = {r for r in rules if r.antecedent == sentence}
-        return any(self.deduction_exists(to_deduce, r.consequent, rules - target_rules) for r in target_rules)
-
-    def argument_exists(self, to_deduce, assumption):
-        """
-        :param to_deduce: A string
-        :param assumption: An string
-        :return: True, if there is an argument for to_deduce from assumption
-        """
-        return self.deduction_exists(to_deduce, assumption, self.rules)
 
     def attacks_own_closure(self, assumption):
         '''
@@ -170,24 +150,6 @@ class BipolarABA:
         extensions = set()
         enumerate_set_stable_extensions(self, labelling, extensions)
         return extensions
-
-    # The remaining functions are currently used only for testing
-    def attack_exists(self, attacking_set, target_set):
-        return any(self.argument_exists(self.assumption_to_contrary_mapping[beta], assumption)
-                   for assumption in attacking_set for beta in target_set)
-
-    def is_closed(self, assumption_set):
-        other_assumptions = self.assumptions - assumption_set
-        return not any(r.antecedent in assumption_set and r.consequent in other_assumptions for r in self.rules)
-
-    def is_conflict_free(self, assumption_set):
-        return not self.attack_exists(assumption_set, assumption_set)
-
-    def is_admissible_extension(self, assumption_set):
-        other_assumptions = self.assumptions - assumption_set
-        return self.is_closed(assumption_set) and self.is_conflict_free(assumption_set) and \
-            all(self.attack_exists(assumption_set, {a}) for a in other_assumptions
-                if self.is_closed({a}) and self.attack_exists({a}, assumption_set))
 
 
 class Rule:
