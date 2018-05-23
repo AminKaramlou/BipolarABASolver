@@ -1,5 +1,4 @@
 from unittest import TestCase
-from src.utils import strict_subsets
 from src.baf_parser import generate_baf_framework_from_file
 from src.mappings import map_baf_to_daba_framework
 import os

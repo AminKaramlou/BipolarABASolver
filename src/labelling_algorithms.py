@@ -8,6 +8,7 @@ def add_closure_to_label_in(labelling, closure, framework):
             for a in framework.get_inverse_closure(attacked):
                 labelling[a] = Label.OUT
 
+
 def _is_terminal_labelling(labelling):
     '''
     :param labelling: A dictionary of Assumption, Label pairs.
@@ -81,7 +82,7 @@ def _apply_left_transition_to_labelling(framework, labelling, target_assumption)
             for assumption in framework.get_inverse_closure(attacked):
                 labelling[assumption] = Label.OUT
         for a in framework.assumptions_which_directly_derive(framework.assumption_to_contrary_mapping
-                                                  [target_assumption]):
+                                                             [target_assumption]):
             if labelling[a] != Label.OUT:
                 labelling[a] = Label.MUST_OUT
 
@@ -134,8 +135,8 @@ def assign_initial_labelling_for_preferred_semantics(framework):
         else:
             labelling[a] = Label.BLANK
 
-
     return labelling
+
 
 def enumerate_preferred_extensions(framework, current_labelling, extensions):
     '''
@@ -144,12 +145,16 @@ def enumerate_preferred_extensions(framework, current_labelling, extensions):
     :param extensions: A set of sets of Assumptions.
     :return: extensions will contain all the preferred extensions of framework once execution completed.
     '''
+    print('3')
     _propagate_labelling(framework, current_labelling)
+    print('4')
     if _is_preferred_hopeless_labelling(framework, current_labelling):
         return
 
     while not _is_terminal_labelling(current_labelling):
+        print('5')
         target_assumption = _get_most_influential_assumption(framework, current_labelling)
+        print('6')
         left_labelling = current_labelling.copy()
         _apply_left_transition_to_labelling(framework, left_labelling, target_assumption)
         if not _is_preferred_hopeless_labelling(framework, left_labelling):
@@ -193,6 +198,7 @@ def assign_initial_labelling_for_set_stable_semantics(framework):
             labelling[a] = Label.BLANK
 
     return labelling
+
 
 def _is_set_stable_hopeless_labelling(framework, labelling):
     '''
