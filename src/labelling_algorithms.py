@@ -134,7 +134,6 @@ def assign_initial_labelling_for_preferred_semantics(framework):
 
     return labelling
 
-
 def enumerate_preferred_extensions(framework, current_labelling, extensions):
     '''
     :param framework: A bipolar ABA object,
@@ -192,7 +191,6 @@ def assign_initial_labelling_for_set_stable_semantics(framework):
 
 
     return labelling
-
 
 def _is_set_stable_hopeless_labelling(framework, labelling):
     '''
@@ -265,6 +263,7 @@ def construct_grounded_labelling(framework):
                             for assumption in framework.get_inverse_closure(attacked):
                                 labelling[assumption] = Label.OUT
     return labelling
+
 
 class Label(Enum):
     IN = 1
