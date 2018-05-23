@@ -145,16 +145,12 @@ def enumerate_preferred_extensions(framework, current_labelling, extensions):
     :param extensions: A set of sets of Assumptions.
     :return: extensions will contain all the preferred extensions of framework once execution completed.
     '''
-    print('3')
     _propagate_labelling(framework, current_labelling)
-    print('4')
     if _is_preferred_hopeless_labelling(framework, current_labelling):
         return
 
     while not _is_terminal_labelling(current_labelling):
-        print('5')
         target_assumption = _get_most_influential_assumption(framework, current_labelling)
-        print('6')
         left_labelling = current_labelling.copy()
         _apply_left_transition_to_labelling(framework, left_labelling, target_assumption)
         if not _is_preferred_hopeless_labelling(framework, left_labelling):
