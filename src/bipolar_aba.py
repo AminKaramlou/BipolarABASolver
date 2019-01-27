@@ -125,13 +125,15 @@ class BipolarABA:
 
         # Need to create a layout when doing
         # separate calls to draw nodes and edges
-        pos = nx.spring_layout(G, k=10)
+        pos = nx.spring_layout(G)
         in_nodes = [node for node in G if node in extension]
         out_nodes = [node for node in G if node not in extension]
+        print(out_nodes)
+        print(self.assumptions)
         nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=in_nodes,
-                               node_color='green', node_size=500)
+                               node_color='green', node_size=300)
         nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=out_nodes,
-                               node_color='red', node_size=500)
+                               node_color='red', node_size=300)
         nx.draw_networkx_edges(G, pos, edgelist=attack_edges, edge_color='r', arrows=True, arrowstyle='->',
                                )
         nx.draw_networkx_edges(G, pos, edgelist=support_edges, edge_color='g', arrows=True, arrowstyle='->')

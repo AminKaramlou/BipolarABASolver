@@ -29,4 +29,3 @@ def generate_extensions(semantics, framework, file):
 
     for e in extensions:
         click.echo("Found {} extension: {}".format(semantics, e))
-        baba_f.generate_graph(e)

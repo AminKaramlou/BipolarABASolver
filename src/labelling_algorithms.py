@@ -1,4 +1,7 @@
 from enum import Enum
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import networkx as nx
 
 
 def add_closure_to_label_in(labelling, closure, framework):
@@ -135,6 +138,7 @@ def enumerate_preferred_extensions(framework, current_labelling, extensions):
     :param extensions: A set of sets of Assumptions.
     :return: extensions will contain all the preferred extensions of framework once execution completed.
     '''
+    plot_labelling(framework, current_labelling)
     _propagate_labelling(framework, current_labelling)
     if _is_preferred_hopeless_labelling(framework, current_labelling):
         return
@@ -145,15 +149,22 @@ def enumerate_preferred_extensions(framework, current_labelling, extensions):
         _apply_left_transition_to_labelling(framework, left_labelling, target_assumption)
         if not _is_preferred_hopeless_labelling(framework, left_labelling):
             enumerate_preferred_extensions(framework, left_labelling, extensions)
+        else:
+            plot_labelling(framework, left_labelling)
+            print('hopeless')
 
         _apply_preferred_right_transition_to_labelling(current_labelling, target_assumption)
         if _is_preferred_hopeless_labelling(framework, current_labelling):
+            print('hopeless')
+            plot_labelling(framework, current_labelling)
             return
+        _propagate_labelling(framework, current_labelling)
 
     if _is_admissible_labelling(current_labelling):
         adm_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
         if all(not adm_set <= e for e in extensions):
             extensions.add(adm_set)
+            framework.generate_graph(adm_set)
 
 
 def _apply_set_stable_right_transition_to_labelling(labelling, target_assumption):
@@ -265,6 +276,71 @@ def construct_grounded_labelling(framework):
                     add_assumption_to_label_in(a, labelling)
     return labelling
 
+
+def plot_labelling(framework, labelling):
+    print(labelling)
+    support_edges = []
+    attack_edges = []
+
+    for rule in framework.rules:
+        if rule.consequent in framework.assumption_to_contrary_mapping.values():
+            for assumption in framework.contrary_to_assumption_mapping[rule.consequent]:
+                attack_edges.append((rule.antecedent, assumption))
+        if rule.consequent in framework.assumptions:
+            support_edges.append((rule.antecedent, rule.consequent))
+
+
+
+    G = nx.MultiDiGraph()
+    plt.figure(figsize=(15,8))
+    G.add_edges_from(support_edges + attack_edges)
+
+    # Need to create a layout when doing
+    # separate calls to draw nodes and edges
+    pos = nx.spring_layout(G)
+    in_nodes = [node for node in G if labelling[node] == Label.IN]
+    out_nodes = [node for node in G if labelling[node] == Label.OUT]
+    undec_nodes = [node for node in G if labelling[node] == Label.UNDEC]
+    blank_nodes = [node for node in G if labelling[node] == Label.BLANK]
+    must_out_nodes = [node for node in G if labelling[node] == Label.MUST_OUT]
+
+    nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=in_nodes,
+                           node_color='green', node_size=300)
+    nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=out_nodes,
+                           node_color='red', node_size=300)
+    nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=undec_nodes,
+                           node_color='yellow', node_size=300)
+    nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=blank_nodes,
+                           node_color='whitesmoke', node_size=300)
+    nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=must_out_nodes,
+                           node_color='teal', node_size=300)
+
+    nx.draw_networkx_edges(G, pos, edgelist=attack_edges, edge_color='r', arrows=True, arrowstyle='->',
+                           )
+    nx.draw_networkx_edges(G, pos, edgelist=support_edges, edge_color='g', arrows=True, arrowstyle='->')
+    nx.draw_networkx_labels(G, pos)
+
+    ax = plt.gca()
+    ax.set_axis_off()
+
+    legend_elements = [mpl.lines.Line2D([0], [0], color='g', lw=4, label='Rules of the form a -> b'),
+                       mpl.lines.Line2D([0], [0], color='r', lw=4, label='Rules of the form a -> contrary(b)'),
+                       mpl.lines.Line2D([0], [0], marker='o', color='w', label='IN',
+                                        markerfacecolor='g', markersize=15),
+                       mpl.lines.Line2D([0], [0], marker='o', color='w', label='OUT',
+                                        markerfacecolor='r', markersize=15),
+                       mpl.lines.Line2D([0], [0], marker='o', color='w', label='UNDEC',
+                                        markerfacecolor='yellow', markersize=15),
+                       mpl.lines.Line2D([0], [0], marker='o', color='w', label='BLANK',
+                                        markerfacecolor='whitesmoke', markersize=15),
+                       mpl.lines.Line2D([0], [0], marker='o', color='w', label='MUST_OUT',
+                                        markerfacecolor='teal', markersize=15)]
+
+    ax.legend(handles=legend_elements)
+
+    plt.show(block=False)
+    plt.pause(10)
+    plt.close()
 
 class Label(Enum):
     IN = 1
