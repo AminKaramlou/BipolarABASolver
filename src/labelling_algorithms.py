@@ -116,18 +116,12 @@ def assign_initial_labelling_for_preferred_semantics(framework):
     :return: A dictionary of Assumption, Label objects
     containing the initial preferred labelling of assumptions in the spirit of [NAD16].
     '''
-    grounded_labelling = construct_grounded_labelling(framework)
     labelling = {}
     for a in framework.assumptions:
-        closure = framework.get_closure(a)
-        if grounded_labelling[a] == Label.IN or grounded_labelling[a] == Label.OUT:
-            labelling[a] = grounded_labelling[a]
-        elif framework.attacks_own_closure(a):
-            for assumption in closure:
-                labelling[assumption] = Label.UNDEC
+        if framework.attacks_own_closure(a):
+            labelling[a] = Label.UNDEC
         else:
             labelling[a] = Label.BLANK
-
     return labelling
 
 
@@ -147,6 +141,7 @@ def enumerate_preferred_extensions(framework, current_labelling, extensions):
         target_assumption = _get_most_influential_assumption(framework, current_labelling)
         left_labelling = current_labelling.copy()
         _apply_left_transition_to_labelling(framework, left_labelling, target_assumption)
+        plot_labelling(framework, current_labelling, 'Left transition on {}'.format(target_assumption))
         if not _is_preferred_hopeless_labelling(framework, left_labelling):
             enumerate_preferred_extensions(framework, left_labelling, extensions)
         else:
@@ -154,6 +149,7 @@ def enumerate_preferred_extensions(framework, current_labelling, extensions):
             print('hopeless')
 
         _apply_preferred_right_transition_to_labelling(current_labelling, target_assumption)
+        plot_labelling(framework, current_labelling, 'Right transition on {}'.format(target_assumption))
         if _is_preferred_hopeless_labelling(framework, current_labelling):
             print('hopeless')
             plot_labelling(framework, current_labelling)
@@ -165,6 +161,7 @@ def enumerate_preferred_extensions(framework, current_labelling, extensions):
         if all(not adm_set <= e for e in extensions):
             extensions.add(adm_set)
             framework.generate_graph(adm_set)
+            plot_labelling(framework, current_labelling, 'Found extension!!!')
 
 
 def _apply_set_stable_right_transition_to_labelling(labelling, target_assumption):
@@ -277,7 +274,11 @@ def construct_grounded_labelling(framework):
     return labelling
 
 
+<<<<<<< HEAD
 def plot_labelling(framework, labelling):
+=======
+def plot_labelling(framework, labelling, title):
+>>>>>>> Generate graph of labellings
     print(labelling)
     support_edges = []
     attack_edges = []
@@ -311,7 +312,11 @@ def plot_labelling(framework, labelling):
     nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=undec_nodes,
                            node_color='yellow', node_size=300)
     nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=blank_nodes,
+<<<<<<< HEAD
                            node_color='whitesmoke', node_size=300)
+=======
+                           node_color='darkgrey', node_size=300)
+>>>>>>> Generate graph of labellings
     nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=must_out_nodes,
                            node_color='teal', node_size=300)
 
@@ -332,15 +337,29 @@ def plot_labelling(framework, labelling):
                        mpl.lines.Line2D([0], [0], marker='o', color='w', label='UNDEC',
                                         markerfacecolor='yellow', markersize=15),
                        mpl.lines.Line2D([0], [0], marker='o', color='w', label='BLANK',
+<<<<<<< HEAD
                                         markerfacecolor='whitesmoke', markersize=15),
+=======
+                                        markerfacecolor='darkgrey', markersize=15),
+>>>>>>> Generate graph of labellings
                        mpl.lines.Line2D([0], [0], marker='o', color='w', label='MUST_OUT',
                                         markerfacecolor='teal', markersize=15)]
 
     ax.legend(handles=legend_elements)
 
+<<<<<<< HEAD
     plt.show(block=False)
     plt.pause(10)
     plt.close()
+=======
+    plt.title(title)
+    if title == 'Found extension!!!':
+        plt.show()
+    else:
+        plt.show(block=False)
+        plt.pause(3)
+        plt.close()
+>>>>>>> Generate graph of labellings
 
 class Label(Enum):
     IN = 1
