@@ -129,13 +129,12 @@ class BipolarABA:
         in_nodes = [node for node in G if node in extension]
         out_nodes = [node for node in G if node not in extension]
         nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=in_nodes,
-                               node_color='green', node_size=500, label='assumptions in extension')
+                               node_color='green', node_size=500)
         nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=out_nodes,
-                               node_color='red', node_size=500, label='assumptions not in extension')
+                               node_color='red', node_size=500)
         nx.draw_networkx_edges(G, pos, edgelist=attack_edges, edge_color='r', arrows=True, arrowstyle='->',
                                )
-        nx.draw_networkx_edges(G, pos, edgelist=support_edges, edge_color='g', arrows=True,
-                               label='Rules of the form a -> b')
+        nx.draw_networkx_edges(G, pos, edgelist=support_edges, edge_color='g', arrows=True, arrowstyle='->')
         nx.draw_networkx_labels(G, pos)
 
         ax = plt.gca()
