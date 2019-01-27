@@ -27,6 +27,6 @@ def generate_extensions(semantics, framework, file):
     if semantics == 'stable':
         extensions = baba_f.get_set_stable_extensions()
 
-    baba_f.generate_graph()
     for e in extensions:
         click.echo("Found {} extension: {}".format(semantics, e))
+        baba_f.generate_graph(e)

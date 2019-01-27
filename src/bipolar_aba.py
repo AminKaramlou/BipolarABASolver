@@ -107,30 +107,50 @@ class BipolarABA:
 
     def generate_graph(self, extension):
 
-        G = nx.Digraph
-        pos = nx.layout.spring_layout(G)
+        support_edges = []
+        attack_edges = []
 
-        node_sizes = [3 + 10 * i for i in range(len(G))]
-        M = G.number_of_edges()
-        edge_colors = range(2, M + 2)
-        edge_alphas = [(5 + i) / (M + 4) for i in range(M)]
+        for rule in self.rules:
+            if rule.consequent in self.assumption_to_contrary_mapping.values():
+                for assumption in self.contrary_to_assumption_mapping[rule.consequent]:
+                    attack_edges.append((rule.antecedent, assumption))
+            if rule.consequent in self.assumptions:
+                support_edges.append((rule.antecedent, rule.consequent))
 
-        nodes = nx.draw_networkx_nodes(G, pos, node_size=node_sizes, node_color='blue')
-        edges = nx.draw_networkx_edges(G, pos, node_size=node_sizes, arrowstyle='->',
-                                       arrowsize=10, edge_color=edge_colors,
-                                       edge_cmap=plt.cm.Blues, width=2)
-        # set alpha value for each edge
-        for i in range(M):
-            edges[i].set_alpha(edge_alphas[i])
 
-        pc = mpl.collections.PatchCollection(edges, cmap=plt.cm.Blues)
-        pc.set_array(edge_colors)
-        plt.colorbar(pc)
+
+        G = nx.MultiDiGraph()
+        plt.figure(figsize=(15,8))
+        G.add_edges_from(support_edges + attack_edges)
+
+        # Need to create a layout when doing
+        # separate calls to draw nodes and edges
+        pos = nx.spring_layout(G, k=10)
+        in_nodes = [node for node in G if node in extension]
+        out_nodes = [node for node in G if node not in extension]
+        nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=in_nodes,
+                               node_color='green', node_size=500, label='assumptions in extension')
+        nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=out_nodes,
+                               node_color='red', node_size=500, label='assumptions not in extension')
+        nx.draw_networkx_edges(G, pos, edgelist=attack_edges, edge_color='r', arrows=True, arrowstyle='->',
+                               )
+        nx.draw_networkx_edges(G, pos, edgelist=support_edges, edge_color='g', arrows=True,
+                               label='Rules of the form a -> b')
+        nx.draw_networkx_labels(G, pos)
 
         ax = plt.gca()
         ax.set_axis_off()
-        plt.show()
 
+        legend_elements = [mpl.lines.Line2D([0], [0], color='g', lw=4, label='Rules of the form a -> b'),
+                           mpl.lines.Line2D([0], [0], color='r', lw=4, label='Rules of the form a -> contrary(b)'),
+                           mpl.lines.Line2D([0], [0], marker='o', color='w', label='Assumptions in extension',
+                                            markerfacecolor='g', markersize=15),
+                           mpl.lines.Line2D([0], [0], marker='o', color='w', label='Assumptions not in extension',
+                                            markerfacecolor='r', markersize=15)]
+
+        ax.legend(handles=legend_elements)
+
+        plt.show()
 
     def get_closure(self, assumption):
         return self.closure_mapping[assumption]
