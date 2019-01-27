@@ -1,7 +1,9 @@
 from setuptools import setup, find_packages
 install_requires = [
     'click>=6.7',
-    'pandas>=0.23.0'
+    'pandas>=0.23.0',
+    'networkx>=2.2',
+    'matplotlib>=3.0.2'
 ]
 dev_requires = [
     'coverage>=4.4.1',
