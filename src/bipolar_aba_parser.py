@@ -41,9 +41,9 @@ def generate_bipolar_aba_framework(input_string):
     """
 
     def format_input_string(string):
-        string = re.sub(re.compile("/\*.*?\*/", re.DOTALL), "",
+        string = re.sub(re.compile(r"/\*.*?\*/", re.DOTALL), "",
                         string)  # remove all occurrence of streamed comments (/*COMMENT */) from string
-        string = re.sub(re.compile("\%.*?\n"), "",
+        string = re.sub(re.compile(r"\%.*?\n"), "",
                         string)  # remove all occurrence of single line comments (%COMMENT\n ) from string
         return string.replace('\r', '').replace('\n', '')
 

@@ -117,10 +117,8 @@ class BipolarABA:
             if rule.consequent in self.assumptions:
                 support_edges.append((rule.antecedent, rule.consequent))
 
-
-
         G = nx.MultiDiGraph()
-        plt.figure(figsize=(15,8))
+        plt.figure(figsize=(15, 8))
         G.add_edges_from(support_edges + attack_edges)
 
         # Need to create a layout when doing

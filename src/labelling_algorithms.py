@@ -283,10 +283,8 @@ def plot_labelling(framework, labelling, title):
         if rule.consequent in framework.assumptions:
             support_edges.append((rule.antecedent, rule.consequent))
 
-
-
     G = nx.MultiDiGraph()
-    plt.figure(figsize=(15,8))
+    plt.figure(figsize=(15, 8))
     G.add_edges_from(support_edges + attack_edges)
 
     # Need to create a layout when doing
@@ -339,6 +337,7 @@ def plot_labelling(framework, labelling, title):
         plt.show(block=False)
         plt.pause(3)
         plt.close()
+
 
 class Label(Enum):
     IN = 1
