@@ -146,12 +146,10 @@ def enumerate_preferred_extensions(framework, current_labelling, extensions):
             enumerate_preferred_extensions(framework, left_labelling, extensions)
         else:
             plot_labelling(framework, left_labelling)
-            print('hopeless')
 
         _apply_preferred_right_transition_to_labelling(current_labelling, target_assumption)
         plot_labelling(framework, current_labelling, 'Right transition on {}'.format(target_assumption))
         if _is_preferred_hopeless_labelling(framework, current_labelling):
-            print('hopeless')
             plot_labelling(framework, current_labelling)
             return
         _propagate_labelling(framework, current_labelling)
@@ -274,12 +272,7 @@ def construct_grounded_labelling(framework):
     return labelling
 
 
-<<<<<<< HEAD
-def plot_labelling(framework, labelling):
-=======
 def plot_labelling(framework, labelling, title):
->>>>>>> Generate graph of labellings
-    print(labelling)
     support_edges = []
     attack_edges = []
 
@@ -312,11 +305,7 @@ def plot_labelling(framework, labelling, title):
     nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=undec_nodes,
                            node_color='yellow', node_size=300)
     nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=blank_nodes,
-<<<<<<< HEAD
-                           node_color='whitesmoke', node_size=300)
-=======
                            node_color='darkgrey', node_size=300)
->>>>>>> Generate graph of labellings
     nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=must_out_nodes,
                            node_color='teal', node_size=300)
 
@@ -337,21 +326,12 @@ def plot_labelling(framework, labelling, title):
                        mpl.lines.Line2D([0], [0], marker='o', color='w', label='UNDEC',
                                         markerfacecolor='yellow', markersize=15),
                        mpl.lines.Line2D([0], [0], marker='o', color='w', label='BLANK',
-<<<<<<< HEAD
-                                        markerfacecolor='whitesmoke', markersize=15),
-=======
                                         markerfacecolor='darkgrey', markersize=15),
->>>>>>> Generate graph of labellings
                        mpl.lines.Line2D([0], [0], marker='o', color='w', label='MUST_OUT',
                                         markerfacecolor='teal', markersize=15)]
 
     ax.legend(handles=legend_elements)
 
-<<<<<<< HEAD
-    plt.show(block=False)
-    plt.pause(10)
-    plt.close()
-=======
     plt.title(title)
     if title == 'Found extension!!!':
         plt.show()
@@ -359,7 +339,6 @@ def plot_labelling(framework, labelling, title):
         plt.show(block=False)
         plt.pause(3)
         plt.close()
->>>>>>> Generate graph of labellings
 
 class Label(Enum):
     IN = 1
