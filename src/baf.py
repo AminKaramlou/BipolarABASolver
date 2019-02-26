@@ -21,5 +21,5 @@ class BAF:
             raise InvalidBAFException("Attack relation must be defined over arguments.")
         for (supporter, supported) in self.supports:
             if not (supporter in self.arguments and supported in self.arguments):
-                raise InvalidBAFException("Support relation must be defined over arguments. {} sup {}"
+                raise InvalidBAFException("Support relation must be defined over arguments."
                                           .format(supporter, supported))

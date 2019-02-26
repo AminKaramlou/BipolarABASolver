@@ -158,7 +158,6 @@ def enumerate_preferred_extensions(framework, current_labelling, extensions):
         adm_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
         if all(not adm_set <= e for e in extensions):
             extensions.add(adm_set)
-            framework.generate_graph(adm_set)
             plot_labelling(framework, current_labelling, 'Found extension!!!')
 
 
@@ -272,7 +271,7 @@ def construct_grounded_labelling(framework):
     return labelling
 
 
-def plot_labelling(framework, labelling, title):
+def plot_labelling(framework, labelling, title=''):
     support_edges = []
     attack_edges = []
 
@@ -331,12 +330,12 @@ def plot_labelling(framework, labelling, title):
     ax.legend(handles=legend_elements)
 
     plt.title(title)
+    plt.show(block=False)
     if title == 'Found extension!!!':
-        plt.show()
+        plt.pause(10)
     else:
-        plt.show(block=False)
         plt.pause(3)
-        plt.close()
+    plt.close()
 
 
 class Label(Enum):

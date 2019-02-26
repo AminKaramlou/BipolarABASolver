@@ -105,52 +105,6 @@ class BipolarABA:
     def __str__(self):
         return str(self.__dict__)
 
-    def generate_graph(self, extension):
-
-        support_edges = []
-        attack_edges = []
-
-        for rule in self.rules:
-            if rule.consequent in self.assumption_to_contrary_mapping.values():
-                for assumption in self.contrary_to_assumption_mapping[rule.consequent]:
-                    attack_edges.append((rule.antecedent, assumption))
-            if rule.consequent in self.assumptions:
-                support_edges.append((rule.antecedent, rule.consequent))
-
-        G = nx.MultiDiGraph()
-        plt.figure(figsize=(15, 8))
-        G.add_edges_from(support_edges + attack_edges)
-
-        # Need to create a layout when doing
-        # separate calls to draw nodes and edges
-        pos = nx.spring_layout(G)
-        in_nodes = [node for node in G if node in extension]
-        out_nodes = [node for node in G if node not in extension]
-        print(out_nodes)
-        print(self.assumptions)
-        nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=in_nodes,
-                               node_color='green', node_size=300)
-        nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), nodelist=out_nodes,
-                               node_color='red', node_size=300)
-        nx.draw_networkx_edges(G, pos, edgelist=attack_edges, edge_color='r', arrows=True, arrowstyle='->',
-                               )
-        nx.draw_networkx_edges(G, pos, edgelist=support_edges, edge_color='g', arrows=True, arrowstyle='->')
-        nx.draw_networkx_labels(G, pos)
-
-        ax = plt.gca()
-        ax.set_axis_off()
-
-        legend_elements = [mpl.lines.Line2D([0], [0], color='g', lw=4, label='Rules of the form a -> b'),
-                           mpl.lines.Line2D([0], [0], color='r', lw=4, label='Rules of the form a -> contrary(b)'),
-                           mpl.lines.Line2D([0], [0], marker='o', color='w', label='Assumptions in extension',
-                                            markerfacecolor='g', markersize=15),
-                           mpl.lines.Line2D([0], [0], marker='o', color='w', label='Assumptions not in extension',
-                                            markerfacecolor='r', markersize=15)]
-
-        ax.legend(handles=legend_elements)
-
-        plt.show()
-
     def get_closure(self, assumption):
         return self.closure_mapping[assumption]
 
