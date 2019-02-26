@@ -33,6 +33,9 @@ The following papers provide a background on argumentation theory and this proje
  - Francesca Toni: [A tutorial on assumption-based argumentation](https://www.tandfonline.com/doi/abs/10.1080/19462166.2013.869878). A great introductory tutorial to Assumption Based Argumentation (ABA). This is one of the best known formalisms for structured argumentation. In fact, bipolar ABA frameworks are a subset of ABA frameworks. 
  - Kristijonas Cyras, Claudia Schulz, and Francesca Toni: [Capturing Bipolar Argumentation in Non-flat Assumption-Based Argumentation](https://www.sciencedirect.com/science/article/pii/000437029400041X). The paper which introduces the bipolar ABA formalism and proves many of the results which have been used to implement our system.
 
+For more detailed information about this project refer to the following report:
+ - Amin Karamlou: [Complexity Results, Algorithms and an Implementation for Bipolar Argumentation](http://www.doc.ic.ac.uk/~mak514/MastersReport.pdf).
+ 
 ## Developing  
   
 The project comes with a set of commands you can use to run common operations for your stack:  
