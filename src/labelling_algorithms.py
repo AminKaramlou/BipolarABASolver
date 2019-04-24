@@ -1,4 +1,5 @@
 from enum import Enum
+import json
 
 
 def add_closure_to_label_in(labelling, closure, framework):
@@ -154,6 +155,42 @@ def enumerate_preferred_extensions(framework, current_labelling, extensions):
         adm_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
         if all(not adm_set <= e for e in extensions):
             extensions.add(adm_set)
+
+
+def enumerate_preferred_extensions_with_steps(framework, current_labelling, extensions):
+    '''
+    :param framework: A bipolar ABA object,
+    :param current_labelling: A dictionary of Assumption, Label objects.
+    :param extensions: A set of sets of Assumptions.
+    :return: extensions will contain all the preferred extensions of framework once execution completed.
+    '''
+    _propagate_labelling(framework, current_labelling)
+    yield json.dumps({'status': 'post-propagation', 'labelling': str(current_labelling)})
+    if _is_preferred_hopeless_labelling(framework, current_labelling):
+        yield json.dumps({'status': 'hopeless', 'labelling': str(current_labelling)})
+        return
+
+    while not _is_terminal_labelling(current_labelling):
+        target_assumption = _get_most_influential_assumption(framework, current_labelling)
+        left_labelling = current_labelling.copy()
+        _apply_left_transition_to_labelling(framework, left_labelling, target_assumption)
+        yield json.dumps({'status': 'post-left-transition', 'labelling': str(left_labelling)})
+        if not _is_preferred_hopeless_labelling(framework, left_labelling):
+            yield from enumerate_preferred_extensions_with_steps(framework, left_labelling, extensions)
+        else:
+            yield json.dumps({'status': 'hopeless', 'labelling': str(left_labelling)})
+
+        _apply_preferred_right_transition_to_labelling(current_labelling, target_assumption)
+        yield json.dumps({'status': 'post-right-transition', 'labelling': str(current_labelling)})
+        if _is_preferred_hopeless_labelling(framework, current_labelling):
+            yield json.dumps({'status': 'hopeless', 'labelling': str(left_labelling)})
+            return
+
+    if _is_admissible_labelling(current_labelling):
+        adm_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
+        if all(not adm_set <= e for e in extensions):
+            extensions.add(adm_set)
+            yield json.dumps({'status': 'extension', 'labelling': str(current_labelling)})
 
 
 def _apply_set_stable_right_transition_to_labelling(labelling, target_assumption):

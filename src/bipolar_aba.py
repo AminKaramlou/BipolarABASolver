@@ -1,5 +1,7 @@
 from src.labelling_algorithms import assign_initial_labelling_for_set_stable_semantics, \
-    assign_initial_labelling_for_preferred_semantics, enumerate_preferred_extensions, enumerate_set_stable_extensions
+    assign_initial_labelling_for_preferred_semantics, enumerate_preferred_extensions, enumerate_set_stable_extensions, enumerate_preferred_extensions_with_steps
+
+import json
 
 
 class NonBipolarException(Exception):
@@ -141,6 +143,12 @@ class BipolarABA:
         extensions = set()
         enumerate_preferred_extensions(self, labelling, extensions)
         return extensions
+
+    def get_preferred_extensions_step_by_step(self):
+        labelling = assign_initial_labelling_for_preferred_semantics(self)
+        yield json.dumps({'status': 'initial', 'labelling': str(labelling)})
+        extensions = set()
+        yield from enumerate_preferred_extensions_with_steps(self, labelling, extensions)
 
     def get_set_stable_extensions(self):
         '''
