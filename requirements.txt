@@ -5,6 +5,7 @@
 #    pip-compile --output-file requirements.txt setup.py
 #
 click==6.7
+flask-cors==3.0.7
 flask==1.0.2
 itsdangerous==1.1.0       # via flask
 jinja2==2.10.1            # via flask
@@ -13,5 +14,5 @@ numpy==1.14.3             # via pandas
 pandas==0.23.0
 python-dateutil==2.7.3    # via pandas
 pytz==2018.4              # via pandas
-six==1.11.0               # via python-dateutil
+six==1.11.0               # via flask-cors, python-dateutil
 werkzeug==0.15.2          # via flask

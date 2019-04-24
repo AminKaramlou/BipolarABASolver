@@ -2,7 +2,8 @@ from setuptools import setup, find_packages
 install_requires = [
     'click>=6.7',
     'pandas>=0.23.0',
-    'flask>=1.0.0'
+    'flask>=1.0.0',
+    'flask-Cors>=3.0.7'
 ]
 dev_requires = [
     'coverage>=4.4.1',
