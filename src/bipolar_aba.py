@@ -146,7 +146,7 @@ class BipolarABA:
 
     def get_preferred_extensions_step_by_step(self):
         labelling = assign_initial_labelling_for_preferred_semantics(self)
-        yield {'status': 'initial', 'labelling': str(labelling)}
+        yield {'status': 'initial', 'labelling': labelling}
         extensions = set()
         yield from enumerate_preferred_extensions_with_steps(self, labelling, extensions)
 
