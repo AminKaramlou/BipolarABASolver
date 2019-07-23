@@ -31,22 +31,38 @@ class BipolarABA:
             direct_supports = {}
             direct_attacked_by = {}
             direct_supported_by = {}
+            substitutions = {}
 
-            for a in assumptions:
-                direct_attacks[a] = set()
-                direct_supports[a] = set()
-                direct_supported_by[a] = set()
-                contrary = assumption_to_contrary_mapping[a]
-                direct_attacked_by[a] = {contrary} if contrary in assumptions else set()
+            for s in language:
+                direct_attacks[s] = set()
+                direct_supports[s] = set()
+                direct_supported_by[s] = set()
+                direct_attacked_by[s] = set()
+                substitutions[s] = set()
 
             for r in rules:
+                if r.consequent in contrary_to_assumptions_mapping:
+                    for a in contrary_to_assumptions_mapping[r.consequent]:
+                        direct_attacked_by[a].add(r.antecedent)
+                        direct_attacks[r.antecedent].add(a)
                 if r.consequent in self.assumptions:
                     direct_supported_by[r.consequent].add(r.antecedent)
                     direct_supports[r.antecedent].add(r.consequent)
                 else:
-                    for a in contrary_to_assumptions_mapping[r.consequent]:
-                        direct_attacked_by[a].add(r.antecedent)
-                        direct_attacks[r.antecedent].add(a)
+                    substitutions[r.consequent].add(r.antecedent)
+
+            while substitutions:
+                non_assumption, targets = substitutions.popitem()
+                for s in direct_supports[non_assumption]:
+                    if s not in self.assumptions:
+                        if s in substitutions:
+                            substitutions[s] = substitutions[s].union(direct_supported_by[non_assumption])
+                for s in targets:
+                    direct_supported_by[s] = direct_supported_by[s].union(direct_supported_by[non_assumption])
+                    direct_attacked_by[s] = direct_attacked_by[s].union(direct_attacked_by[non_assumption])
+                    direct_supports[s] = direct_supports[s].union(direct_supports[non_assumption])
+                    direct_attacks[s] = direct_attacks[s].union(non_assumption)
+
             return direct_attacks, direct_supports, direct_attacked_by, direct_supported_by
 
         def _create_closure_and_inverse_closure(direct_supports, direct_supported_by):
@@ -82,13 +98,6 @@ class BipolarABA:
                 if a not in language or c not in language:
                     raise NonBipolarException("Assumptions and contraries"
                                               " in a BipolarABA framework should be part of the language.")
-            for r in rules:
-                if r.consequent not in assumptions and r.consequent not in assumption_to_contrary_mapping.values():
-                    raise NonBipolarException("The head of a rule in a BipolarABA framework must be an assumption or "
-                                              "the contrary of an assumption.")
-                if r.antecedent not in assumptions:
-                    raise NonBipolarException("The body of a rule in a BipolarABA framework can only"
-                                              " contain assumptions.")
 
         _validate_bipolar()
         self.language = language
