@@ -173,8 +173,6 @@ def enumerate_preferred_extensions_with_steps(framework, current_labelling, exte
     :param extensions: A set of sets of Assumptions.
     :return: extensions will contain all the preferred extensions of framework once execution completed.
     '''
-    for a in framework.assumptions:
-        print(type(current_labelling[a]))
     _propagate_labelling(framework, current_labelling)
     yield {'status': 'post-propagation', 'labelling': current_labelling.copy()}
     if _is_preferred_hopeless_labelling(framework, current_labelling):
@@ -200,6 +198,7 @@ def enumerate_preferred_extensions_with_steps(framework, current_labelling, exte
         adm_set = frozenset({a for a, label in current_labelling.items() if label == Label.IN})
         if all(not adm_set <= e for e in extensions):
             extensions.add(adm_set)
+            print('extension found')
             yield {'status': 'extension found', 'labelling': current_labelling.copy()}
 
 
