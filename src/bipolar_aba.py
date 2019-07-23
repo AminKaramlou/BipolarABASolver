@@ -1,5 +1,7 @@
 from src.labelling_algorithms import assign_initial_labelling_for_set_stable_semantics, \
-    assign_initial_labelling_for_preferred_semantics, enumerate_preferred_extensions, enumerate_set_stable_extensions
+    assign_initial_labelling_for_preferred_semantics, enumerate_preferred_extensions, enumerate_set_stable_extensions, enumerate_preferred_extensions_with_steps, enumerate_set_stable_extensions_with_steps
+
+import json
 
 
 class NonBipolarException(Exception):
@@ -138,9 +140,17 @@ class BipolarABA:
         :return: A set containing all preferred extensions of the framework.
         '''
         labelling = assign_initial_labelling_for_preferred_semantics(self)
+
         extensions = set()
         enumerate_preferred_extensions(self, labelling, extensions)
         return extensions
+
+    def get_preferred_extensions_step_by_step(self):
+        labelling = assign_initial_labelling_for_preferred_semantics(self)
+        labelling_to_send = labelling
+        yield {'status': 'initial labelling', 'labelling': labelling.copy()}
+        extensions = set()
+        yield from enumerate_preferred_extensions_with_steps(self, labelling, extensions)
 
     def get_set_stable_extensions(self):
         '''
@@ -151,6 +161,11 @@ class BipolarABA:
         enumerate_set_stable_extensions(self, labelling, extensions)
         return extensions
 
+    def get_set_stable_extensions_step_by_step(self):
+        labelling = assign_initial_labelling_for_set_stable_semantics(self)
+        yield {'status': 'initial labelling', 'labelling': labelling.copy()}
+        extensions = set()
+        yield from enumerate_set_stable_extensions_with_steps(self, labelling, extensions)
 
 class Rule:
     def __init__(self, antecedent, consequent):
