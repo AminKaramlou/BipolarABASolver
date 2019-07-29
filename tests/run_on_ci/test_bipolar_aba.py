@@ -24,27 +24,6 @@ class TestBipolarABAcreation(TestCase):
         assert bipolar_aba_framework.rules == self.rules
         assert bipolar_aba_framework.assumptions == self.assumptions
 
-    def test_framework_creation_with_invalid_rule_head_throws_exception(self):
-
-        rule_5 = Rule('alpha', 'psi')
-
-        self.rules.add(rule_5)
-
-        with pytest.raises(NonBipolarException) as e:
-            BipolarABA(self.language, self.rules, self.assumptions, self.assumptions_to_contrary_mapping)
-        assert str(e.value) == "The head of a rule in a BipolarABA framework must be an assumption or " \
-                               "the contrary of an assumption."
-
-    def test_framework_creation_with_non_assumption_in_rule_body_throws_exception(self):
-
-        rule_5 = Rule('psi', 'gamma')
-
-        self.rules.add(rule_5)
-
-        with pytest.raises(NonBipolarException) as e:
-            BipolarABA(self.language, self.rules, self.assumptions, self.assumptions_to_contrary_mapping)
-        assert str(e.value) == "The body of a rule in a BipolarABA framework can only contain assumptions."
-
     def test_assumption_not_in_language_throws_exception(self):
 
         self.assumptions.add('Not in language')
@@ -98,4 +77,5 @@ class TestExtensionCalculation(TestCase):
     def test_simple_set_stable_extension_calculation(self):
         set_stable_extensions = list(self.bipolar_aba_framework.get_set_stable_extensions())
         assert {'alpha'} in set_stable_extensions
+        print(set_stable_extensions)
         assert len(set_stable_extensions) == 1
