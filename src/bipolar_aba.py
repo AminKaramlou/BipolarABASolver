@@ -32,8 +32,9 @@ class BipolarABA:
             direct_attacked_by = {}
             direct_supported_by = {}
 
+
             for a in assumptions:
-                direct_attacks[a] = set()
+                direct_attacks[a] = contrary_to_assumptions_mapping[a] if a in contrary_to_assumptions_mapping else set()
                 direct_supports[a] = set()
                 direct_supported_by[a] = set()
                 contrary = assumption_to_contrary_mapping[a]
@@ -47,6 +48,12 @@ class BipolarABA:
                     for a in contrary_to_assumptions_mapping[r.consequent]:
                         direct_attacked_by[a].add(r.antecedent)
                         direct_attacks[r.antecedent].add(a)
+
+            print(direct_attacked_by)
+            print(direct_attacks)
+            print(direct_supports)
+            print(direct_supported_by)
+
             return direct_attacks, direct_supports, direct_attacked_by, direct_supported_by
 
         def _create_closure_and_inverse_closure(direct_supports, direct_supported_by):
