@@ -58,10 +58,7 @@ class BipolarABA:
                     print(r)
                     substitutions[r.consequent].add(r.antecedent)
 
-            print(substitutions)
-            print('here')
             while substitutions:
-                print('should not enter')
                 non_assumption, targets = substitutions.popitem()
                 for s in direct_supports[non_assumption]:
                     if s not in self.assumptions:

@@ -31,7 +31,8 @@ def generate_bipolar_aba_framework_from_file(filename):
     file = open(filename, 'r')
     input = file.read()
     file.close()
-    return generate_bipolar_aba_framework(input)
+    framework = generate_bipolar_aba_framework(input)
+    return framework
 
 
 def generate_bipolar_aba_framework(input_string):

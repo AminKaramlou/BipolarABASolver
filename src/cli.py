@@ -13,7 +13,7 @@ from src.mappings import map_baf_to_naba_framework
 @click.option('--file',
               help='Path to file defining the argumentation framework.')
 def generate_extensions(semantics, framework, file):
-    if framework == 'AF' or 'BAF-N':
+    if framework == 'AF' or framework == 'BAF-N':
         baf = generate_baf_framework_from_file(file)
         baba_f = map_baf_to_naba_framework(baf)
     if framework == 'BAF-D':
