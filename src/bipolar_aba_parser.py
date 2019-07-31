@@ -59,6 +59,9 @@ def generate_bipolar_aba_framework(input_string):
     rule_declarations = [decl for decl in declarations if RULE_PREDICATE in decl]
     rules = generate_rules(rule_declarations)
 
+    for rule in rules:
+        language.add(rule.consequent)
+        language.add(rule.antecedent)
     return BipolarABA(language, rules, assumption_symbols, assumption_to_contrary_mapping)
 
 

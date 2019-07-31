@@ -33,6 +33,8 @@ class BipolarABA:
             direct_supported_by = {}
             substitutions = {}
 
+
+            print(language)
             for s in language:
                 direct_attacks[s] = contrary_to_assumptions_mapping[s] if s in contrary_to_assumptions_mapping else set()
                 direct_supports[s] = set()
@@ -53,9 +55,13 @@ class BipolarABA:
                     direct_supported_by[r.consequent].add(r.antecedent)
                     direct_supports[r.antecedent].add(r.consequent)
                 else:
+                    print(r)
                     substitutions[r.consequent].add(r.antecedent)
 
+            print(substitutions)
+            print('here')
             while substitutions:
+                print('should not enter')
                 non_assumption, targets = substitutions.popitem()
                 for s in direct_supports[non_assumption]:
                     if s not in self.assumptions:
