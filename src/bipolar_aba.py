@@ -34,7 +34,7 @@ class BipolarABA:
             substitutions = {}
 
             for s in language:
-                direct_attacks[s] = set()
+                direct_attacks[s] = contrary_to_assumptions_mapping[s] if s in contrary_to_assumptions_mapping else set()
                 direct_supports[s] = set()
                 direct_supported_by[s] = set()
                 if s in assumptions:
@@ -67,9 +67,6 @@ class BipolarABA:
                     direct_supports[s] = direct_supports[s].union(direct_supports[non_assumption])
                     direct_attacks[s] = direct_attacks[s].union(direct_attacks[non_assumption])
 
-
-            print(direct_attacks)
-            print(direct_supports)
             return direct_attacks, direct_supports, direct_attacked_by, direct_supported_by
 
         def _create_closure_and_inverse_closure(direct_supports, direct_supported_by):
