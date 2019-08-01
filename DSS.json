@@ -1,0 +1,527 @@
+{
+	"DSS" :
+	{
+		"proposedDiagnosis" :
+		[
+			{
+				"resource": {
+					"reference" : {
+						"resourceType" : "Observation",
+						"id" : "COPD.group",
+						"text": "COPD GOLD group"
+					},
+					"result" : {
+						"code": "D",
+						"display" : "COPD GOLD group D"
+					},	
+					"other" : 
+					{
+						"drugTypePreference" : 
+						{
+							"preference" :
+							[
+								{
+									"reference":
+									{
+										"refId":"COPD.group",
+										"resultCode":"A"
+									},
+									"entry":
+									{
+										"preferred" : {
+											"refId":"lamaLaba"
+										},
+										"alternative" : 
+										[
+											{
+												"refId" : "saba"
+											},
+											{
+												"refId": "sama"
+											}
+										]
+									}
+								},
+								{
+									"reference":
+									{
+										"refId":"COPD.group",
+										"resultCode":"B" 
+									},
+									"entry":
+									{
+										"preferred" : {
+											"refId":"lamaLaba"
+										},
+										"alternative" : 
+										[
+											{
+												"refId" : "lama"
+											},
+											{
+												"refId": "laba"
+											}
+										]
+									}
+								},
+								{
+									"reference":
+									{
+										"refId":"COPD.group",
+										"resultCode":"D" 
+									},
+									"entry":
+									{
+										"preferred" : {
+											"refId":"lamaLaba"
+										},
+										"alternative" : 
+										[
+											{
+												"refId" : "lama"
+											},
+											{
+												"refId": "labaIcs"
+											}
+										]
+									}
+
+								},
+								{
+									"reference":
+									{
+										"refId":"COPD.group",
+										"resultCode":"D" 
+									},
+									"entry":
+									{
+										"preferred" : {
+											"refId":"lamaLaba"
+										},
+										"alternative" : 
+										[
+											{
+												"refId" : "lamaLabaIcs"
+											},
+											{
+												"refId": "labaIcs"
+											}
+										]
+									}
+
+								}
+							],
+							"range" : 
+							[
+								{
+									"drugCategory":{
+										"id":"saba", 
+										"display":"administer SABA",
+										"treatmentPathway": 
+										{
+												"id" : "COPD.group",
+												"stage" :
+												[
+													{
+														"code":"A"
+													}
+												]
+										}	
+									},
+									"drugType" : 
+									[
+										{
+											"type":"SABA",
+											"display":"short-acting beta agonist"
+										}
+									]	
+								},
+								{
+									"drugCategory":{
+										"id":"sama",
+										"display":"administer SAMA",
+										"treatmentPathway": 
+										{
+											"id" : "COPD.group",
+											"stage" :
+											[
+												{
+													"code":"A"
+												}
+											]
+										}	
+									},
+									"drugType" : 
+									[
+										{
+											"type":"SAMA",
+											"display":"short-acting muscarinic antagonist"
+											 
+										}
+									]	
+								},
+								{
+									"drugCategory":{
+										"id":"sabaSama",
+										"display":"administer SABA + SAMA combination inhaler",
+										"treatmentPathway": 
+										{
+											"id" : "COPD.group",
+											"stage" :
+											[
+												{
+													"code":"A"
+												}
+											]
+										}	
+									},
+									"drugType" : 
+									[
+										{
+											"type":"SAMA",
+											"display":"short-acting muscarinic antagonist"
+											 
+										},
+										{
+											"type":"SABA",
+											"display":"short-acting beta agonist"
+											 
+										}
+									]	
+								},
+								{
+									"drugCategory":{
+										"id":"laba",
+										"display":"administer LABA",
+										"treatmentPathway": 
+										{
+											"id" : "COPD.group",
+											"stage" :
+											[
+												{
+													"code":"B"
+												}
+											]
+										}
+									},
+									"drugType" : 
+									[
+										{
+											"type":"LABA",
+											"display":"long-acting beta agonist"
+										}
+									]	
+								},
+								{
+									"drugCategory":{
+										"id":"lama",
+										"display":"administer LAMA",
+										"treatmentPathway": 
+										{
+											"id" : "COPD.group",
+											"stage" :
+											[
+												{
+													"code":"B"
+												},
+												{
+													"code":"C"
+												},
+												{
+													"code":"D"
+												}
+											]
+										}
+									},
+									"drugType" : 
+									[
+										{
+											"type":"LAMA",
+											"display":"long-acting muscarinic antagonist"
+										}
+									]
+								},
+								{
+									"drugCategory":{
+										"id":"glucocorticoids",
+										"display":"administer glucocorticoids",
+										"treatmentPathway": 
+										{
+											"id" : "COPD.group",
+											"stage" :
+											[
+												{
+													"code":"UNDEFINED" 
+												}
+											]
+										}
+									},
+									"drugType" : 
+									[
+										{
+											"type":"Glucocorticoids",
+											"display":"glucocorticoids"
+										}
+									]	
+								},
+								{
+									"drugCategory":{
+										"id":"labaLama",
+										"display":"administer a LABA + LAMA combination inhaler",
+										"treatmentPathway": 
+										{
+											"id" : "COPD.group",
+											"stage" :
+											[
+												{
+													"code":"B" 
+												},
+												{
+													"code":"C" 
+												},
+												{
+													"code":"D" 
+												}
+											]
+										}
+									},
+									"drugType" : 
+									[
+										{
+											"type":"LABA",
+											"display":"long-acting beta agonist"
+										},
+										{
+											"type":"LAMA",
+											"display":"long-acting muscarinic antagonist"
+										}
+									]	
+								},
+								{
+									"drugCategory":{
+										"id":"labaIcs",
+										"display":"administer a LABA + ICS combination inhaler",
+										"treatmentPathway": 
+										{
+											"id" : "COPD.group",
+											"stage" :
+											[
+												{
+													"code":"C" 
+												},
+												{
+													"code":"D" 
+												}
+											]
+										}
+									},
+									"drugType" : 
+									[
+										{
+											"type":"LABA",
+											"display":"long-acting beta agonist"
+										},
+										{
+											"type":"ICS",
+											"display":"inhaled corticosteroids"
+										}
+									]	
+								},
+								{
+									"drugCategory":{
+										"id":"lamaLabaIcs",
+										"display":"administer a LAMA + LABA + ICS combination inhaler",
+										"treatmentPathway": 
+										{
+											"id" : "COPD.group",
+											"stage" :
+											[
+												{
+													"code":"D" 
+												}
+											]
+										}
+									},
+									"drugType" : 
+									[
+										{
+											"type":"LAMA",
+											"display":"long-acting muscarinic antagonist"
+										},
+										{
+											"type":"LABA",
+											"display":"long-acting beta agonist"
+										},
+										{
+											"type":"ICS",
+											"display":"inhaled corticosteroids"
+										}
+									]	
+								}
+							]
+						}
+					}
+				}
+			}
+		]
+	},
+	"TMR" :
+	{
+		"guidelineGroup" : 
+		[
+			{
+				"id" : "COPDGroupNocomorbidities",
+				"reference" :
+				{
+					"refId" : "COPD.group",
+					"resultCode": "D"	
+				},
+				"interaction" :
+				[
+					{
+						"type" : "alternative",
+						"recommendation" :
+						[
+							{
+								"refId" : "sabaSamaMaintainsMildCopdRecommend",
+								"type" : "primary"
+							},
+							{
+								"refId":"labaMaintainsMildCopdRecommend",
+								"type":"primary"
+							}
+						]
+					},
+					{
+						"type" : "contradiction",
+						"recommendation" :
+						[
+							{
+								"refId" : "sabaSamaMaintainsMildCopdRecommend",
+								"type" : "primary" 
+							},
+							{
+								"refId":"sabaMaintainsMildCopdNonrecommend",
+								"type":"primary"
+							}
+						]
+					},
+					{
+						"type" : "repetition",
+						"recommendation" :
+						[
+							{
+								"refId" : "sabaSamaMaintainsMildCopdRecommend",
+								"type" : "primary" 
+							},
+							{
+								"refId":"sabaMaintainsMildCopdNonrecommend",
+								"type":"primary"
+							}
+						]
+					},
+					{
+						"type" : "repairable",
+						"recommendation" :
+						[
+							{
+								"refId" : "chemotherapyIncreasesFatigueNonrecommend",
+								"type" : "secondary" 
+							},
+							{
+								"refId":"exerciseDecreasesFatigueRecommend",
+								"type":"primary"
+							}
+						]
+					}
+				],
+				"recommendation" : 
+				[
+					{
+					"id" : "sabaSamaMaintainsMildCopdRecommend",
+					"text" : "Clinician should recommend administering a combination of short acting bronchodilators to improve FEV1 and blah." ,
+					"suggestion" : "recommend",
+					"author" : "Jesus" ,
+					"causationBelief" :
+					{
+						"id" : "sabaSamaMaintainsMildCopd",
+						"careAction" :
+						{
+							"type" : "administrationOf",
+							"value" : 
+							{
+								"refId" : "sabaSama"
+							}
+						},
+						"Transition" :
+						{
+							"id" : "MaintainMildCOPD",
+							"effect" : "maintain",
+							"property" : "AirflowLimitation",
+							"situation" : 
+							[
+								{
+								"id" : "MildAirflowLimitation",
+								"type" : "hasTransformableSituation",
+								"coding" : "Mild",
+								"text" : "Mild airflow limitation severity with FEV1 >= 80% predicted."
+								},
+								{
+								"id" : "MildAirflowLimitation",
+								"type" : "hasExpectedSituation",
+								"value" : "Mild",
+								"text" : "Mild airflow limitation severity with FEV1 >= 80% predicted."
+								}
+							]
+						}		
+					},
+					"frequency" : "always",
+					"strength" : "High Level"	
+					},
+					{
+						"id" : "exerciseDecreasesFatigueRecommend",
+						"text" : "Clinician should recommend some standard exercise therapy to decrease fatigue levels when patient is blah." ,
+						"suggestion" : "recommend",
+						"author" : "Jesus" ,
+						"causationBelief" :
+						{
+							"id" : "exerciseDecreasesFatigue",
+							"careAction" :
+							{
+								"type" : "perform",
+								"value" :
+								{
+									"refId" : "stdExerciseTherapy",
+									"display" : "standard exercise therapy"
+								}
+							},
+							"Transition" :
+							{
+								"id" : "decreaseFatigue",
+								"effect" : "decrease",
+								"property" : "fatigueLevel", 
+								"situation" : 
+								[
+									{
+										"id" : "highFatigueLevel",
+										"type" : "hasTransformableSituation",
+										"coding" : "high",
+										"text" : "patient experiencing high levels of fatigue when performing tasks"
+									},
+									{
+										"id" : "normalFatigueLevel",
+										"type" : "hasExpectedSituation",
+										"value" : "normal",
+										"text" : "patient experiencing a common level of fatigue when performing tasks"
+									}
+								]
+							}		
+						},
+							"frequency" : "always",
+							"strength" : "High Level"
+					}
+				]
+			}
+		]
+	}
+}

@@ -73,18 +73,19 @@ class BipolarABA:
             direct_attacked_by = {key: {a for a in value if a in assumptions} for (key, value) in direct_attacked_by.items() if key in assumptions}
             direct_supported_by = {key: {a for a in value if a in assumptions} for (key, value) in direct_supported_by.items() if key in assumptions}
 
+            for a in direct_attacks:
+                for target in direct_attacks[a].copy():
+                    if (a, target) in strict_preferences:
+                        direct_attacks[a].remove(target)
+                        direct_attacked_by[target].remove(a)
+                        direct_attacked_by[a].add(target)
+                        direct_attacks[target].add(a)
+
             print('------------------------------------------------------------')
             print(direct_attacks)
             print(direct_supports)
             print(direct_attacked_by)
             print(direct_supported_by)
-
-            for a in direct_attacks:
-                for target in direct_attacks[a]:
-                    if (target, a) in strict_preferences:
-                        direct_attacks[a].remove(target)
-                        direct_attacked_by[a].add(target)
-                        direct_attacks[target].add(a)
 
             return direct_attacks, direct_supports, direct_attacked_by, direct_supported_by
 

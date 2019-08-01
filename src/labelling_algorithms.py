@@ -25,7 +25,6 @@ def _get_next_must_in_assumption(framework, labelling):
     :param labelling: A dictionary of Assumption, Label pairs.
     :return: A must_in Assumption in framework under labelling in the spirit of [NAD16].
     '''
-    print(labelling)
     return next(assumption for assumption, label in labelling.items() if label == Label.BLANK
                 and all(labelling[a] in [Label.OUT, Label.MUST_OUT]
                         for a in framework.assumptions_which_directly_attack(framework.get_closure(assumption))))
