@@ -10,7 +10,7 @@ class NonBipolarException(Exception):
 
 
 class BipolarABA:
-    def __init__(self, language, rules, assumptions, assumption_to_contrary_mapping):
+    def __init__(self, language, rules, assumptions, assumption_to_contrary_mapping, preferences=[]):
         """
         :param language: A set of strings
         :param rules: A set of rules
@@ -34,7 +34,6 @@ class BipolarABA:
             substitutions = {}
 
 
-            print(language)
             for s in language:
                 direct_attacks[s] = contrary_to_assumptions_mapping[s] if s in contrary_to_assumptions_mapping else set()
                 direct_supports[s] = set()
@@ -44,7 +43,7 @@ class BipolarABA:
                     direct_attacked_by[s] = {contrary} if contrary in assumptions else set()
                 else:
                     direct_attacked_by[s] = set()
-                substitutions[s] = set()
+                    substitutions[s] = set()
 
             for r in rules:
                 if r.consequent in contrary_to_assumptions_mapping:
@@ -55,7 +54,6 @@ class BipolarABA:
                     direct_supported_by[r.consequent].add(r.antecedent)
                     direct_supports[r.antecedent].add(r.consequent)
                 else:
-                    print(r)
                     substitutions[r.consequent].add(r.antecedent)
 
             while substitutions:
@@ -69,6 +67,24 @@ class BipolarABA:
                     direct_attacked_by[s] = direct_attacked_by[s].union(direct_attacked_by[non_assumption])
                     direct_supports[s] = direct_supports[s].union(direct_supports[non_assumption])
                     direct_attacks[s] = direct_attacks[s].union(direct_attacks[non_assumption])
+
+            direct_attacks = {key: {a for a in value if a in assumptions} for (key, value) in direct_attacks.items() if key in assumptions}
+            direct_supports = {key: {a for a in value if a in assumptions} for (key, value) in direct_supports.items() if key in assumptions}
+            direct_attacked_by = {key: {a for a in value if a in assumptions} for (key, value) in direct_attacked_by.items() if key in assumptions}
+            direct_supported_by = {key: {a for a in value if a in assumptions} for (key, value) in direct_supported_by.items() if key in assumptions}
+
+            print('------------------------------------------------------------')
+            print(direct_attacks)
+            print(direct_supports)
+            print(direct_attacked_by)
+            print(direct_supported_by)
+
+            for a in direct_attacks:
+                for target in direct_attacks[a]:
+                    if (target, a) in preferences:
+                        direct_attacks[a].remove(target)
+                        direct_attacked_by[a].add(target)
+                        direct_attacks[target].add(a)
 
             return direct_attacks, direct_supports, direct_attacked_by, direct_supported_by
 
@@ -116,6 +132,7 @@ class BipolarABA:
             generate_direct_attacks_and_supports(self.contrary_to_assumption_mapping)
         self.closure_mapping, self.inverse_closure_mapping = \
             _create_closure_and_inverse_closure(self.direct_supports, self.direct_supported_by)
+        self.preferences = preferences
 
     def __str__(self):
         return str(self.__dict__)
