@@ -10,7 +10,7 @@ class NonBipolarException(Exception):
 
 
 class BipolarABA:
-    def __init__(self, language, rules, assumptions, assumption_to_contrary_mapping, preferences=[]):
+    def __init__(self, language, rules, assumptions, assumption_to_contrary_mapping, strict_preferences=[], non_strict_preferences=[]):
         """
         :param language: A set of strings
         :param rules: A set of rules
@@ -81,7 +81,7 @@ class BipolarABA:
 
             for a in direct_attacks:
                 for target in direct_attacks[a]:
-                    if (target, a) in preferences:
+                    if (target, a) in strict_preferences:
                         direct_attacks[a].remove(target)
                         direct_attacked_by[a].add(target)
                         direct_attacks[target].add(a)
@@ -132,7 +132,8 @@ class BipolarABA:
             generate_direct_attacks_and_supports(self.contrary_to_assumption_mapping)
         self.closure_mapping, self.inverse_closure_mapping = \
             _create_closure_and_inverse_closure(self.direct_supports, self.direct_supported_by)
-        self.preferences = preferences
+        self.strict_preferences = strict_preferences
+        self.non_strict_preferences = non_strict_preferences
 
     def __str__(self):
         return str(self.__dict__)

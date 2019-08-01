@@ -15,10 +15,15 @@ CONTR_PREDICATE = "contrary"
 # myRule(a, [b,c]). means {b,c} |- a
 RULE_PREDICATE = "myRule"
 
+STRICT_PREFERENCES_PREDICATE= "myPrefLT"
+NON_STRICT_PREFERENCES_PREDICATE= "myPrefLE"
+
 
 ASSUMP_REGEX = r"myAsm\((.+)\)"
 CONTR_REGEX = r"contrary\((.+),(.+)\)"
 RULE_REGEX = r"myRule\((.+),\[(.*)\]\)"
+STRICT_PREFERENCES_REGEX = r"myPrefLT\((.+),(.+)\)"
+NON_STRICT_PREFERENCES_REGEX = r"myPrefLE\((.+),(.+)\)"
 
 DUPLICATE_USE_FOUND = "_duplicate"
 
@@ -60,10 +65,15 @@ def generate_bipolar_aba_framework(input_string):
     rule_declarations = [decl for decl in declarations if RULE_PREDICATE in decl]
     rules = generate_rules(rule_declarations)
 
+    strict_preferences_declarations = [decl for decl in declarations if STRICT_PREFERENCES_PREDICATE in decl]
+    non_strict_preferences_declarations = [decl for decl in declarations if NON_STRICT_PREFERENCES_PREDICATE in decl]
+
+    strict_preferences, non_strict_preferences = generate_preferences(strict_preferences_declarations, non_strict_preferences_declarations)
+
     for rule in rules:
         language.add(rule.consequent)
         language.add(rule.antecedent)
-    return BipolarABA(language, rules, assumption_symbols, assumption_to_contrary_mapping)
+    return BipolarABA(language, rules, assumption_symbols, assumption_to_contrary_mapping, strict_preferences, non_strict_preferences)
 
 
 def generate_assumption_symbols(assump_decls):
@@ -134,6 +144,34 @@ def generate_rules(rule_decls):
 
     return rules
 
+def generate_preferences(strict_preference_declarations, non_strict_preferences_declarations):
+    """
+    :param assump_decls: A list of assumption declarations
+    :return: A set of assumption symbols(strings) generated from assumption declarations
+    """
+    symbols = set()
+
+    strict_preferences = set()
+    non_strict_preferences = set()
+
+    for decl in strict_preference_declarations:
+        # remove spaces
+        cleaned_decl = decl.replace(" ", "")
+        match = re.match(STRICT_PREFERENCES_REGEX, cleaned_decl)
+        if match:
+            a1 = match.group(1)
+            a2 = match.group(2)
+            strict_preferences.add((a1, a2))
+
+    for decl in non_strict_preferences_declarations:
+        cleaned_decl = decl.replace(" ", "")
+        match = re.match(NON_STRICT_PREFERENCES_REGEX, cleaned_decl)
+        if match:
+            a1 = match.group(1)
+            a2 = match.group(2)
+            non_strict_preferences.add((a1, a2))
+
+    return strict_preferences, non_strict_preferences
 
 class InvalidContraryDeclarationException(Exception):
     def __init__(self, message):
