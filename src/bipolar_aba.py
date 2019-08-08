@@ -1,7 +1,8 @@
 from src.labelling_algorithms import assign_initial_labelling_for_set_stable_semantics, \
     assign_initial_labelling_for_preferred_semantics, enumerate_preferred_extensions, enumerate_set_stable_extensions, enumerate_preferred_extensions_with_steps, enumerate_set_stable_extensions_with_steps
 
-import json
+
+
 
 
 class NonBipolarException(Exception):
@@ -25,6 +26,18 @@ class BipolarABA:
                 else:
                     mapping[v] = {k}
             return mapping
+
+        def is_preference_relation_cyclic():
+            path = set()
+            def visit(a):
+                path.add(a)
+                for pref in self.strict_preferences:
+                    if pref[0] == a:
+                        if pref[1] in path or visit(pref[1]):
+                            return True
+                path.remove(a)
+                return False
+            return not any(visit(a) for a in assumptions)
 
         def generate_direct_attacks_and_supports(contrary_to_assumptions_mapping):
             direct_attacks = {}
@@ -81,12 +94,6 @@ class BipolarABA:
                         direct_attacked_by[a].add(target)
                         direct_attacks[target].add(a)
 
-            print('------------------------------------------------------------')
-            print(direct_attacks)
-            print(direct_supports)
-            print(direct_attacked_by)
-            print(direct_supported_by)
-
             return direct_attacks, direct_supports, direct_attacked_by, direct_supported_by
 
         def _create_closure_and_inverse_closure(direct_supports, direct_supported_by):
@@ -122,6 +129,8 @@ class BipolarABA:
                 if a not in language or c not in language:
                     raise NonBipolarException("Assumptions and contraries"
                                               " in a BipolarABA framework should be part of the language.")
+            if is_preference_relation_cyclic():
+                raise NonBipolarException("The preference relationship cannot be cyclic.")
 
         _validate_bipolar()
         self.language = language
@@ -201,6 +210,19 @@ class BipolarABA:
         yield {'status': 'initial labelling', 'labelling': labelling.copy()}
         extensions = set()
         yield from enumerate_set_stable_extensions_with_steps(self, labelling, extensions)
+
+    def get_consequences(self, sentences):
+        result = sentences.copy()
+        changed = True
+
+        while changed:
+            changed = False
+            for r in self.rules:
+                if r.antecedent <= result:
+                    result.add(r.antecedent)
+                    changed = True
+
+        return result
 
 class Rule:
     def __init__(self, antecedent, consequent):
