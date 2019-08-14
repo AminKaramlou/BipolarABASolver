@@ -35,6 +35,7 @@ setup(
     },
     entry_points = '''
     [console_scripts]
-    generate_extensions=src.cli:generate_extensions
+    bipolar-ABA-solver-generate-extensions=src.cli:generate_extensions
+    bipolar-ABA-solver-generate-explanations=src.cli:generate_explanations
     ''',
 )

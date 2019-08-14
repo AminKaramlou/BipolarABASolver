@@ -6,6 +6,7 @@ import sys
 def print_aba_plus_framework_to_file(file_name, framework):
     with open(file_name, 'w') as file:
         file.write(framework_as_string(framework))
+    return file_name
 
 
 def framework_as_string(framework):
@@ -18,18 +19,19 @@ def framework_as_string(framework):
     return '\n'.join(assumptions + contraries + rules + strict_preferences + non_strict_preferences)
 
 
-def transform_DSS_input_to_aba_plus_file(dss_json_path):
+def transform_dss_input_to_aba_plus_file(dss_json_path):
     with open(dss_json_path, 'r') as f:
         data = json.load(f)
 
     tmr_data = data['TMR']
     dss_data = data['DSS']
-    for guideline_group in tmr_data['guidelineGroup']:
-        interactions = guideline_group['interaction']
-        recommendations = guideline_group['recommendation']
-        context= {} # TODO: add preferences once this is added to DSS.json
-        framework = map_tmr_to_aba_plus_framework(recommendations, interactions, dss_data)
-        print_aba_plus_framework_to_file(guideline_group['id'], framework)
+
+    guideline_group = tmr_data['guidelineGroup']
+    interactions = guideline_group['interactions']
+    recommendations = guideline_group['recommendations']
+
+    framework = map_tmr_to_aba_plus_framework(recommendations, interactions, dss_data)
+    return print_aba_plus_framework_to_file(guideline_group['id'], framework)
 
 
 def map_tmr_to_aba_plus_framework(recommendations, interactions, dss_data):
@@ -51,43 +53,42 @@ def create_assumptions(recommendations, interactions):
     assumptions = [r['id'] for r in recommendations]
     for i in interactions:
         if i['type'] == 'repairable':
-            primary_recommendation = next(r for r in i['recommendation'] if r['type'] == 'primary')
-            assumptions.append('needs_repair({})'.format(primary_recommendation['refId']))
+            primary_recommendation = next(r for r in i['interactionNorms'] if r['type'] == 'primary')
+            assumptions.append('needs_repair({})'.format(primary_recommendation['recId']))
     return assumptions
 
 
 def create_rules(recommendations, interactions):
     rules = []
     for r in recommendations:
-        transition = r['causationBelief']['Transition']
+        transition = r['causationBelief']['transition']
         effect = transition['effect']
         property = transition['property']
-        initial_value = next(s['id'] for s in transition['situation'] if s['type'] =='hasTransformableSituation')
-        final_value = next(s['id'] for s in transition['situation'] if s['type'] =='hasExpectedSituation')
-        action = r['causationBelief']['careAction']
-        action_text = action['type'] + '_' + action['value']['refId']
+        initial_value = next(s['id'] for s in transition['situationTypes'] if s['type'] =='hasTransformableSituation')
+        final_value = next(s['id'] for s in transition['situationTypes'] if s['type'] =='hasExpectedSituation')
+        action = r['causationBelief']['careActionTypeId']
 
         if r['suggestion'] == 'recommend':
-            rules.append((action_text, [r['id']])) # Action rules
-            rules.append((effect + '_' + property, [action_text])) # Effect rules
+            rules.append((action, [r['id']])) # Action rules
+            rules.append((effect + '_' + property, [action])) # Effect rules
             rules.append((final_value + '_' + property, [initial_value + '_' + property, effect + '_' + property])) # Value rules
 
         elif r['suggestion'] == 'nonrecommend':
-            rules.append(('not_' + action_text, [r['id']])) # Action rules
-            rules.append(('not_' + effect + '_' + property, ['not_' + action_text])) # Effect rules
+            rules.append(('not_' + action, [r['id']])) # Action rules
+            rules.append(('not_' + effect + '_' + property, ['not_' + action])) # Effect rules
             rules.append(('not_' + final_value + '_' + property, [initial_value + '_' + property, 'not_' + effect + '_' + property])) # Value rules
 
     for i in interactions:
         if i['type'] == 'contradiction' or i['type'] == 'alternative' or i['type'] == 'repetition':
-            r1 = i['recommendation'][0]['refId']
-            r2 = i['recommendation'][1]['refId']
+            r1 = i['interactionNorms'][0]['recId']
+            r2 = i['interactionNorms'][1]['recId']
 
             rules.append(('c_' + r1, [r2]))
             rules.append(('c_' + r2, [r1]))
 
         elif i['type'] == 'repairable':
-            primary_rec = next (r['refId'] for r in i['recommendation'] if r['type'] == 'primary')
-            secondary_rec = next (r['refId'] for r in i['recommendation'] if r['type'] == 'secondary')
+            primary_rec = next (r['recId'] for r in i['interactionNorms'] if r['type'] == 'primary')
+            secondary_rec = next (r['recId'] for r in i['interactionNorms'] if r['type'] == 'secondary')
 
             rules.append((secondary_rec, [primary_rec, 'needs_repair({})'.format(primary_rec)]))
             rules.append(('c_needs_repair({})'.format(primary_rec), [secondary_rec]))
@@ -97,36 +98,22 @@ def create_rules(recommendations, interactions):
 
 def create_guideline_preferences(recommendations, dss_data):
     strict_preferences = []
-    stage = dss_data['proposedDiagnosis'][0]['resource']['result']['code']
+    stage = dss_data['proposedDiagnosis']['resource']['result']['code']
 
-    for preference in dss_data['proposedDiagnosis'][0]['resource']['other']['drugTypePreference']['preference']:
+    for preference in dss_data['proposedDiagnosis']['resource']['other']['drugTypePreferences']:
         if preference['reference']['resultCode'] == stage:
             preferred = preference['entry']['preferred']['refId']
             alternatives = [alt['refId'] for alt in preference['entry']['alternative']]
             preferred_recs = []
             alternative_recs = []
 
-            print(preferred)
-            print(alternatives)
-
             for r in recommendations:
-                if r['causationBelief']['careAction']['value']['refId'] == preferred:
-                    print('here')
+                if r['causationBelief']['careActionTypeId'] == preferred:
                     preferred_recs.append(r['refId'])
-                if r['causationBelief']['careAction']['value']['refId'] in alternatives:
-                    print('here')
+                if r['causationBelief']['careActionTypeId'] in alternatives:
                     alternative_recs.append(r['refId'])
 
             for p in preferred_recs:
                 for a in alternative_recs:
                     strict_preferences.append((p, a))
         return strict_preferences
-
-
-def main():
-    # print command line arguments
-    for arg in sys.argv[1:]:
-        transform_DSS_input_to_aba_plus_file(arg)
-
-if __name__ == "__main__":
-    main()

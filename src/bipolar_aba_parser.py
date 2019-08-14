@@ -68,8 +68,6 @@ def generate_bipolar_aba_framework(input_string):
     strict_preferences_declarations = [decl for decl in declarations if STRICT_PREFERENCES_PREDICATE in decl]
     non_strict_preferences_declarations = [decl for decl in declarations if NON_STRICT_PREFERENCES_PREDICATE in decl]
 
-    print(strict_preferences_declarations)
-
     strict_preferences, non_strict_preferences = generate_preferences(strict_preferences_declarations, non_strict_preferences_declarations)
 
     for rule in rules:

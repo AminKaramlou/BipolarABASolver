@@ -31,13 +31,14 @@ class BipolarABA:
             path = set()
             def visit(a):
                 path.add(a)
-                for pref in self.strict_preferences:
+                for pref in strict_preferences:
                     if pref[0] == a:
                         if pref[1] in path or visit(pref[1]):
                             return True
                 path.remove(a)
                 return False
-            return not any(visit(a) for a in assumptions)
+
+            return any((visit(a) for a in assumptions))
 
         def generate_direct_attacks_and_supports(contrary_to_assumptions_mapping):
             direct_attacks = {}

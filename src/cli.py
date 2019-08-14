@@ -3,7 +3,8 @@ from src.baf_parser import generate_baf_framework_from_file
 from src.bipolar_aba_parser import generate_bipolar_aba_framework_from_file
 from src.mappings import map_baf_to_daba_framework
 from src.mappings import map_baf_to_naba_framework
-
+from src.explanations import get_explanations_json
+from src.tmr_to_aba_plus import transform_dss_input_to_aba_plus_file
 
 @click.command()
 @click.option('--semantics', type=click.Choice(['preferred', 'stable']),
@@ -28,3 +29,14 @@ def generate_extensions(semantics, framework, file):
         extensions = baba_f.get_set_stable_extensions()
     for e in extensions:
         click.echo("Found {} extension: {}".format(semantics, e))
+
+@click.command()
+@click.option('--file',
+              help='Path to file defining the DSS json data.')
+def generate_explanations(file):
+    framework_file_name = "COPDGroupNocomorbidities"
+    baba_f = generate_bipolar_aba_framework_from_file(framework_file_name)
+    extensions = baba_f.get_preferred_extensions()
+    click.echo("--------------------------Explanations follow-----------------------")
+    explanation = get_explanations_json(baba_f, extensions, file)
+    click.echo(explanation)
