@@ -1,0 +1,325 @@
+{
+    "EHR": 
+    {
+		"selectedTreatment" :
+		{ 
+                "resource": 
+                {  
+                    "reference" : 
+                    {
+						"resourceType" : "Observation",
+						"id" : "COPD.group",
+						"text": "COPD GOLD group"
+					},
+					"result" : {
+						"code": "B",
+						"display" : "COPD GOLD group B"
+					},	
+					"other" : 
+					{
+                        "drugTypePreference" :
+						{
+								"reference":
+								{
+										"refId":"COPD.group",
+										"resultCode":"B"
+								},
+								"entry":
+                                {
+                                    "preferred" : 
+                                    {
+										    "administrationOf":"http://anonymous.org/data/ActAdministerLaba"
+								    }
+						        }							
+					    }
+				    }
+			    }
+        }
+    },
+	    "DSS" :
+	    {
+		    "proposedTreatment":
+		    {    
+				"resource": {  
+					"reference" : {
+						"resourceType" : "Observation",
+						"id" : "COPD.group",
+						"text": "COPD GOLD group"
+					},
+					"result" : {
+						"code": "B",
+						"display" : "COPD GOLD group B"
+					},	
+					"other" : 
+					{
+                        "drugAdministrationTypes" :
+							{
+								"range":
+								[
+									{
+										"administrationOf" : "http://anonymous.org/data/ActAdministerSaba"
+									},
+									{
+										"administrationOf" : "http://anonymous.org/data/ActAdministerSama"
+									}
+								]
+							},
+                            "drugTypePreferences" :
+							{
+								"reference":
+								{
+										"refId":"COPD.group",
+										"resultCode":"B"
+								},
+								"entries":
+								[ 
+								   {
+                                    "preferred" : 
+                                    {
+										"administrationOf":"http://anonymous.org/data/ActAdministerLaba"
+									},
+									"alternative" : 
+									[
+										{
+											"administrationOf" : "http://anonymous.org/data/ActAdministerLabaLama"
+										}
+									]
+                                    },
+                                    {
+                                        "preferred" : 
+                                        {
+                                            "administrationOf":"http://anonymous.org/data/ActAdministerLama"
+                                        },
+                                        "alternative" : 
+                                        [
+                                            {
+                                                "administrationOf" : "http://anonymous.org/data/ActAdministerLabaLama"
+                                            }
+                                        ]
+                                        }
+								]
+							}							
+					}
+				}
+			}
+	},
+	"TMR" :
+	{
+		"guidelineGroup" :
+		{
+				"id" : "CIG-19941105T0815300500",
+				"reference" : 
+				{
+					"refId" : "COPD.group",
+					"resultCode": "B"	
+				},
+				"interactions" :
+				[
+					{
+						"type" : "alternative",
+						"interactionNorms" :
+						[
+							{
+								"recId" : "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should",
+								"type" : "primary" 
+							},
+							{
+								"recId":"http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should",
+								"type":"primary"
+                            },
+                            {
+								"recId":"http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stage2Should",
+								"type":"primary"
+							}
+						]
+					},
+					{
+						"type" : "repetition",
+						"interactionNorms" :
+						[
+							{
+								"recId" : "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should",
+								"type" : "primary" 
+							},
+							{
+								"recId":"http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should",
+								"type":"primary"
+                            },
+                            {
+								"recId":"http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stage2Should",
+								"type":"primary"
+							}
+						]
+					}
+				],
+				"recommendations" :
+				[
+					{
+					"id" : "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should",
+                    "text" : "Clinician should recommend administering LABA" ,
+                    "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
+					"suggestion" : "recommend", 
+					"causationBelief" :
+					{
+                        "careActionTypeId" : "http://anonymous.org/data/ActAdministerLaba",
+						"aboutExecutionOf" : "administer LABA",
+						"transition" :
+						{
+
+							"effect" : "decrease",
+							"property" : "COPD stage",
+							"situationTypes" :
+							[
+								{
+                                "id" : "ModerateAirflowLimitation",
+								"type" : "hasTransformableSituation",
+								"value" : "a moderate airflow limitation severity"
+								},
+								{
+                                "id" : "MildAirflowLimitation",
+								"type" : "hasExpectedSituation",
+								"value" : "a mild airflow limitation severity"
+								}
+							]
+						}		
+					},
+					"frequency" : "always",
+                    "strength" : "High Level",
+                    "author" : "Jesus"
+                    },
+                    {
+                        "id" : "http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should",
+                        "text" : "Clinician should recommend administering LAMA" ,
+                        "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
+                        "suggestion" : "recommend", 
+                        "causationBelief" :
+                        {
+                            "id" : "http://anonymous.org/data/CBLamaDecreaseCOPD.stage2",
+                            "careActionTypeId" : "http://anonymous.org/data/ActAdministerLaba",
+                            "aboutExecutionOf" : "administer LAMA",
+                            "transition" :
+                            {
+                                "id" : "http://anonymous.org/data/TrDecrease-COPD.stage2",
+                                "effect" : "decrease",
+                                "property" : "COPD stage",
+                                "situationTypes" :
+                                [
+                                    {
+                                    "id" : "ModerateAirflowLimitation",
+                                    "type" : "hasTransformableSituation",
+                                    "value" : "a moderate airflow limitation severity"
+                                    },
+                                    {
+                                    "id" : "MildAirflowLimitation",
+                                    "type" : "hasExpectedSituation",
+                                    "value" : "a mild airflow limitation severity"
+                                    }
+                                ]
+                            }		
+                        },
+                        "frequency" : "always",
+                        "strength" : "High Level",
+                        "author" : "Jesus"
+                        },
+                        {
+                            "id" : "http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stage2Should",
+                            "text" : "Clinician should recommend administering LABA + LAMA" ,
+                            "motivation": "A combination of bronchodilators is recommended as initial therapy for patients with  severe breathlessness. Also for patients on monotherapy with persistent breathlessness",
+                            "suggestion" : "recommend", 
+                            "causationBelief" :
+                            {
+                                "id" : "http://anonymous.org/data/CBLabaDecreaseCOPD.stage2",
+                                "careActionTypeId" : "http://anonymous.org/data/ActAdministerLaba",
+                                "aboutExecutionOf" : "administer LABA",
+                                "transition" :
+                                {
+                                    "id" : "http://anonymous.org/data/TrDecrease-COPD.stage2",
+                                    "effect" : "decrease",
+                                    "property" : "COPD stage",
+                                    "situationTypes" :
+                                    [
+                                        {
+                                        "id" : "ModerateAirflowLimitation",
+                                        "type" : "hasTransformableSituation",
+                                        "value" : "a moderate airflow limitation severity"
+                                        },
+                                        {
+                                        "id" : "MildAirflowLimitation",
+                                        "type" : "hasExpectedSituation",
+                                        "value" : "a mild airflow limitation severity"
+                                        }
+                                    ]
+                                }		
+                            },
+                            "frequency" : "always",
+                            "strength" : "High Level",
+                            "author" : "Jesus"
+                        },
+                        {
+                            "id" : "http://anonymous.org/data/RecDiagnosis.copd-Smoking.status-SmokingCessationDecreaseAirflow.limitation.severityShould",
+                            "text" : "Clinician should encourage patient to quit smoking" ,
+                            "motivation": "Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved",
+                            "suggestion" : "recommend", 
+                            "causationBelief" :
+                            {
+                                "careActionTypeId" : "http://anonymous.org/data/ActAdministerPerformSmokeCessationTherapy",
+                                "aboutExecutionOf" : "perform smoking cessation therapy",
+                                "transition" :
+                                {
+                                    "effect" : "decrease",
+                                    "property" : "Smoking status",
+                                    "situationTypes" :
+                                    [
+                                        {
+                                        "id": "LowAirflowLimitationWhileInhalingAndExhaling",
+                                        "type" : "hasTransformableSituation", 
+                                        "value" : "having a low airflow limitation when inhaling and exhaling"
+                                        },
+                                        {
+                                        "id": "ImprovedAirflowLimitationWhileInhalingAndExhaling",
+                                        "type" : "hasExpectedSituation",
+                                        "value" : "an improvement in airflow limitation when inhaling and exhaling"
+                                        }
+                                    ]
+                                }		
+                            },
+                            "frequency" : "always",
+                            "strength" : "High Level",
+                            "author" : "Jesus"
+                        },
+                        {
+                            "id" : "http://anonymous.org/data/RecDiagnosis.copd-Vaccine.pneumococcal.status-PneumococcalVaccineDecreaseVaccine.pneumococcal.statusShould",
+                            "text" : "Clinician should recommend administering Pneumococcal vaccine" ,
+                            "motivation": "Pneumococcal vaccinations PCV13 and PPSV23 are recommended for all 65 years old patients or older. PPSV23 is also recommended for younger COPD patients with significant comorbid conditions",
+                            "suggestion" : "recommend", 
+                            "causationBelief" :
+                            {
+                              "careActionTypeId" : "http://anonymous.org/data/ActAdministerPneumococcalVaccine",
+                              "aboutExecutionOf" : "administer pneumococcal",
+                                "transition" :
+                                {
+                                    "effect" : "increase",
+                                    "property" : "Vaccine pneumococcal",
+                                    "situationTypes" :
+                                    [
+                                        {
+                                        "id": "IncreasedPneumoniaRisk",
+                                        "type" : "hasTransformableSituation", 
+                                        "value" : "an increased risk of contracting both pneumococcal disease and community-acquired Pneumonia"
+                                        },
+                                        {
+                                        "id": "DecreasedPneumoniaRisk",
+                                        "type" : "hasExpectedSituation",
+                                        "value" : "a decreased risk of contracting both pneumococcal disease and community-acquired Pneumonia"
+                                        }
+                                    ]
+                                }		
+                            },
+                            "frequency" : "always",
+                            "strength" : "High Level",
+                            "author" : "Jesus"
+                        }
+				]
+			}
+	}
+}

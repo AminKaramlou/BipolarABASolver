@@ -34,7 +34,7 @@ def generate_extensions(semantics, framework, file):
 @click.option('--file',
               help='Path to file defining the DSS json data.')
 def generate_explanations(file):
-    framework_file_name = "COPDGroupNocomorbidities"
+    framework_file_name = transform_dss_input_to_aba_plus_file(file)
     baba_f = generate_bipolar_aba_framework_from_file(framework_file_name)
     extensions = baba_f.get_preferred_extensions()
     click.echo("--------------------------Explanations follow-----------------------")

@@ -54,7 +54,7 @@ def create_assumptions(recommendations, interactions):
     for i in interactions:
         if i['type'] == 'repairable':
             primary_recommendation = next(r for r in i['interactionNorms'] if r['type'] == 'primary')
-            assumptions.append('needs_repair({})'.format(primary_recommendation['recId']))
+            assumptions.append('needs_repair({})'.format(primary_recommendation['id']))
     return assumptions
 
 
@@ -80,11 +80,15 @@ def create_rules(recommendations, interactions):
 
     for i in interactions:
         if i['type'] == 'contradiction' or i['type'] == 'alternative' or i['type'] == 'repetition':
-            r1 = i['interactionNorms'][0]['recId']
-            r2 = i['interactionNorms'][1]['recId']
+            print("interaction")
+            for current_rec in i['interactionNorms']:
+                for other_rec in i['interactionNorms']:
+                    r1 = current_rec['recId']
+                    r2 = other_rec['recId']
 
-            rules.append(('c_' + r1, [r2]))
-            rules.append(('c_' + r2, [r1]))
+                    if r1 != r2:
+                        print('appending')
+                        rules.append(('c_' + r1, [r2]))
 
         elif i['type'] == 'repairable':
             primary_rec = next (r['recId'] for r in i['interactionNorms'] if r['type'] == 'primary')
@@ -98,22 +102,21 @@ def create_rules(recommendations, interactions):
 
 def create_guideline_preferences(recommendations, dss_data):
     strict_preferences = []
-    stage = dss_data['proposedDiagnosis']['resource']['result']['code']
+    stage = dss_data['proposedTreatment']['resource']['result']['code']
 
-    for preference in dss_data['proposedDiagnosis']['resource']['other']['drugTypePreferences']:
-        if preference['reference']['resultCode'] == stage:
-            preferred = preference['entry']['preferred']['refId']
-            alternatives = [alt['refId'] for alt in preference['entry']['alternative']]
-            preferred_recs = []
-            alternative_recs = []
+    for preference in dss_data['proposedTreatment']['resource']['other']['drugTypePreferences']['entries']:
+        preferred = preference['preferred']['administrationOf']
+        alternatives = [alt['administrationOf'] for alt in preference['alternative']]
+        preferred_recs = []
+        alternative_recs = []
 
-            for r in recommendations:
-                if r['causationBelief']['careActionTypeId'] == preferred:
-                    preferred_recs.append(r['refId'])
-                if r['causationBelief']['careActionTypeId'] in alternatives:
-                    alternative_recs.append(r['refId'])
+        for r in recommendations:
+            if r['causationBelief']['careActionTypeId'] == preferred:
+                preferred_recs.append(r['id'])
+            if r['causationBelief']['careActionTypeId'] in alternatives:
+                alternative_recs.append(r['id'])
 
-            for p in preferred_recs:
-                for a in alternative_recs:
-                    strict_preferences.append((p, a))
+        for p in preferred_recs:
+            for a in alternative_recs:
+                strict_preferences.append((p, a))
         return strict_preferences
