@@ -80,14 +80,12 @@ def create_rules(recommendations, interactions):
 
     for i in interactions:
         if i['type'] == 'contradiction' or i['type'] == 'alternative' or i['type'] == 'repetition':
-            print("interaction")
             for current_rec in i['interactionNorms']:
                 for other_rec in i['interactionNorms']:
                     r1 = current_rec['recId']
                     r2 = other_rec['recId']
 
                     if r1 != r2:
-                        print('appending')
                         rules.append(('c_' + r1, [r2]))
 
         elif i['type'] == 'repairable':

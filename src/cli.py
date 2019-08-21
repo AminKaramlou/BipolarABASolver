@@ -37,6 +37,7 @@ def generate_explanations(file):
     framework_file_name = transform_dss_input_to_aba_plus_file(file)
     baba_f = generate_bipolar_aba_framework_from_file(framework_file_name)
     extensions = baba_f.get_preferred_extensions()
+    print(extensions)
     click.echo("--------------------------Explanations follow-----------------------")
     explanation = get_explanations_json(baba_f, extensions, file)
     click.echo(explanation)
