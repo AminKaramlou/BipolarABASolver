@@ -1,0 +1,371 @@
+{
+    "extensions": [
+        {
+            "recommendationsInformation": {
+                "explanatoryText": "Recommendations that can be followed simultaneously without the risk of negative interactions",
+                "recommendations": [
+                    {
+                        "author": "Jesus",
+                        "causationBelief": {
+                            "aboutExecutionOf": "administer LABA",
+                            "careActionTypeId": "http://anonymous.org/data/ActAdministerLaba",
+                            "id": "http://anonymous.org/data/CBLabaDecreaseCOPD.stage2",
+                            "transition": {
+                                "effect": "decrease",
+                                "id": "http://anonymous.org/data/TrDecrease-COPD.stage2",
+                                "property": "COPD stage",
+                                "situationTypes": [
+                                    {
+                                        "id": "ModerateAirflowLimitation",
+                                        "type": "hasTransformableSituation",
+                                        "value": "a moderate airflow limitation severity"
+                                    },
+                                    {
+                                        "id": "MildAirflowLimitation",
+                                        "type": "hasExpectedSituation",
+                                        "value": "a mild airflow limitation severity"
+                                    }
+                                ]
+                            }
+                        },
+                        "explanatoryText": "http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stage2Should recommends action administer LABA which will decrease COPD stage. This will result in a mild airflow limitation severity COPD stage. A combination of bronchodilators is recommended as initial therapy for patients with  severe breathlessness. Also for patients on monotherapy with persistent breathlessness",
+                        "frequency": "always",
+                        "id": "http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stage2Should",
+                        "interactionsInformation": {
+                            "explanatoryText": "Interacting recommendations were considered",
+                            "interactions": {
+                                "explanatoryText": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should with action http://anonymous.org/data/ActAdministerLaba and effect decrease COPD stage was considered as a repetition recommendation but http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stage2Should is acceptable as is",
+                                "interactionType": "repetition",
+                                "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should"
+                            }
+                        },
+                        "motivation": "A combination of bronchodilators is recommended as initial therapy for patients with  severe breathlessness. Also for patients on monotherapy with persistent breathlessness",
+                        "strength": "High Level",
+                        "suggestion": "recommend",
+                        "text": "Clinician should recommend administering LABA + LAMA"
+                    },
+                    {
+                        "author": "Jesus",
+                        "causationBelief": {
+                            "aboutExecutionOf": "administer pneumococcal",
+                            "careActionTypeId": "http://anonymous.org/data/ActAdministerPneumococcalVaccine",
+                            "transition": {
+                                "effect": "increase",
+                                "property": "Vaccine pneumococcal",
+                                "situationTypes": [
+                                    {
+                                        "id": "IncreasedPneumoniaRisk",
+                                        "type": "hasTransformableSituation",
+                                        "value": "an increased risk of contracting both pneumococcal disease and community-acquired Pneumonia"
+                                    },
+                                    {
+                                        "id": "DecreasedPneumoniaRisk",
+                                        "type": "hasExpectedSituation",
+                                        "value": "a decreased risk of contracting both pneumococcal disease and community-acquired Pneumonia"
+                                    }
+                                ]
+                            }
+                        },
+                        "explanatoryText": "http://anonymous.org/data/RecDiagnosis.copd-Vaccine.pneumococcal.status-PneumococcalVaccineDecreaseVaccine.pneumococcal.statusShould recommends action administer pneumococcal which will increase Vaccine pneumococcal. This will result in a decreased risk of contracting both pneumococcal disease and community-acquired Pneumonia Vaccine pneumococcal. Pneumococcal vaccinations PCV13 and PPSV23 are recommended for all 65 years old patients or older. PPSV23 is also recommended for younger COPD patients with significant comorbid conditions",
+                        "frequency": "always",
+                        "id": "http://anonymous.org/data/RecDiagnosis.copd-Vaccine.pneumococcal.status-PneumococcalVaccineDecreaseVaccine.pneumococcal.statusShould",
+                        "interactionsInformation": {
+                            "explanatoryText": "Interacting recommendations were considered",
+                            "interactions": {
+                                "explanatoryText": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should with action http://anonymous.org/data/ActAdministerLaba and effect decrease COPD stage was considered as a repetition recommendation but http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stage2Should is acceptable as is",
+                                "interactionType": "repetition",
+                                "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should"
+                            }
+                        },
+                        "motivation": "Pneumococcal vaccinations PCV13 and PPSV23 are recommended for all 65 years old patients or older. PPSV23 is also recommended for younger COPD patients with significant comorbid conditions",
+                        "strength": "High Level",
+                        "suggestion": "recommend",
+                        "text": "Clinician should recommend administering Pneumococcal vaccine"
+                    },
+                    {
+                        "author": "Jesus",
+                        "causationBelief": {
+                            "aboutExecutionOf": "perform smoking cessation therapy",
+                            "careActionTypeId": "http://anonymous.org/data/ActAdministerPerformSmokeCessationTherapy",
+                            "transition": {
+                                "effect": "decrease",
+                                "property": "Smoking status",
+                                "situationTypes": [
+                                    {
+                                        "id": "LowAirflowLimitationWhileInhalingAndExhaling",
+                                        "type": "hasTransformableSituation",
+                                        "value": "having a low airflow limitation when inhaling and exhaling"
+                                    },
+                                    {
+                                        "id": "ImprovedAirflowLimitationWhileInhalingAndExhaling",
+                                        "type": "hasExpectedSituation",
+                                        "value": "an improvement in airflow limitation when inhaling and exhaling"
+                                    }
+                                ]
+                            }
+                        },
+                        "explanatoryText": "http://anonymous.org/data/RecDiagnosis.copd-Smoking.status-SmokingCessationDecreaseAirflow.limitation.severityShould recommends action perform smoking cessation therapy which will decrease Smoking status. This will result in an improvement in airflow limitation when inhaling and exhaling Smoking status. Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved",
+                        "frequency": "always",
+                        "id": "http://anonymous.org/data/RecDiagnosis.copd-Smoking.status-SmokingCessationDecreaseAirflow.limitation.severityShould",
+                        "interactionsInformation": {
+                            "explanatoryText": "Interacting recommendations were considered",
+                            "interactions": {
+                                "explanatoryText": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should with action http://anonymous.org/data/ActAdministerLaba and effect decrease COPD stage was considered as a repetition recommendation but http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stage2Should is acceptable as is",
+                                "interactionType": "repetition",
+                                "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should"
+                            }
+                        },
+                        "motivation": "Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved",
+                        "strength": "High Level",
+                        "suggestion": "recommend",
+                        "text": "Clinician should encourage patient to quit smoking"
+                    }
+                ]
+            }
+        },
+        {
+            "recommendationsInformation": {
+                "explanatoryText": "Recommendations that can be followed simultaneously without the risk of negative interactions",
+                "recommendations": [
+                    {
+                        "author": "Jesus",
+                        "causationBelief": {
+                            "aboutExecutionOf": "administer pneumococcal",
+                            "careActionTypeId": "http://anonymous.org/data/ActAdministerPneumococcalVaccine",
+                            "transition": {
+                                "effect": "increase",
+                                "property": "Vaccine pneumococcal",
+                                "situationTypes": [
+                                    {
+                                        "id": "IncreasedPneumoniaRisk",
+                                        "type": "hasTransformableSituation",
+                                        "value": "an increased risk of contracting both pneumococcal disease and community-acquired Pneumonia"
+                                    },
+                                    {
+                                        "id": "DecreasedPneumoniaRisk",
+                                        "type": "hasExpectedSituation",
+                                        "value": "a decreased risk of contracting both pneumococcal disease and community-acquired Pneumonia"
+                                    }
+                                ]
+                            }
+                        },
+                        "explanatoryText": "http://anonymous.org/data/RecDiagnosis.copd-Vaccine.pneumococcal.status-PneumococcalVaccineDecreaseVaccine.pneumococcal.statusShould recommends action administer pneumococcal which will increase Vaccine pneumococcal. This will result in a decreased risk of contracting both pneumococcal disease and community-acquired Pneumonia Vaccine pneumococcal. Pneumococcal vaccinations PCV13 and PPSV23 are recommended for all 65 years old patients or older. PPSV23 is also recommended for younger COPD patients with significant comorbid conditions",
+                        "frequency": "always",
+                        "id": "http://anonymous.org/data/RecDiagnosis.copd-Vaccine.pneumococcal.status-PneumococcalVaccineDecreaseVaccine.pneumococcal.statusShould",
+                        "interactionsInformation": {
+                            "explanatoryText": "Interacting recommendations were considered",
+                            "interactions": {
+                                "explanatoryText": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should with action http://anonymous.org/data/ActAdministerLaba and effect decrease COPD stage was considered as a repetition recommendation but http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stage2Should is acceptable as is",
+                                "interactionType": "repetition",
+                                "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should"
+                            }
+                        },
+                        "motivation": "Pneumococcal vaccinations PCV13 and PPSV23 are recommended for all 65 years old patients or older. PPSV23 is also recommended for younger COPD patients with significant comorbid conditions",
+                        "strength": "High Level",
+                        "suggestion": "recommend",
+                        "text": "Clinician should recommend administering Pneumococcal vaccine"
+                    },
+                    {
+                        "author": "Jesus",
+                        "causationBelief": {
+                            "aboutExecutionOf": "administer LABA",
+                            "careActionTypeId": "http://anonymous.org/data/ActAdministerLaba",
+                            "transition": {
+                                "effect": "decrease",
+                                "property": "COPD stage",
+                                "situationTypes": [
+                                    {
+                                        "id": "ModerateAirflowLimitation",
+                                        "type": "hasTransformableSituation",
+                                        "value": "a moderate airflow limitation severity"
+                                    },
+                                    {
+                                        "id": "MildAirflowLimitation",
+                                        "type": "hasExpectedSituation",
+                                        "value": "a mild airflow limitation severity"
+                                    }
+                                ]
+                            }
+                        },
+                        "explanatoryText": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should recommends action administer LABA which will decrease COPD stage. This will result in a mild airflow limitation severity COPD stage. Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
+                        "frequency": "always",
+                        "id": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should",
+                        "interactionsInformation": {
+                            "explanatoryText": "Interacting recommendations were considered",
+                            "interactions": {
+                                "explanatoryText": "http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should with action http://anonymous.org/data/ActAdministerLaba and effect decrease COPD stage was considered as a repetition recommendation but http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should is acceptable as is",
+                                "interactionType": "repetition",
+                                "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should"
+                            }
+                        },
+                        "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
+                        "strength": "High Level",
+                        "suggestion": "recommend",
+                        "text": "Clinician should recommend administering LABA"
+                    },
+                    {
+                        "author": "Jesus",
+                        "causationBelief": {
+                            "aboutExecutionOf": "perform smoking cessation therapy",
+                            "careActionTypeId": "http://anonymous.org/data/ActAdministerPerformSmokeCessationTherapy",
+                            "transition": {
+                                "effect": "decrease",
+                                "property": "Smoking status",
+                                "situationTypes": [
+                                    {
+                                        "id": "LowAirflowLimitationWhileInhalingAndExhaling",
+                                        "type": "hasTransformableSituation",
+                                        "value": "having a low airflow limitation when inhaling and exhaling"
+                                    },
+                                    {
+                                        "id": "ImprovedAirflowLimitationWhileInhalingAndExhaling",
+                                        "type": "hasExpectedSituation",
+                                        "value": "an improvement in airflow limitation when inhaling and exhaling"
+                                    }
+                                ]
+                            }
+                        },
+                        "explanatoryText": "http://anonymous.org/data/RecDiagnosis.copd-Smoking.status-SmokingCessationDecreaseAirflow.limitation.severityShould recommends action perform smoking cessation therapy which will decrease Smoking status. This will result in an improvement in airflow limitation when inhaling and exhaling Smoking status. Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved",
+                        "frequency": "always",
+                        "id": "http://anonymous.org/data/RecDiagnosis.copd-Smoking.status-SmokingCessationDecreaseAirflow.limitation.severityShould",
+                        "interactionsInformation": {
+                            "explanatoryText": "Interacting recommendations were considered",
+                            "interactions": {
+                                "explanatoryText": "http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should with action http://anonymous.org/data/ActAdministerLaba and effect decrease COPD stage was considered as a repetition recommendation but http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should is acceptable as is",
+                                "interactionType": "repetition",
+                                "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should"
+                            }
+                        },
+                        "motivation": "Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved",
+                        "strength": "High Level",
+                        "suggestion": "recommend",
+                        "text": "Clinician should encourage patient to quit smoking"
+                    }
+                ]
+            }
+        },
+        {
+            "recommendationsInformation": {
+                "explanatoryText": "Recommendations that can be followed simultaneously without the risk of negative interactions",
+                "recommendations": [
+                    {
+                        "author": "Jesus",
+                        "causationBelief": {
+                            "aboutExecutionOf": "administer LAMA",
+                            "careActionTypeId": "http://anonymous.org/data/ActAdministerLaba",
+                            "id": "http://anonymous.org/data/CBLamaDecreaseCOPD.stage2",
+                            "transition": {
+                                "effect": "decrease",
+                                "id": "http://anonymous.org/data/TrDecrease-COPD.stage2",
+                                "property": "COPD stage",
+                                "situationTypes": [
+                                    {
+                                        "id": "ModerateAirflowLimitation",
+                                        "type": "hasTransformableSituation",
+                                        "value": "a moderate airflow limitation severity"
+                                    },
+                                    {
+                                        "id": "MildAirflowLimitation",
+                                        "type": "hasExpectedSituation",
+                                        "value": "a mild airflow limitation severity"
+                                    }
+                                ]
+                            }
+                        },
+                        "explanatoryText": "http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should recommends action administer LAMA which will decrease COPD stage. This will result in a mild airflow limitation severity COPD stage. Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
+                        "frequency": "always",
+                        "id": "http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should",
+                        "interactionsInformation": {
+                            "explanatoryText": "Interacting recommendations were considered",
+                            "interactions": {
+                                "explanatoryText": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should with action http://anonymous.org/data/ActAdministerLaba and effect decrease COPD stage was considered as a repetition recommendation but http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should is acceptable as is",
+                                "interactionType": "repetition",
+                                "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should"
+                            }
+                        },
+                        "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
+                        "strength": "High Level",
+                        "suggestion": "recommend",
+                        "text": "Clinician should recommend administering LAMA"
+                    },
+                    {
+                        "author": "Jesus",
+                        "causationBelief": {
+                            "aboutExecutionOf": "administer pneumococcal",
+                            "careActionTypeId": "http://anonymous.org/data/ActAdministerPneumococcalVaccine",
+                            "transition": {
+                                "effect": "increase",
+                                "property": "Vaccine pneumococcal",
+                                "situationTypes": [
+                                    {
+                                        "id": "IncreasedPneumoniaRisk",
+                                        "type": "hasTransformableSituation",
+                                        "value": "an increased risk of contracting both pneumococcal disease and community-acquired Pneumonia"
+                                    },
+                                    {
+                                        "id": "DecreasedPneumoniaRisk",
+                                        "type": "hasExpectedSituation",
+                                        "value": "a decreased risk of contracting both pneumococcal disease and community-acquired Pneumonia"
+                                    }
+                                ]
+                            }
+                        },
+                        "explanatoryText": "http://anonymous.org/data/RecDiagnosis.copd-Vaccine.pneumococcal.status-PneumococcalVaccineDecreaseVaccine.pneumococcal.statusShould recommends action administer pneumococcal which will increase Vaccine pneumococcal. This will result in a decreased risk of contracting both pneumococcal disease and community-acquired Pneumonia Vaccine pneumococcal. Pneumococcal vaccinations PCV13 and PPSV23 are recommended for all 65 years old patients or older. PPSV23 is also recommended for younger COPD patients with significant comorbid conditions",
+                        "frequency": "always",
+                        "id": "http://anonymous.org/data/RecDiagnosis.copd-Vaccine.pneumococcal.status-PneumococcalVaccineDecreaseVaccine.pneumococcal.statusShould",
+                        "interactionsInformation": {
+                            "explanatoryText": "Interacting recommendations were considered",
+                            "interactions": {
+                                "explanatoryText": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should with action http://anonymous.org/data/ActAdministerLaba and effect decrease COPD stage was considered as a repetition recommendation but http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should is acceptable as is",
+                                "interactionType": "repetition",
+                                "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should"
+                            }
+                        },
+                        "motivation": "Pneumococcal vaccinations PCV13 and PPSV23 are recommended for all 65 years old patients or older. PPSV23 is also recommended for younger COPD patients with significant comorbid conditions",
+                        "strength": "High Level",
+                        "suggestion": "recommend",
+                        "text": "Clinician should recommend administering Pneumococcal vaccine"
+                    },
+                    {
+                        "author": "Jesus",
+                        "causationBelief": {
+                            "aboutExecutionOf": "perform smoking cessation therapy",
+                            "careActionTypeId": "http://anonymous.org/data/ActAdministerPerformSmokeCessationTherapy",
+                            "transition": {
+                                "effect": "decrease",
+                                "property": "Smoking status",
+                                "situationTypes": [
+                                    {
+                                        "id": "LowAirflowLimitationWhileInhalingAndExhaling",
+                                        "type": "hasTransformableSituation",
+                                        "value": "having a low airflow limitation when inhaling and exhaling"
+                                    },
+                                    {
+                                        "id": "ImprovedAirflowLimitationWhileInhalingAndExhaling",
+                                        "type": "hasExpectedSituation",
+                                        "value": "an improvement in airflow limitation when inhaling and exhaling"
+                                    }
+                                ]
+                            }
+                        },
+                        "explanatoryText": "http://anonymous.org/data/RecDiagnosis.copd-Smoking.status-SmokingCessationDecreaseAirflow.limitation.severityShould recommends action perform smoking cessation therapy which will decrease Smoking status. This will result in an improvement in airflow limitation when inhaling and exhaling Smoking status. Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved",
+                        "frequency": "always",
+                        "id": "http://anonymous.org/data/RecDiagnosis.copd-Smoking.status-SmokingCessationDecreaseAirflow.limitation.severityShould",
+                        "interactionsInformation": {
+                            "explanatoryText": "Interacting recommendations were considered",
+                            "interactions": {
+                                "explanatoryText": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should with action http://anonymous.org/data/ActAdministerLaba and effect decrease COPD stage was considered as a repetition recommendation but http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should is acceptable as is",
+                                "interactionType": "repetition",
+                                "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should"
+                            }
+                        },
+                        "motivation": "Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved",
+                        "strength": "High Level",
+                        "suggestion": "recommend",
+                        "text": "Clinician should encourage patient to quit smoking"
+                    }
+                ]
+            }
+        }
+    ]
+}

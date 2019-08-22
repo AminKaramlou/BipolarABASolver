@@ -100,7 +100,6 @@ def create_rules(recommendations, interactions):
 
 def create_guideline_preferences(recommendations, dss_data):
     strict_preferences = []
-    stage = dss_data['proposedTreatment']['resource']['result']['code']
 
     for preference in dss_data['proposedTreatment']['resource']['other']['drugTypePreferences']['entries']:
         preferred = preference['preferred']['administrationOf']

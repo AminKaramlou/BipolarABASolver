@@ -51,10 +51,10 @@ def generate_bipolar_aba_framework(input_string):
                         string)  # remove all occurrence of streamed comments (/*COMMENT */) from string
         string = re.sub(re.compile("\%.*?\n"), "",
                         string)  # remove all occurrence of single line comments (%COMMENT\n ) from string
-        return string.replace('\r', '').replace('\n', '')
+        return string.replace('\r', '')
 
     input = format_input_string(input_string)
-    declarations = input.split(".")
+    declarations = input.split(".\n")
 
     assump_declarations = [decl for decl in declarations if ASSUMP_PREDICATE in decl]
     assumption_symbols = generate_assumption_symbols(assump_declarations)

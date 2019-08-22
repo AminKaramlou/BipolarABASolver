@@ -41,3 +41,5 @@ def generate_explanations(file):
     click.echo("--------------------------Explanations follow-----------------------")
     explanation = get_explanations_json(baba_f, extensions, file)
     click.echo(explanation)
+    with open(framework_file_name + '.json', 'w') as file:
+        file.write(explanation)
