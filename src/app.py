@@ -1,6 +1,5 @@
 from flask import Flask
 from flask import request
-from flask_frozen import Freezer
 from src.tmr_to_aba_plus_g import transform_dss_input_to_aba_plus_file
 from src.aba_plus_g_parse import generate_bipolar_aba_framework_from_file
 from src.explanations import get_explanations_json
@@ -17,6 +16,5 @@ def generate_explanations_handler():
     explanation = get_explanations_json(baba_f, extensions, data)
     return explanation
 
-freezer = Freezer(app)
-
-app.run()
+if __name__ == "__main__":
+    app.run()
