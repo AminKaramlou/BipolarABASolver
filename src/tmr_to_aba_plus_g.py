@@ -1,6 +1,4 @@
-from enum import IntEnum
 import json
-import sys
 
 
 def print_aba_plus_framework_to_file(file_name, framework):
@@ -19,9 +17,7 @@ def framework_as_string(framework):
     return '\n'.join(assumptions + contraries + rules + strict_preferences + non_strict_preferences)
 
 
-def transform_dss_input_to_aba_plus_file(dss_json_path):
-    with open(dss_json_path, 'r') as f:
-        data = json.load(f)
+def transform_dss_input_to_aba_plus_file(data):
 
     tmr_data = data['TMR']
     dss_data = data['DSS']
@@ -38,7 +34,6 @@ def map_tmr_to_aba_plus_framework(recommendations, interactions, dss_data):
     assumptions = create_assumptions(recommendations, interactions)
     rules = create_rules(recommendations, interactions)
     strict_preferences = create_guideline_preferences(recommendations, dss_data)
-    #non_strict_preferences = context['non_strict_preferences']
 
     framework = {
         'assumptions': assumptions,

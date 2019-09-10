@@ -2,7 +2,7 @@
 This module contains functions for generating BipolarABA objects from files and strings.
 """
 
-from src.bipolar_aba import BipolarABA, Rule
+from src.aba_plus_g import ABAPlusG, Rule
 import re
 
 # SYNTAX #
@@ -73,7 +73,7 @@ def generate_bipolar_aba_framework(input_string):
     for rule in rules:
         language.add(rule.consequent)
         language.add(rule.antecedent)
-    return BipolarABA(language, rules, assumption_symbols, assumption_to_contrary_mapping, strict_preferences, non_strict_preferences)
+    return ABAPlusG(language, rules, assumption_symbols, assumption_to_contrary_mapping, strict_preferences, non_strict_preferences)
 
 
 def generate_assumption_symbols(assump_decls):

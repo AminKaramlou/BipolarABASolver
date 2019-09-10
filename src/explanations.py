@@ -1,8 +1,6 @@
 import json
 
-def get_explanations_json(framework, extensions, dss_json_path):
-    with open(dss_json_path, 'r') as f:
-        dss = json.load(f)
+def get_explanations_json(framework, extensions, dss):
 
     guideline_group_data = dss['TMR']['guidelineGroup']
     extensions_explanation = []

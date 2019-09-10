@@ -1,16 +1,12 @@
 from src.labelling_algorithms import assign_initial_labelling_for_set_stable_semantics, \
     assign_initial_labelling_for_preferred_semantics, enumerate_preferred_extensions, enumerate_set_stable_extensions, enumerate_preferred_extensions_with_steps, enumerate_set_stable_extensions_with_steps
 
-
-
-
-
 class NonBipolarException(Exception):
     def __init__(self, message):
         self.message = message
 
 
-class BipolarABA:
+class ABAPlusG:
     def __init__(self, language, rules, assumptions, assumption_to_contrary_mapping, strict_preferences=[], non_strict_preferences=[]):
         """
         :param language: A set of strings
