@@ -7,7 +7,7 @@ from requests.exceptions import HTTPError
 
 URL = "https://aba-plus-g.herokuapp.com/generate_explanations"
 # URL = "http://127.0.0.1:5000/"
-INPUT_FILE = "DSS2Arg_useCase(NOPref).json"
+INPUT_FILE = "JSONaccepted_old.json"
 
 with open(INPUT_FILE, "rb") as DSS_input_file:
 	DSS_input = json.load(DSS_input_file)
@@ -16,7 +16,7 @@ try:
 	response = requests.post(URL, json = DSS_input)
 	if response:
 		arg_output = response.json()
-		OUTPUT_FILE = f"{os.path.join(os.path.splitext(INPUT_FILE)[0] + '_arg', os.path.splitext(INPUT_FILE)[1])}"
+		OUTPUT_FILE = f"{os.path.splitext(INPUT_FILE)[0] + '_arg' + os.path.splitext(INPUT_FILE)[1]}"
 		with open(OUTPUT_FILE, "w") as write_file:
 			json.dump(arg_output, write_file)
 		print(f"Argumentation output written in {OUTPUT_FILE}.")
