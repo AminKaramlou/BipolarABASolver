@@ -27,7 +27,8 @@ def get_explanations_json(framework, extensions, dss):
                 print('---------------------------------------------------------')
 
                 interacting_recs_text = 'Interacting recommendations were considered'
-                interactions_explanation_dict = []
+                interactions_explanation_dict = [] 
+                # will be a list, so call interactions_explanation_list
                 for i in guideline_group_data['interactions']:
                     if rec['id'] in ((r['recId'] for r in i['interactionNorms'])):
                         if i['type'] == 'alternative' or i['type'] == 'contradiction' or i['type'] == 'repetition':
@@ -48,11 +49,12 @@ def get_explanations_json(framework, extensions, dss):
                             'explanatoryText': full_interaction_text
                         }
                         interactions_explanation_dict.append(interacting_rec_explanation_dict)
+                        # interactions_explanation_list.append(interacting_rec_explanation_dict)
                 recommendation_explanation_dict = {
                     'explanatoryText': rec_text,
                     'interactionsInformation': {
                         'explanatoryText': 'Interacting recommendations were considered',
-                        'interactions': interacting_rec_explanation_dict
+                        'interactions': interacting_rec_explanation_dict # interactions_explanation_list
                     },
                 }
                 recommendation_explanation_dict.update(rec)
