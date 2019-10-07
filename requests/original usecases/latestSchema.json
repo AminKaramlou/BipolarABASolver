@@ -1,0 +1,228 @@
+{
+    "EHR": 
+    {
+		"selectedTreatment" :
+		{ 
+                "resource": 
+                {  
+                    "reference" : 
+                    {
+						"resourceType" : "",
+						"id" : "",
+						"text": ""
+					},
+					"result" : {
+						"code": "",
+						"display" : ""
+					},	
+					"other" : 
+					{
+                        "drugTypePreferences" : //now plural because there could be more than one
+						{
+								"reference":
+								{
+										"refId":"",
+										"resultCode":""
+								},
+                                "entries": 
+                                [ //Ive just modified the name and format (now a list) bc I realised that the clinician is not bound to make only ONE choice 
+                                    {
+                                            "preferred" : 
+                                            {       
+                                                "administrationOf": ""
+                                            }
+                                    }
+                                ]       							
+					    }
+				    }
+			    }
+        }
+    },
+	    "DSS" :
+	    {
+		    "proposedTreatment":
+		    {    
+				"resource": {  
+					"reference" : {
+						"resourceType" : "",
+						"id" : "",
+						"text": ""
+					},
+					"result" : {
+						"code": "",
+						"display" : ""
+					},	
+					"other" : 
+					{ 
+					    "drugTypePreferences" : 
+							{
+								"reference":
+								{
+										"refId":"",
+										"resultCode":""
+								},
+								"entries": 
+								[ 
+								   {
+                                      "preferred" : 
+                                      {   
+										"administrationOf":""
+									  },
+									  "alternative" : 
+									  [
+										 {
+											"administrationOf" : ""
+										 }
+									  ]
+                                    },
+                                    {
+                                        "preferred" : 
+                                        {
+                                            "administrationOf":""
+                                        },
+                                        "alternative" : 
+                                        [
+                                            {
+                                                "administrationOf" : ""
+                                            }
+                                        ]
+                                    
+								]
+							}							
+					}
+				}
+			}
+	},
+	"TMR" : 
+	{
+		"guidelineGroup" :
+		{
+				"id" : "", 
+				"interactions" :
+				[
+					{
+						"type" : "", 
+						"interactionNorms" :
+						[
+							{
+								"recId" : "",
+								"type" : "" 
+							}
+						]
+					},
+					{
+						"type" : "",
+						"interactionNorms" :
+						[
+							{
+								"recId" : "",
+								"type" : "" 
+							}
+						]
+					}
+				],
+				"recommendations" :
+				[
+					{
+					"id" : "",
+                    "text" : "" ,
+                    "motivation": "", //possibly empty string
+                    "suggestion" : "recommend", //[recommend | nonRecommend]
+                    "drugTypeCode": "",//IT is now on the recommendation since ALL causation beliefs have the same careActionType. ALso, it used to be careActionTypeId but you asked me how will the argumentation tool distinguish between drugs and nonDrugs, so we have [drugTypeCode | nonDrugTypeCode]. If now it is irrelevant, let's inver it so that both are careActionTypeId
+                    "aboutExecutionOf" : "",//also when extracted from CB below for same reason as above. Same for drugs and nonDrugs
+                    "causationBeliefs" ://now plural
+                    [ //now a list of objects
+					    {
+                            "id":"",
+                            "contribution" : "", //this was added when converting CB into a list. It is irrelevant to this iteration of your tool. Values: [positive | negative]
+                            "probability" : "always", //it used to be labelled frequency. Now it must go INSIDE the CB
+                            "evidence" : "High Level", //it used to be label strength. Also going inside the CB
+                            "author" : "",//Same, inside the causation belief
+						    "transition" :
+						    {
+                                "id":"http://anonymous.org/data/TrDecreaseCOPDStage2", 
+							    "effect" : "", //[Increase | Decrease | Maintain]
+                                "property" : //it used to be a string. Now we need the code (id that may be used by HELAINT to build their own Serbian recommendations) and the (English) display
+                                {
+                                    "display": "COPD stage", 
+                                    "code": "COPD.stage"
+                                },
+							    "situationTypes" : 
+							    [
+								    {
+                                    "id":"",
+								    "type" : "hasTransformableSituation",
+                                    "value" : //same as with property above, the representation is the id for HELIANT if they do not want to apply the english text. Notice that the TMR has been extended to add these and the changes on properties too.
+                                        {       
+                                            "representation" : "Moderate", 
+                                            "display" : "a moderate airflow limitation severity" 
+                                        }
+                                    },
+								    {
+                                    "id":"",
+								    "type" : "hasExpectedSituation", 
+                                    "value" :
+                                        { 
+                                         "representation" : "Mild", 
+                                         "display" : "a mild airflow limitation severity"
+                                        } 
+								    }
+							    ]
+                            }	
+                        }
+                    ]
+                    },
+                    {
+                        "id" : "",
+                        "text" : "" ,
+                        "motivation": "",
+                        "suggestion" : "",
+                        "NondrugTypeCode": "",
+                        "aboutExecutionOf" : "", 
+                        "causationBeliefs" :
+                        [
+                            {
+                                "id": "",
+                                "contribution" : "", 
+                                "probability" : "always",
+                                "evidence" : "High Level",
+                                "author" : "",
+                                "transition" :
+                                {
+                                    "id": "",
+                                    "effect" : "",
+                                    "property" :
+                                    {
+                                      "display": "",
+                                      "code": ""
+                                    },
+                                    "situationTypes" :
+                                    [
+                                        {
+                                            "id":"",
+                                            "type" : "hasTransformableSituation", 
+                                            "value" : 
+                                            {       
+                                            "representation" : "",
+                                            "display" : ""
+                                            }
+                                        },
+                                        {
+                                            "id":"",
+                                            "type" : "hasExpectedSituation",
+                                            "value" :
+                                            { 
+                                                 "representation" : "",
+                                                 "display" : ""
+                                            } 
+                                        }
+                                    ]                                   
+                                }		
+                            }
+                        ]
+                        }		
+				]
+			}
+	}
+}
+}

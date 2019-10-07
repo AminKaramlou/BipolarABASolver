@@ -216,7 +216,7 @@
 							    "situationTypes" : 
 							    [
 								    {
-                                    "id":"http://anonymous.org/data/SitCOPDStageSevere",
+                                    "id":"http://anonymous.org/data/SitCOPD.stageSevere",
 								    "type" : "hasTransformableSituation",
                                     "value" :
                                         {       

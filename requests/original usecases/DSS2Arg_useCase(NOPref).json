@@ -12,12 +12,12 @@
 						"text": "COPD GOLD group"
 					},
 					"result" : {
-						"code": "B",
+						"code": "C",
 						"display" : "COPD GOLD group B"
 					},	
 					"other" : 
 					{
-                        "drugTypePreferences" : null //now plural becuase there could be more than one
+                        "drugTypePreferences" : null
 
 				    }
 			    }
@@ -34,8 +34,8 @@
 						"text": "COPD GOLD group"
 					},
 					"result" : {
-						"code": "B",
-						"display" : "COPD GOLD group B"
+						"code": "C",
+						"display" : "COPD GOLD group C"
 					},	
 					"other" : 
 					{
@@ -46,38 +46,29 @@
 								"reference":
 								{
 										"refId":"COPD.group",
-										"resultCode":"B"
+										"resultCode":"C"
 								},
 								"entries": 
 								[ 
 								   {
                                       "preferred" : 
                                       {   
-										"administrationOf":"Laba"
+										"administrationOf":"LabaLama"
 									  },
 									  "alternative" : 
 									  [
 										 {
-											"administrationOf" : "LabaLama"
+											"administrationOf" : "Lama"
+                                         },
+                                         {
+											"administrationOf" : "LabaIcs"
 										 }
 									  ]
-                                    },
-                                    {
-                                        "preferred" : 
-                                        {
-                                            "administrationOf":"Lama"
-                                        },
-                                        "alternative" : 
-                                        [
-                                            {
-                                                "administrationOf" : "LabaLama"
-                                            }
-                                        ]
                                     }
 								]
 							}							
-					}
-				}
+					    }
+				    }
 			}
 	},
 	"TMR" : 
@@ -92,15 +83,15 @@
 						"interactionNorms" :
 						[
 							{
-								"recId" : "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should",
+								"recId" : "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
 								"type" : "primary" 
 							},
 							{
-								"recId":"http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should",
+								"recId":"http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
 								"type":"primary"
                             },
                             {
-								"recId":"http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should",
+								"recId":"http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
 								"type":"primary"
                             }
 						]
@@ -110,40 +101,96 @@
 						"interactionNorms" :
 						[
 							{
-								"recId" : "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should",
+								"recId" : "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
 								"type" : "primary" 
 							},
 							{
-								"recId":"http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should",
+								"recId":"http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
 								"type":"primary"
                             },
                             {
-								"recId":"http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should",
+								"recId":"http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
 								"type":"primary"
 							}
+						]
+                    },
+                    {
+						"type" : "contradiction",
+						"interactionNorms" :
+						[
+							{
+								"recId" : "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+								"type" : "primary" 
+							},
+							{
+								"recId":"http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+								"type":"primary"
+                            }
+						]
+                    },
+                    {
+						"type" : "repairable",
+						"interactionNorms" :
+						[
+							{
+								"recId" : "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
+								"type" : "primary" 
+							},
+							{
+								"recId":"http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+								"type":"secondary"
+                            }
+						]
+                    },
+                    {
+						"type" : "contradiction",
+						"interactionNorms" :
+						[
+							{
+								"recId" : "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
+								"type" : "primary" 
+							},
+							{
+								"recId":"http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot",
+								"type":"secondary"
+                            }
+						]
+                    },
+                    {
+						"type" : "contradiction",
+						"interactionNorms" :
+						[
+							{
+								"recId" : "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+								"type" : "primary" 
+							},
+							{
+								"recId":"http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot",
+								"type":"secondary"
+                            }
 						]
 					}
 				],
 				"recommendations" :
 				[
 					{
-					"id" : "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should",
-                    "text" : "Clinician should recommend administering LABA" ,
-                    "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators", //this is taken from the clinical guideline. MAybe it will need to be done from the serbian one to provide the factual motivation
+					"id" : "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
+                    "text" : "Clinician should recommend administering LAMA" ,
+                    "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
                     "suggestion" : "recommend",
-                    "drugTypeCode": "Laba",
-                    "aboutExecutionOf" : "administration of LABA",
+                    "drugTypeCode": "Lama",
+                    "aboutExecutionOf" : "administration of LAMA",
                     "causationBeliefs" :
                     [
 					    {
-                            "id":"http://anonymous.org/data/CBLabaDecreaseCOPDStage2",
+                            "id":"http://anonymous.org/data/CBLamaDecreaseCOPDStage3",
                             "contribution" : "positive",
                             "probability" : "always", 
                             "evidence" : "High Level", 
                             "author" : "Jesus",
 						    "transition" :
 						    {
-                                "id":"http://anonymous.org/data/TrDecreaseCOPDStage2", 
+                                "id":"http://anonymous.org/data/TrDecreaseCOPDStage3", 
 							    "effect" : "Decrease", 
                                 "property" :
                                 {
@@ -153,21 +200,21 @@
 							    "situationTypes" : 
 							    [
 								    {
-                                    "id":"http://anonymous.org/data/SitCOPDStageModerate",
+                                    "id":"http://anonymous.org/data/SitCOPDStageSevere",
 								    "type" : "hasTransformableSituation",
                                     "value" :
                                         {       
-                                            "representation" : "Moderate", 
-                                            "display" : "a moderate airflow limitation severity" 
+                                            "representation" : "severe", 
+                                            "display" : "having a severe COPD stage" 
                                         }
                                     },
 								    {
-                                    "id":"http://anonymous.org/data/SitCOPDStageMild",
+                                    "id":"http://anonymous.org/data/SitCOPDStageModerate",
 								    "type" : "hasExpectedSituation", 
                                     "value" :
                                         { 
-                                         "representation" : "Mild", 
-                                         "display" : "a mild airflow limitation severity"
+                                         "representation" : "moderate", 
+                                         "display" : "having a moderate COPD stage"
                                         } 
 								    }
 							    ]
@@ -176,23 +223,23 @@
                     ]
                     },
                     {
-                        "id" : "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should",
-                        "text" : "Clinician should recommend administering LAMA" ,
+                        "id" : "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                        "text" : "Clinician should recommend administering LABA + ICS" ,
                         "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
                         "suggestion" : "recommend",
-                        "drugTypeCode": "Lama",
-                        "aboutExecutionOf" : "administration of LAMA", 
+                        "drugTypeCode": "LabaIcs",
+                        "aboutExecutionOf" : "administration of LABA + ICS", 
                         "causationBeliefs" :
                         [
                             {
-                                "id": "http://anonymous.org/data/CBLamaDecreaseCOPDStage2",
+                                "id": "http://anonymous.org/data/CBLabaIcsDecreaseCOPDStage3",
                                 "contribution" : "positive", 
                                 "probability" : "always",
                                 "evidence" : "High Level",
                                 "author" : "Jesus",
                                 "transition" :
                                 {
-                                    "id": "http://anonymous.org/data/TrDecreaseCOPDStage2",
+                                    "id": "http://anonymous.org/data/TrDecreaseCOPDStage3",
                                     "effect" : "Decrease",
                                     "property" :
                                     {
@@ -202,21 +249,21 @@
                                     "situationTypes" :
                                     [
                                         {
-                                            "id":"http://anonymous.org/data/SitCOPDStageModerate",
+                                            "id":"http://anonymous.org/data/SitCOPDStageSevere",
                                             "type" : "hasTransformableSituation", 
                                             "value" : 
                                             {       
-                                            "representation" : "Moderate",
-                                            "display" : "a moderate airflow limitation severity"
+                                            "representation" : "severe",
+                                            "display" : "having a severe COPD stage"
                                             }
                                         },
                                         {
-                                            "id":"http://anonymous.org/data/SitCOPDStageMild",
+                                            "id":"http://anonymous.org/data/SitCOPDStageModerate",
                                             "type" : "hasExpectedSituation",
                                             "value" :
                                             { 
-                                                 "representation" : "Mild",
-                                                 "display" : "a mild airflow limitation severity"
+                                                 "representation" : "moderae",
+                                                 "display" : "having a moderate COPD stage"
                                             } 
                                         }
                                     ]                                   
@@ -225,7 +272,7 @@
                         ]
                         },
                         {
-                            "id" : "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should",
+                            "id" : "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
                             "text" : "Clinician should recommend administering LABA + LAMA" ,
                             "motivation": "A combination of bronchodilators is recommended as initial therapy for patients with  severe breathlessness. Also for patients on monotherapy with persistent breathlessness",
                             "suggestion" : "recommend", 
@@ -234,14 +281,14 @@
                             "causationBeliefs" :
                             [
                                 {
-                                "id": "http://anonymous.org/data/CBLabaLamaDecreaseCOPDStage2",
+                                "id": "http://anonymous.org/data/CBLabaLamaDecreaseCOPDStage3",
                                 "contribution" : "positive", 
                                 "probability" : "always",
                                 "evidence" : "High Level",
                                 "author" : "Jesus",
                                 "transition" :
                                 {
-                                    "id": "http://anonymous.org/data/TrDecreaseCOPDStage2",
+                                    "id": "http://anonymous.org/data/TrDecreaseCOPDStage3",
                                     "effect" : "Decrease",
                                     "property" :
                                     {
@@ -251,21 +298,21 @@
                                     "situationTypes" :
                                     [
                                         {
-                                            "id":"http://anonymous.org/data/SitCOPDStageModerate",
+                                            "id":"http://anonymous.org/data/SitCOPDStageSevere",
                                             "type" : "hasTransformableSituation", 
                                             "value" : 
                                             {       
-                                            "representation" : "Moderate",
-                                            "display" : "a moderate airflow limitation severity"
+                                            "representation" : "severe",
+                                            "display" : "having a severe COPD stage"
                                             }
                                         },
                                         {
-                                            "id":"http://anonymous.org/data/SitCOPDStageMild",
+                                            "id":"http://anonymous.org/data/SitCOPDStageModerate",
                                             "type" : "hasExpectedSituation",
                                             "value" :
                                             { 
-                                                 "representation" : "Mild",
-                                                 "display" : "a mild airflow limitation severity"
+                                                 "representation" : "moderate",
+                                                 "display" : "having a moderate COPD stage"
                                             } 
                                         }
                                     ]

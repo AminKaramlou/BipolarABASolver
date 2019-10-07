@@ -17,7 +17,7 @@
 					},	
 					"other" : 
 					{
-                        "drugTypePreferences" : //now plural becuase there could be more than one
+                        "drugTypePreferences" : //now plural because there could be more than one
 						{
 								"reference":
 								{
@@ -29,7 +29,7 @@
                                     {
                                             "preferred" : 
                                             {       
-                                                "administrationOf": "Laba"
+                                                "administrationOf": "http://anonymous.org/data/ActAdministerLaba"
                                             }
                                     }
                                 ]       							
@@ -53,10 +53,8 @@
 						"display" : "COPD GOLD group B"
 					},	
 					"other" : 
-					{
-                        "drugTypes" : 
-						{ 
-                            "drugTypePreferences" : 
+					{ 
+					    "drugTypePreferences" : 
 							{
 								"reference":
 								{
@@ -68,27 +66,27 @@
 								   {
                                       "preferred" : 
                                       {   
-										"administrationOf":"Laba"
+										"administrationOf":"http://anonymous.org/data/ActAdministerLaba"
 									  },
 									  "alternative" : 
 									  [
 										 {
-											"administrationOf" : "LabaLama"
+											"administrationOf" : "http://anonymous.org/data/ActAdministerLabaLama"
 										 }
 									  ]
                                     },
                                     {
                                         "preferred" : 
                                         {
-                                            "administrationOf":"Lama"
+                                            "administrationOf":"http://anonymous.org/data/ActAdministerLama"
                                         },
                                         "alternative" : 
                                         [
                                             {
-                                                "administrationOf" : "LabaLama"
+                                                "administrationOf" : "http://anonymous.org/data/ActAdministerLabaLama"
                                             }
                                         ]
-                                    }
+                                    
 								]
 							}							
 					}
@@ -146,7 +144,7 @@
                     "text" : "Clinician should recommend administering LABA" ,
                     "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators", //this is taken from the clinical guideline. MAybe it will need to be done from the serbian one to provide the factual motivation
                     "suggestion" : "recommend",
-                    "drugTypeCode": "Laba",
+                    "drugTypeCode": "http://anonymous.org/data/ActAdministerLaba",
                     "aboutExecutionOf" : "administration of LABA",
                     "causationBeliefs" :
                     [
@@ -195,7 +193,7 @@
                         "text" : "Clinician should recommend administering LAMA" ,
                         "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
                         "suggestion" : "recommend",
-                        "drugTypeCode": "Lama",
+                        "drugTypeCode": "http://anonymous.org/data/ActAdministerLama",
                         "aboutExecutionOf" : "administration of LAMA", 
                         "causationBeliefs" :
                         [
@@ -244,7 +242,7 @@
                             "text" : "Clinician should recommend administering LABA + LAMA" ,
                             "motivation": "A combination of bronchodilators is recommended as initial therapy for patients with  severe breathlessness. Also for patients on monotherapy with persistent breathlessness",
                             "suggestion" : "recommend", 
-                            "drugTypeCode": "LabaLama",
+                            "drugTypeCode": "http://anonymous.org/data/ActAdministerLabaLama",
                             "aboutExecutionOf" : "administration of LABA + LAMA",
                             "causationBeliefs" :
                             [
@@ -293,7 +291,7 @@
                             "text" : "Clinician should encourage patient to quit smoking" ,
                             "motivation": "Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved",
                             "suggestion" : "recommend", 
-                            "nonDrugTypeCode": "SmokingCessation",
+                            "nonDrugTypeCode": "http://anonymous.org/data/ActAdministerSmokingCessation",
                             "aboutExecutionOf" : "application of smoking cessation therapy",
                             "causationBeliefs" :
                             [

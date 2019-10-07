@@ -1,0 +1,211 @@
+{
+    "EHR": {
+        "selectedTreatment": {
+            "resource": {
+                "reference": {
+                    "resourceType": "Observation",
+                    "id": "COPD.group",
+                    "text": "COPD GOLD group"
+                },
+                "result": {
+                    "code": "B",
+                    "display": "COPD GOLD group B"
+                },
+                "other": {
+                    "drugTypePreference": {
+                        "reference": {
+                            "refId": "COPD.group",
+                            "resultCode": "B"
+                        },
+                        "entry": {
+                            "preferred": {
+                                "administrationOf": "http://anonymous.org/data/ActAdministerLaba"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "DSS": {
+        "proposedTreatment": {
+            "resource": {
+                "reference": {
+                    "resourceType": "Observation",
+                    "id": "COPD.group",
+                    "text": "COPD GOLD group"
+                },
+                "result": {
+                    "code": "B",
+                    "display": "COPD GOLD group B"
+                },
+                "other": {
+                    "drugTypePreferences": {
+                        "reference": {
+                            "refId": "COPD.group",
+                            "resultCode": "B"
+                        },
+                        "entries": [
+                            {
+                                "preferred": {
+                                    "administrationOf": "http://anonymous.org/data/ActAdministerLaba"
+                                },
+                                "alternative": [
+                                    {
+                                        "administrationOf": "http://anonymous.org/data/ActAdministerLabaLama"
+                                    }
+                                ]
+                            },
+                            {
+                                "preferred": {
+                                    "administrationOf": "http://anonymous.org/data/ActAdministerLama"
+                                },
+                                "alternative": [
+                                    {
+                                        "administrationOf": "http://anonymous.org/data/ActAdministerLabaLama"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "TMR": {
+        "guidelineGroup": {
+            "id": "CIG-19941105T0815300500",
+            "interactions": [
+                {
+                    "type": "alternative",
+                    "interactionNorms": [
+                        {
+                            "recId": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should",
+                            "type": "primary"
+                        },
+                        {
+                            "recId": "http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should",
+                            "type": "primary"
+                        },
+                        {
+                            "recId": "http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stage2Should",
+                            "type": "primary"
+                        }
+                    ]
+                },
+                {
+                    "type": "repetition",
+                    "interactionNorms": [
+                        {
+                            "recId": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should",
+                            "type": "primary"
+                        },
+                        {
+                            "recId": "http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should",
+                            "type": "primary"
+                        },
+                        {
+                            "recId": "http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stage2Should",
+                            "type": "primary"
+                        }
+                    ]
+                }
+            ],
+            "recommendations": [
+                {
+                    "id": "http://anonymous.org/data/RecCOPD.groupB-LabaDecreaseCOPD.stage2Should",
+                    "text": "Clinician should recommend administering LABA",
+                    "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
+                    "suggestion": "recommend",
+                    "causationBelief": {
+                        "careActionTypeId": "http://anonymous.org/data/ActAdministerLaba",
+                        "aboutExecutionOf": "administer LABA",
+                        "id": "http://anonymous.org/data/CBLabaDecreaseCOPD.stage2",
+                        "transition": {
+                            "id": "http://anonymous.org/data/TrDecrease-COPD.stage2",
+                            "effect": "decrease",
+                            "property": "COPD stage",
+                            "situationTypes": [
+                                {
+                                    "id": "ModerateAirflowLimitation",
+                                    "type": "hasTransformableSituation",
+                                    "value": "a moderate airflow limitation severity"
+                                },
+                                {
+                                    "id": "MildAirflowLimitation",
+                                    "type": "hasExpectedSituation",
+                                    "value": "a mild airflow limitation severity"
+                                }
+                            ]
+                        }
+                    },
+                    "frequency": "always",
+                    "strength": "High Level",
+                    "author": "Jesus"
+                },
+                {
+                    "id": "http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stage2Should",
+                    "text": "Clinician should recommend administering LAMA",
+                    "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
+                    "suggestion": "recommend",
+                    "causationBelief": {
+                        "id": "http://anonymous.org/data/CBLamaDecreaseCOPD.stage2",
+                        "careActionTypeId": "http://anonymous.org/data/ActAdministerLama",
+                        "aboutExecutionOf": "administer LAMA",
+                        "transition": {
+                            "id": "http://anonymous.org/data/TrDecrease-COPD.stage2",
+                            "effect": "decrease",
+                            "property": "COPD stage",
+                            "situationTypes": [
+                                {
+                                    "id": "ModerateAirflowLimitation",
+                                    "type": "hasTransformableSituation",
+                                    "value": "a moderate airflow limitation severity"
+                                },
+                                {
+                                    "id": "MildAirflowLimitation",
+                                    "type": "hasExpectedSituation",
+                                    "value": "a mild airflow limitation severity"
+                                }
+                            ]
+                        }
+                    },
+                    "frequency": "always",
+                    "strength": "High Level",
+                    "author": "Jesus"
+                },
+                {
+                    "id": "http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stage2Should",
+                    "text": "Clinician should recommend administering LABA + LAMA",
+                    "motivation": "A combination of bronchodilators is recommended as initial therapy for patients with  severe breathlessness. Also for patients on monotherapy with persistent breathlessness",
+                    "suggestion": "recommend",
+                    "causationBelief": {
+                        "id": "http://anonymous.org/data/CBLabaLamaDecreaseCOPD.stage2",
+                        "careActionTypeId": "http://anonymous.org/data/ActAdministerLabaLama",
+                        "aboutExecutionOf": "administer LABA + LAMA",
+                        "transition": {
+                            "id": "http://anonymous.org/data/TrDecrease-COPD.stage2",
+                            "effect": "decrease",
+                            "property": "COPD stage",
+                            "situationTypes": [
+                                {
+                                    "id": "ModerateAirflowLimitation",
+                                    "type": "hasTransformableSituation",
+                                    "value": "a moderate airflow limitation severity"
+                                },
+                                {
+                                    "id": "MildAirflowLimitation",
+                                    "type": "hasExpectedSituation",
+                                    "value": "a mild airflow limitation severity"
+                                }
+                            ]
+                        }
+                    },
+                    "frequency": "always",
+                    "strength": "High Level",
+                    "author": "Jesus"
+                }
+            ]
+        }
+    }
+}

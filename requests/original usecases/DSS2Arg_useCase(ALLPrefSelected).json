@@ -17,15 +17,15 @@
 					},	
 					"other" : 
 					{
-                        "drugTypePreferences" : //now plural becuase there could be more than one
+                        "drugTypePreferences" : //now plural becuase there could be more than one. Change back to singular if needed
 						{
 								"reference":
 								{
 										"refId":"COPD.group",
 										"resultCode":"B"
 								},
-                                "entries": 
-                                [ //Ive just modified the name and format (now a list) bc I realised that the clinician is not bound to make only ONE choice 
+                                "entries": //change back to singular if needed. Then, remove all objects but one and discard []
+                                [ 
                                     {
                                             "preferred" : 
                                             {       
