@@ -1,5 +1,6 @@
 import json
 
+
 def get_explanations_json(framework, extensions, dss):
 
     guideline_group_data = dss['TMR']['guidelineGroup']
@@ -26,9 +27,9 @@ def get_explanations_json(framework, extensions, dss):
 
                 print('---------------------------------------------------------')
 
-                interacting_recs_text = 'Interacting recommendations were considered'
-                interactions_explanation_dict = [] 
-                # will be a list, so call interactions_explanation_list
+                # interacting_recs_text = 'Interacting recommendations were considered'
+                # interactions_explanation_dict = [] 
+                interactions_explanation_list = []
                 for i in guideline_group_data['interactions']:
                     if rec['id'] in ((r['recId'] for r in i['interactionNorms'])):
                         if i['type'] == 'alternative' or i['type'] == 'contradiction' or i['type'] == 'repetition':
@@ -36,7 +37,7 @@ def get_explanations_json(framework, extensions, dss):
                             other_rec = next(r for r in guideline_group_data['recommendations'] if r['id'] == other_rec_name)
                             other_rec_action = other_rec['causationBelief']['careActionTypeId']
                             other_rec_transition = other_rec['causationBelief']['transition']
-                            interaction_text = '{} with action {} and effect {} {} was considered as a {} recommendation'.format\
+                            interaction_text = '{} with action {} and effect {} {} was considered as a {} recommendation'.format \
                                 (other_rec_name, other_rec_action, other_rec_transition['effect'], other_rec_transition['property'], i['type'])
                             if (other_rec_name, rec['id']) in framework.strict_preferences:
                                 reason_text = 'but {} is preferred'.format(rec['id'])
@@ -48,13 +49,14 @@ def get_explanations_json(framework, extensions, dss):
                             'otherRecommendationRecId': other_rec_name,
                             'explanatoryText': full_interaction_text
                         }
-                        interactions_explanation_dict.append(interacting_rec_explanation_dict)
-                        # interactions_explanation_list.append(interacting_rec_explanation_dict)
+                        # interactions_explanation_dict.append(interacting_rec_explanation_dict)
+                        interactions_explanation_list.append(interacting_rec_explanation_dict)
                 recommendation_explanation_dict = {
                     'explanatoryText': rec_text,
                     'interactionsInformation': {
                         'explanatoryText': 'Interacting recommendations were considered',
-                        'interactions': interacting_rec_explanation_dict # interactions_explanation_list
+                        # 'interactions': interacting_rec_explanation_dict 
+                        'interactions': interactions_explanation_list
                     },
                 }
                 recommendation_explanation_dict.update(rec)
