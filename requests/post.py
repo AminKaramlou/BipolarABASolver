@@ -5,8 +5,8 @@ import os.path
 import requests
 from requests.exceptions import HTTPError
 
-URL = "https://aba-plus-g.herokuapp.com/generate_explanations"
-# URL = "http://127.0.0.1:5000/"
+# URL = "https://aba-plus-g.herokuapp.com/generate_explanations"
+URL = "http://127.0.0.1:5000/generate_explanations"
 INPUT_FILE = "JSONaccepted_old.json"
 
 with open(INPUT_FILE, "rb") as DSS_input_file:
@@ -18,7 +18,7 @@ try:
 		arg_output = response.json()
 		OUTPUT_FILE = f"{os.path.splitext(INPUT_FILE)[0] + '_arg' + os.path.splitext(INPUT_FILE)[1]}"
 		with open(OUTPUT_FILE, "w") as write_file:
-			json.dump(arg_output, write_file)
+			json.dump(arg_output, write_file, indent = 4)
 		print(f"Argumentation output written in {OUTPUT_FILE}.")
 
 	response.raise_for_status()
