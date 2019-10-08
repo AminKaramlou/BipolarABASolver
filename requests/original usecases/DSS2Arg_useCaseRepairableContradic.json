@@ -17,14 +17,14 @@
 					},	
 					"other" : 
 					{
-                        "drugTypePreferences" : //now plural becuase there could be more than one. Change back to singular if needed
+                        "drugTypePreferences" :
                         {
                             "reference":
                             {
                                     "refId":"COPD.group",
                                     "resultCode":"C"
                             },
-                            "entries": //change back to entry, if needed. Then, remove also []
+                            "entries": 
                             [ 
                                 {
                                         "preferred" : 
@@ -39,53 +39,54 @@
 			    }
         }
     },
-	    "DSS" :
-	    {
-		    "proposedTreatment":
-		    {    
-				"resource": {  
-					"reference" : {
-						"resourceType" : "Observation",
-						"id" : "COPD.group",
-						"text": "COPD GOLD group"
-					},
-					"result" : {
-						"code": "C",
-						"display" : "COPD GOLD group C"
-					},	
-					"other" : 
-					{
-                        "drugTypes" : 
-						{ 
-                            "drugTypePreferences" : 
+	"DSS" :
+	{
+		"proposedTreatment":
+		{    
+			"resource": {  
+				"reference" : {
+					"resourceType" : "Observation",
+					"id" : "COPD.group",
+					"text": "COPD GOLD group"
+				},
+				"result" : {
+					"code": "C",
+					"display" : "COPD GOLD group C"
+				},	
+				"other" : 
+				{
+					"drugTypes" : 
+					{ 
+						"drugTypePreferences" : 
+						{
+							"reference":
 							{
-								"reference":
-								{
-										"refId":"COPD.group",
-										"resultCode":"C"
-								},
-								"entries": 
-								[ 
-								   {
-                                      "preferred" : 
-                                      {   
-										"administrationOf":"LabaLama"
-									  },
-									  "alternative" : 
-									  [
-										 {
-											"administrationOf" : "Lama"
-                                         },
-                                         {
-											"administrationOf" : "LabaIcs"
-										 }
-									  ]
-                                    }
-								]
-							}							
-					    }
-				    }
+									"refId":"COPD.group",
+									"resultCode":"C"
+							},
+							"entries": 
+							[ 
+							   {
+								  "preferred" : 
+								  {   
+									"administrationOf":"LabaLama"
+								  },
+								  "alternative" : 
+								  [
+									 {
+										"administrationOf" : "Lama"
+									 },
+									 {
+										"administrationOf" : "LabaIcs"
+									 }
+								  ]
+								}
+							]
+						}							
+					}
+				}
 			}
+		}
 	},
 	"TMR" : 
 	{
@@ -286,7 +287,7 @@
                                 }		
                             }
                         ]
-                        },
+                    },
                         {
                             "id" : "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
                             "text" : "Clinician should recommend administering LABA + LAMA" ,
@@ -389,7 +390,7 @@
                             "id" : "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
                             "text" : "Clinician should be aware that administering ICS increases the risk of Pneumonia" ,
                             "motivation": "",
-                            "suggestion" : "nonRecommend", //I have seen nonrecommend on some previous versions of my JSON, ideally I prefer this one but convert back to lower case letter if not running properly
+                            "suggestion" : "nonRecommend",
                             "drugTypeCode": "Ics",
                             "aboutExecutionOf" : "administration of ICS",
                             "causationBeliefs" :
@@ -536,4 +537,4 @@
 			}
 	}
 }
-}
+
