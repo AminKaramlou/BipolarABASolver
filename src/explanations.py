@@ -13,9 +13,10 @@ def get_explanations_json(framework, extensions, dss):
                 rec = next (r for r in recommendations if r['id'] == sentence)
                 # action = rec['aboutExecutionOf']
                 if rec['suggestion'] == 'recommend':
-                    rec_text = '{} suggests {act}, because {act} has: '.format(rec['id'], act = rec['aboutExecutionOf'])
+                    suggestion = 'suggests {}'.format(rec['aboutExecutionOf'])
                 elif rec['suggestion'] == 'nonRecommend':
-                    rec_text = '{} suggests avoiding {act}, because {act} has: '.format(rec['id'], act = rec['aboutExecutionOf'])
+                    suggestion = 'suggests avoiding {}'.format(rec['aboutExecutionOf'])
+                rec_text = '{} {sug}, because {act} has: '.format(rec['id'], sug = suggestion, act = rec['aboutExecutionOf'])
 
                 for belief in rec['causationBeliefs']:  
                     transition = belief['transition']  
@@ -35,31 +36,41 @@ def get_explanations_json(framework, extensions, dss):
 
                 print('---------------------------------------------------------')
 
-                # interacting_recs_text = 'Interacting recommendations were considered'
-                # interactions_explanation_dict = [] 
                 interactions_explanation_list = []
                 for i in guideline_group_data['interactions']:
                     if rec['id'] in ((r['recId'] for r in i['interactionNorms'])):
+                        other_rec_name = next(r['recId'] for r in i['interactionNorms'] if r['recId'] != rec['id'])
+                        other_rec = next(r for r in guideline_group_data['recommendations'] if r['id'] == other_rec_name)
+                        if other_rec['suggestion'] == 'recommend':
+                            suggestion = 'suggests {}'.format(other_rec['aboutExecutionOf'])
+                        elif other_rec['suggestion'] == 'nonRecommend':
+                            suggestion = 'suggests avoiding {}'.format(other_rec['aboutExecutionOf'])
+                        # other_rec_action = other_rec['aboutExecutionOf']
+                        # other_rec_transition = other_rec['causationBeliefs']['transition']
+                        # interaction_text = '{} with action {} and effect {} {} was considered as a {} recommendation'.format \
+                        #     (other_rec_name, other_rec_action, other_rec_transition['effect'], other_rec_transition['property']['display'], i['type'])
+    
                         if i['type'] == 'alternative' or i['type'] == 'contradiction' or i['type'] == 'repetition':
-                            other_rec_name = next(r['recId'] for r in i['interactionNorms'] if r['recId'] != rec['id'])
-                            other_rec = next(r for r in guideline_group_data['recommendations'] if r['id'] == other_rec_name)
-                            other_rec_action = other_rec['aboutExecutionOf']
-                            # other_rec_transition = other_rec['causationBeliefs']['transition']
-                            # interaction_text = '{} with action {} and effect {} {} was considered as a {} recommendation'.format \
-                            #     (other_rec_name, other_rec_action, other_rec_transition['effect'], other_rec_transition['property']['display'], i['type'])
-                            interaction_text = '{} with action {} was considered as a(n) {} recommendation'.format \
-                                (other_rec_name, other_rec_action, i['type'])
+                            interaction_text = '{} which {} was considered as a(n) {} recommendation'.format \
+                            (other_rec_name, suggestion, i['type'])
                             if (other_rec_name, rec['id']) in framework.strict_preferences:
                                 reason_text = 'but {} is preferred'.format(rec['id'])
                             else:
                                 reason_text = 'but {} is acceptable in the presence of {}'.format(rec['id'], other_rec_name)
                             full_interaction_text = '{} {}'.format(interaction_text, reason_text)
+                        elif i['type'] == 'repairable':
+                            if rec['id'] in (r['recId'] for r in i['interactionNorms'] if r['type'] == 'secondary'):
+                                full_interaction_text = '{} is considered {} by {} which {}'.format \
+                                (rec['id'], i['type'], other_rec_name, suggestion)
+                            elif rec['id'] in (r['recId'] for r in i['interactionNorms'] if r['type'] == 'primary'):
+                                full_interaction_text = '{} which {} is considered {} by {}'.format \
+                                (other_rec_name, suggestion, i['type'], rec['id'])
+
                         interacting_rec_explanation_dict = {
                             'interactionType': i['type'],
                             'otherRecommendationRecId': other_rec_name,
                             'explanatoryText': full_interaction_text
                         }
-                        # interactions_explanation_dict.append(interacting_rec_explanation_dict)
                         interactions_explanation_list.append(interacting_rec_explanation_dict)
                 recommendation_explanation_dict = {
                     'aboutRecommendation': rec_text,
