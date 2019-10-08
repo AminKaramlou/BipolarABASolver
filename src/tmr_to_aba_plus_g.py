@@ -48,8 +48,8 @@ def create_assumptions(recommendations, interactions):
     assumptions = [r['id'] for r in recommendations]
     for i in interactions:
         if i['type'] == 'repairable':
-            primary_recommendation = next(r for r in i['interactionNorms'] if r['type'] == 'primary')
-            assumptions.append('needs_repair({})'.format(primary_recommendation['id']))
+            repairable_recommendation = next(r for r in i['interactionNorms'] if r['type'] == 'secondary')
+            assumptions.append('needs_repair({})'.format(repairable_recommendation['recId']))
     return assumptions
 
 
@@ -89,11 +89,11 @@ def create_rules(recommendations, interactions):
                         rules.append(('c_' + r1, [r2]))
 
         elif i['type'] == 'repairable':
-            primary_rec = next (r['recId'] for r in i['interactionNorms'] if r['type'] == 'primary')
-            secondary_rec = next (r['recId'] for r in i['interactionNorms'] if r['type'] == 'secondary')
+            repairing_recommendation = next (r['recId'] for r in i['interactionNorms'] if r['type'] == 'primary')
+            repairable_recommendation = next (r['recId'] for r in i['interactionNorms'] if r['type'] == 'secondary')
 
-            rules.append((secondary_rec, [primary_rec, 'needs_repair({})'.format(primary_rec)]))
-            rules.append(('c_needs_repair({})'.format(primary_rec), [secondary_rec]))
+            rules.append((repairing_recommendation, [repairable_recommendation, 'needs_repair({})'.format(repairable_recommendation)]))
+            rules.append(('c_needs_repair({})'.format(repairable_recommendation), [repairing_recommendation]))
 
     return rules
 
@@ -120,4 +120,5 @@ def create_guideline_preferences(recommendations, dss_data):
         for p in preferred_recs:
             for a in alternative_recs:
                 strict_preferences.append((a, p))
-        return strict_preferences
+
+    return strict_preferences
