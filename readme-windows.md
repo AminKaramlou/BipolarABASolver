@@ -5,14 +5,14 @@
 
 ### Deployed
 
-To send POST requests to the [ABA+G endpoint](https://aba-plus-g.herokuapp.com/generate_explanations), can use `python requests/post.py` (modify `URL` as required). 
+To send POST requests to the [deployed ABA+G endpoint](https://aba-plus-g.herokuapp.com/generate_explanations), can use `python requests/post.py` (modify `URL` as required). 
 `INPUT_FILE` .json needs to be in `/requests`, the output .json will be appended with `_arg` and placed in `/requests`.
 
 ### Stand-alone
 
 Run `python src/app.py` from the main directory of the repository to run the flask server with ABA+G. 
 
-To send POST requests to the [ABA+G endpoint](http://127.0.0.1:5000/generate_explanations), can use `python requests/post.py` (modify `URL` as required). 
+To send POST requests to the [local ABA+G endpoint](http://127.0.0.1:5000/generate_explanations), can use `python requests/post.py` (modify `URL` as required). 
 `INPUT_FILE` .json needs to be in `/requests`, the output .json will be appended with `_arg` and placed in `/requests`.
 
 #### Via Ubuntu
@@ -33,16 +33,15 @@ Using **Ubuntu 18.04 (bionic) LTS** app on Windows
  
 ## Install
   
- - `pip install -r requirements.txt`: Installs run time dependencies.  
- - `pip install -e ".[dev]"`: Installs dev dependencies together with run time dependencies.  
- - `make freeze`: Freezes dependencies from `setup.py` to `requirements.txt` (including transitive ones).  
- - `flake8 src/ tests/`: Runs static analysis.  
- - `pytest -sv tests`: Runs component tests.  
- - ```
- coverage run --source=src --branch -m pytest tests/run_on_ci --junitxml=build/test.xml -v
- coverage report
- coverage xml -i -o build/coverage.xml
- ```: Runs all tests collecting coverage.  
+ - `pip install -r requirements.txt`: Installs run time dependencies.
+ - `pip install -e ".[dev]"`: Installs dev dependencies together with run time dependencies.
+ - `make freeze`: Freezes dependencies from `setup.py` to `requirements.txt` (including transitive ones).
+ - `flake8 src/ tests/`: Runs static analysis.
+ - `pytest -sv tests`: Runs component tests.
+ - To run all tests collecting coverage:  
+	`coverage run --source=src --branch -m pytest tests/run_on_ci --junitxml=build/test.xml -v`  
+	`coverage report`  
+	`coverage xml -i -o build/coverage.xml`  
   
 ### Updating dependencies  
   
