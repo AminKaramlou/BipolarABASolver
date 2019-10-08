@@ -56,13 +56,17 @@ def create_assumptions(recommendations, interactions):
 def create_rules(recommendations, interactions):
     rules = []
     for r in recommendations:
+        if 'drugTypeCode' in r.keys():
+            action = r['drugTypeCode']
+        elif 'nonDrugTypeCode' in r.keys():
+            action = r['nonDrugTypeCode']
+
         for b in r['causationBeliefs']:
             transition = b['transition']
             effect = transition['effect']
             property = transition['property']['code']
             initial_value = next(s['value']['representation'] for s in transition['situationTypes'] if s['type'] =='hasTransformableSituation')
-            final_value = next(s['value']['representation'] for s in transition['situationTypes'] if s['type'] =='hasExpectedSituation')
-            action = r['drugTypeCode']
+            final_value = next(s['value']['representation'] for s in transition['situationTypes'] if s['type'] =='hasExpectedSituation')           
 
             if r['suggestion'] == 'recommend':
                 rules.append((action, [r['id']])) # Action rules
@@ -104,9 +108,13 @@ def create_guideline_preferences(recommendations, dss_data):
         alternative_recs = []
 
         for r in recommendations:
-            if r['drugTypeCode'] == preferred:
+            if 'drugTypeCode' in r.keys():
+                action = r['drugTypeCode']
+            elif 'nonDrugTypeCode' in r.keys():
+                action = r['nonDrugTypeCode']
+            if action == preferred:
                 preferred_recs.append(r['id'])
-            if r['drugTypeCode'] in alternatives:
+            if action in alternatives:
                 alternative_recs.append(r['id'])
 
         for p in preferred_recs:
