@@ -17,23 +17,24 @@
 					},	
 					"other" : 
 					{
-                        "drugTypePreferences" : //now plural because there could be more than one
-						{
-								"reference":
-								{
-										"refId":"COPD.group",
-										"resultCode":"B"
-								},
-                                "entries": 
-                                [ //Ive just modified the name and format (now a list) bc I realised that the clinician is not bound to make only ONE choice 
-                                    {
-                                            "preferred" : 
-                                            {       
-                                                "administrationOf": "http://anonymous.org/data/ActAdministerLaba"
-                                            }
-                                    }
-                                ]       							
-					    }
+						
+							"drugTypePreferences" : 
+							{
+									"reference":
+									{
+											"refId":"COPD.group",
+											"resultCode":"B"
+									},
+									"entries": 
+									[
+										{
+												"preferred" : 
+												{       
+													"administrationOf": "http://anonymous.org/data/ActAdministerLaba"
+												}
+										}
+									]       							
+							}
 				    }
 			    }
         }
@@ -42,7 +43,8 @@
 	    {
 		    "proposedTreatment":
 		    {    
-				"resource": {  
+				"resource": 
+				{  
 					"reference" : {
 						"resourceType" : "Observation",
 						"id" : "COPD.group",
@@ -54,45 +56,48 @@
 					},	
 					"other" : 
 					{ 
-					    "drugTypePreferences" : 
-							{
-								"reference":
+						"drugTypes":
+						{
+							"drugTypePreferences" : 
 								{
-										"refId":"COPD.group",
-										"resultCode":"B"
-								},
-								"entries": 
-								[ 
-								   {
-                                      "preferred" : 
-                                      {   
-										"administrationOf":"http://anonymous.org/data/ActAdministerLaba"
-									  },
-									  "alternative" : 
-									  [
-										 {
-											"administrationOf" : "http://anonymous.org/data/ActAdministerLabaLama"
-										 }
-									  ]
-                                    },
-                                    {
-                                        "preferred" : 
-                                        {
-                                            "administrationOf":"http://anonymous.org/data/ActAdministerLama"
-                                        },
-                                        "alternative" : 
-                                        [
-                                            {
-                                                "administrationOf" : "http://anonymous.org/data/ActAdministerLabaLama"
-                                            }
-                                        ]
-                                    
-								]
-							}							
-					}
+									"reference":
+									{
+											"refId":"COPD.group",
+											"resultCode":"B"
+									},
+									"entries": 
+									[ 
+									   {
+										  "preferred" : 
+										  {   
+											"administrationOf":"http://anonymous.org/data/ActAdministerLaba"
+										  },
+										  "alternative" : 
+										  [
+											 {
+												"administrationOf" : "http://anonymous.org/data/ActAdministerLabaLama"
+											 }
+										  ]
+										},
+										{
+											"preferred" : 
+											{
+												"administrationOf":"http://anonymous.org/data/ActAdministerLama"
+											},
+											"alternative" : 
+											[
+												{
+													"administrationOf" : "http://anonymous.org/data/ActAdministerLabaLama"
+												}
+											]
+										}
+									]
+								}
+						}
+					}	
 				}
 			}
-	},
+		},
 	"TMR" : 
 	{
 		"guidelineGroup" :
@@ -142,7 +147,7 @@
 					{
 					"id" : "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should",
                     "text" : "Clinician should recommend administering LABA" ,
-                    "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators", //this is taken from the clinical guideline. MAybe it will need to be done from the serbian one to provide the factual motivation
+                    "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators", 
                     "suggestion" : "recommend",
                     "drugTypeCode": "http://anonymous.org/data/ActAdministerLaba",
                     "aboutExecutionOf" : "administration of LABA",
@@ -339,4 +344,4 @@
 			}
 	}
 }
-}
+
