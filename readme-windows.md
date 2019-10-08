@@ -14,28 +14,12 @@ Run `python src/app.py` from the main directory of the repository to run the fla
 
 To send POST requests to the [local ABA+G endpoint](http://127.0.0.1:5000/generate_explanations), can use `python requests/post.py` (modify `URL` as required). 
 `INPUT_FILE` .json needs to be in `/requests`, the output .json will be appended with `_arg` and placed in `/requests`.
-
-#### Via Ubuntu
-
-Using **Ubuntu 18.04 (bionic) LTS** app on Windows
-
-- `apt-get update`
-- `apt-get install make`
-- `apt-get install python3`
-- `apt-get install python3-setuptools` (not necessary)
-- `apt-get install python3-pip` (not necessary)
-- apt-get install python-pip
-- `apt-get install flake8` for `make lint`
-- `apt-get install python-pytest` for `make component`
-- `pip install pip-tools` for `make freeze`, and also, **TBD**: execute `pip-compile` through python's virtual environment
-- Update dependencies:
-	1. in `setup.py` dev_requires modify to `'pytest-cov<=2.6.0'`
  
 ## Install
   
  - `pip install -r requirements.txt`: Installs run time dependencies.
  - `pip install -e ".[dev]"`: Installs dev dependencies together with run time dependencies.
- - `make freeze`: Freezes dependencies from `setup.py` to `requirements.txt` (including transitive ones).
+ - `pip-compile --output-file requirements.txt setup.py`: Freezes dependencies from `setup.py` to `requirements.txt` (including transitive ones).
  - `flake8 src/ tests/`: Runs static analysis.
  - `pytest -sv tests`: Runs component tests.
  - To run all tests collecting coverage:  
@@ -63,5 +47,21 @@ install_requires = [
 ```  
   
 If you execute `pip-compile --output-file requirements.txt setup.py`, it will regenerate the `requirements.txt` file with the new dependencies according to what the new version of `pytest` needs.  
+
+#### Via Ubuntu
+
+Using **Ubuntu 18.04 (bionic) LTS** app on Windows
+
+- `apt-get update`
+- `apt-get install make`
+- `apt-get install python3`
+- `apt-get install python3-setuptools` (not necessary)
+- `apt-get install python3-pip` (not necessary)
+- apt-get install python-pip
+- `apt-get install flake8` for `make lint`
+- `apt-get install python-pytest` for `make component`
+- `pip install pip-tools` for `make freeze`, and also, **TBD**: execute `pip-compile` through python's virtual environment
+- Update dependencies:
+	1. in `setup.py` dev_requires modify to `'pytest-cov<=2.6.0'`
   
 
