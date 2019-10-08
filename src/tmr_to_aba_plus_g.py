@@ -56,22 +56,23 @@ def create_assumptions(recommendations, interactions):
 def create_rules(recommendations, interactions):
     rules = []
     for r in recommendations:
-        transition = r['causationBeliefs']['transition']
-        effect = transition['effect']
-        property = transition['property']['code']
-        initial_value = next(s['value']['representation'] for s in transition['situationTypes'] if s['type'] =='hasTransformableSituation')
-        final_value = next(s['value']['representation'] for s in transition['situationTypes'] if s['type'] =='hasExpectedSituation')
-        action = r['drugTypeCode']
+        for b in r['causationBeliefs']:
+            transition = b['transition']
+            effect = transition['effect']
+            property = transition['property']['code']
+            initial_value = next(s['value']['representation'] for s in transition['situationTypes'] if s['type'] =='hasTransformableSituation')
+            final_value = next(s['value']['representation'] for s in transition['situationTypes'] if s['type'] =='hasExpectedSituation')
+            action = r['drugTypeCode']
 
-        if r['suggestion'] == 'recommend':
-            rules.append((action, [r['id']])) # Action rules
-            rules.append((effect + '_' + property, [action])) # Effect rules
-            rules.append((final_value + '_' + property, [initial_value + '_' + property, effect + '_' + property])) # Value rules
+            if r['suggestion'] == 'recommend':
+                rules.append((action, [r['id']])) # Action rules
+                rules.append((effect + '_' + property, [action])) # Effect rules
+                rules.append((final_value + '_' + property, [initial_value + '_' + property, effect + '_' + property])) # Value rules
 
-        elif r['suggestion'] == 'nonRecommend':
-            rules.append(('not_' + action, [r['id']])) # Action rules
-            rules.append(('not_' + effect + '_' + property, ['not_' + action])) # Effect rules
-            rules.append(('not_' + final_value + '_' + property, [initial_value + '_' + property, 'not_' + effect + '_' + property])) # Value rules
+            elif r['suggestion'] == 'nonRecommend':
+                rules.append(('not_' + action, [r['id']])) # Action rules
+                rules.append(('not_' + effect + '_' + property, ['not_' + action])) # Effect rules
+                rules.append(('not_' + final_value + '_' + property, [initial_value + '_' + property, 'not_' + effect + '_' + property])) # Value rules
 
     for i in interactions:
         if i['type'] == 'contradiction' or i['type'] == 'alternative' or i['type'] == 'repetition':
@@ -96,7 +97,7 @@ def create_rules(recommendations, interactions):
 def create_guideline_preferences(recommendations, dss_data):
     strict_preferences = []
 
-    for preference in dss_data['proposedTreatment']['resource']['other']['drugTypePreferences']['entries']:
+    for preference in dss_data['proposedTreatment']['resource']['other']['drugTypes']['drugTypePreferences']['entries']:
         preferred = preference['preferred']['administrationOf']
         alternatives = [alt['administrationOf'] for alt in preference['alternative']]
         preferred_recs = []
