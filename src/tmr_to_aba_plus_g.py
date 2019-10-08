@@ -103,12 +103,12 @@ def create_guideline_preferences(recommendations, dss_data):
         alternative_recs = []
 
         for r in recommendations:
-            if r['causationBelief']['careActionTypeId'] == preferred:
+            if r['drugTypeCode'] == preferred:
                 preferred_recs.append(r['id'])
-            if r['causationBelief']['careActionTypeId'] in alternatives:
+            if r['drugTypeCode'] in alternatives:
                 alternative_recs.append(r['id'])
 
         for p in preferred_recs:
             for a in alternative_recs:
-                strict_preferences.append((p, a))
+                strict_preferences.append((a, p))
         return strict_preferences
