@@ -149,7 +149,7 @@
                     "text" : "Clinician should recommend administering LABA" ,
                     "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators", 
                     "suggestion" : "recommend",
-                    "drugTypeCode": "http://anonymous.org/data/ActAdministerLaba",
+                    "careActionTypeId": "http://anonymous.org/data/ActAdministerLaba",
                     "aboutExecutionOf" : "administration of LABA",
                     "causationBeliefs" :
                     [
@@ -198,7 +198,7 @@
                         "text" : "Clinician should recommend administering LAMA" ,
                         "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
                         "suggestion" : "recommend",
-                        "drugTypeCode": "http://anonymous.org/data/ActAdministerLama",
+                        "careActionTypeId": "http://anonymous.org/data/ActAdministerLama",
                         "aboutExecutionOf" : "administration of LAMA", 
                         "causationBeliefs" :
                         [
@@ -247,7 +247,7 @@
                             "text" : "Clinician should recommend administering LABA + LAMA" ,
                             "motivation": "A combination of bronchodilators is recommended as initial therapy for patients with  severe breathlessness. Also for patients on monotherapy with persistent breathlessness",
                             "suggestion" : "recommend", 
-                            "drugTypeCode": "http://anonymous.org/data/ActAdministerLabaLama",
+                            "careActionTypeId": "http://anonymous.org/data/ActAdministerLabaLama",
                             "aboutExecutionOf" : "administration of LABA + LAMA",
                             "causationBeliefs" :
                             [
@@ -296,7 +296,7 @@
                             "text" : "Clinician should encourage patient to quit smoking" ,
                             "motivation": "Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved",
                             "suggestion" : "recommend", 
-                            "nonDrugTypeCode": "http://anonymous.org/data/ActAdministerSmokingCessation",
+                            "careActionTypeId": "http://anonymous.org/data/ActAdministerSmokingCessation",
                             "aboutExecutionOf" : "application of smoking cessation therapy",
                             "causationBeliefs" :
                             [

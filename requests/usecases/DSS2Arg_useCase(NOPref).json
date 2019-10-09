@@ -13,81 +13,65 @@
 					},
 					"result" : {
 						"code": "C",
-						"display" : "COPD GOLD group C"
+						"display" : "COPD GOLD group B"
 					},	
 					"other" : 
 					{
-                        "drugTypePreferences" :
-                        {
-                            "reference":
-                            {
-                                    "refId":"COPD.group",
-                                    "resultCode":"C"
-                            },
-                            "entries": 
-                            [ 
-                                {
-                                        "preferred" : 
-                                        {       
-                                            "administrationOf": "LabaLama"
-                                        }
-                                }
-                            ]       							
-                    }
+                        "drugTypePreferences" : null
 
 				    }
 			    }
         }
     },
-	"DSS" :
-	{
-		"proposedTreatment":
-		{    
-			"resource": {  
-				"reference" : {
-					"resourceType" : "Observation",
-					"id" : "COPD.group",
-					"text": "COPD GOLD group"
-				},
-				"result" : {
-					"code": "C",
-					"display" : "COPD GOLD group C"
-				},	
-				"other" : 
-				{
-					"drugTypes" : 
-					{ 
-						"drugTypePreferences" : 
-						{
-							"reference":
+	    "DSS" :
+	    {
+		    "proposedTreatment":
+		    {    
+				"resource": {  
+					"reference" : {
+						"resourceType" : "Observation",
+						"id" : "COPD.group",
+						"text": "COPD GOLD group"
+					},
+					"result" : {
+						"code": "C",
+						"display" : "COPD GOLD group C"
+					},	
+					"other" : 
+					{
+                        "drugTypes" : 
+						{ 
+                            "drugTypePreferences" : 
 							{
-									"refId":"COPD.group",
-									"resultCode":"C"
-							},
-							"entries": 
-							[ 
-							   {
-								  "preferred" : 
-								  {   
-									"administrationOf":"LabaLama"
-								  },
-								  "alternative" : 
-								  [
-									 {
-										"administrationOf" : "Lama"
-									 },
-									 {
-										"administrationOf" : "LabaIcs"
-									 }
-								  ]
-								}
-							]
-						}							
-					}
+								"reference":
+								{
+										"refId":"COPD.group",
+										"resultCode":"C"
+								},
+								"entries": 
+								[ 
+								   {
+                                      "preferred" : 
+                                      {   
+										"administrationOf":"LabaLama"
+									  },
+									  "alternative" : 
+									  [
+										 {
+											"administrationOf" : "Lama"
+                                         },
+                                         {
+											"administrationOf" : "LabaIcs"
+										 }
+									  ]
+                                    }
+								]
+							}							
+					    }
+				    }
 				}
 			}
-		}
-	},
+		},
 	"TMR" : 
 	{
 		"guidelineGroup" :
@@ -195,7 +179,7 @@
                     "text" : "Clinician should recommend administering LAMA" ,
                     "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
                     "suggestion" : "recommend",
-                    "drugTypeCode": "Lama",
+                    "careActionTypeId": "Lama",
                     "aboutExecutionOf" : "administration of LAMA",
                     "causationBeliefs" :
                     [
@@ -217,7 +201,7 @@
 							    "situationTypes" : 
 							    [
 								    {
-                                    "id":"http://anonymous.org/data/SitCOPD.stageSevere",
+                                    "id":"http://anonymous.org/data/SitCOPDStageSevere",
 								    "type" : "hasTransformableSituation",
                                     "value" :
                                         {       
@@ -244,7 +228,7 @@
                         "text" : "Clinician should recommend administering LABA + ICS" ,
                         "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
                         "suggestion" : "recommend",
-                        "drugTypeCode": "LabaIcs",
+                        "careActionTypeId": "LabaIcs",
                         "aboutExecutionOf" : "administration of LABA + ICS", 
                         "causationBeliefs" :
                         [
@@ -287,13 +271,13 @@
                                 }		
                             }
                         ]
-                    },
+                        },
                         {
                             "id" : "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
                             "text" : "Clinician should recommend administering LABA + LAMA" ,
                             "motivation": "A combination of bronchodilators is recommended as initial therapy for patients with  severe breathlessness. Also for patients on monotherapy with persistent breathlessness",
                             "suggestion" : "recommend", 
-                            "drugTypeCode": "LabaLama",
+                            "careActionTypeId": "LabaLama",
                             "aboutExecutionOf" : "administration of LABA + LAMA",
                             "causationBeliefs" :
                             [
@@ -342,7 +326,7 @@
                             "text" : "Clinician should encourage patient to quit smoking" ,
                             "motivation": "Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved",
                             "suggestion" : "recommend", 
-                            "nonDrugTypeCode": "SmokingCessation",
+                            "careActionTypeId": "SmokingCessation",
                             "aboutExecutionOf" : "application of smoking cessation therapy",
                             "causationBeliefs" :
                             [
@@ -368,8 +352,8 @@
                                             "type" : "hasTransformableSituation", 
                                             "value" : 
                                             {       
-                                            "representation" : "high",
-                                            "display" : "Having a high airflow limitation severity"
+                                            "representation" : "High",
+                                            "display" : "Having a high airflow limitation severity when inhaling and exhaling"
                                             }
                                         },
                                         {
@@ -377,161 +361,14 @@
                                             "type" : "hasExpectedSituation",
                                             "value" :
                                             { 
-                                                 "representation" : "low",
-                                                 "display" : "Having a low airflow limitation severity"
+                                                 "representation" : "Low",
+                                                 "display" : "Having a low airflow limitation severity when inhaling and exhaling"
                                             } 
                                         }
                                     ]
                                 }		
                               }
                            ]
-                        },
-                        {
-                            "id" : "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
-                            "text" : "Clinician should be aware that administering ICS increases the risk of Pneumonia" ,
-                            "motivation": "",
-                            "suggestion" : "nonRecommend",
-                            "drugTypeCode": "Ics",
-                            "aboutExecutionOf" : "administration of ICS",
-                            "causationBeliefs" :
-                            [
-                                {
-                                "id": "http://anonymous.org/data/CBIcsIncreasePneumoniaRisk",
-                                "contribution" : "negative", 
-                                "probability" : "always",
-                                "evidence" : "High Level",
-                                "author" : "Jesus",
-                                "transition" :
-                                {
-                                    "id": "http://anonymous.org/data/TrIncreasePneumoniaRisk",
-                                    "effect" : "Increase",
-                                    "property" :
-                                    {
-                                         "display": "Pneumonia",
-                                         "code": "Pneumonia"
-                                    },
-                                    "situationTypes" :
-                                    [
-                                        {
-                                            "id":"http://anonymous.org/data/SitPneumoniaLowRisk",
-                                            "type" : "hasTransformableSituation", 
-                                            "value" : 
-                                            {       
-                                            "representation" : "low risk",
-                                            "display" : "having a low risk of developing Pneumonia"
-                                            }
-                                        },
-                                        {
-                                            "id":"http://anonymous.org/data/SitPneumoniaHighRisk",
-                                            "type" : "hasExpectedSituation",
-                                            "value" :
-                                            { 
-                                                 "representation" : "high risk",
-                                                 "display" : "having a high risk of developing Pneumonia"
-                                            } 
-                                        }
-                                    ]
-                                }		
-                                }
-                            ]
-                        },
-                        {
-                            "id" : "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot",
-                            "text" : "Clinician should not recommend administering SABA or LABA to susceptible patients when cardiovascular disease is present" ,
-                            "motivation": " ",
-                            "suggestion" : "nonRecommend", 
-                            "drugTypeCode": "SabaLaba",
-                            "aboutExecutionOf" : "administration of SABA or LABA",
-                            "causationBeliefs" :
-                            [
-                                {
-                                "id": "http://anonymous.org/data/CBSabaLabaIncreaseCRDRisk",
-                                "contribution" : "negative", 
-                                "probability" : "always",
-                                "evidence" : "High Level",
-                                "author" : "Jesus",
-                                "transition" :
-                                {
-                                    "id": "http://anonymous.org/data/TrIncreaseCRDRisk",
-                                    "effect" : "Decrease",
-                                    "property" :
-                                    {
-                                         "display": "cardiac rythm disturbances",
-                                         "code": "cvd.CRD"
-                                    },
-                                    "situationTypes" :
-                                    [
-                                        {
-                                            "id":"http://anonymous.org/data/SitCRDLowRisk",
-                                            "type" : "hasTransformableSituation", 
-                                            "value" : 
-                                            {       
-                                            "representation" : "low risk",
-                                            "display" : "having a low risk of cardiac rythm disturbances on susceptible patients"
-                                            }
-                                        },
-                                        {
-                                            "id":"http://anonymous.org/data/SitCRDHighRisk",
-                                            "type" : "hasExpectedSituation",
-                                            "value" :
-                                            { 
-                                                 "representation" : "high risk",
-                                                 "display" : "having a high risk of cardiac rythm disturbances on susceptible patients"
-                                            } 
-                                        }
-                                    ]
-                                }		
-                                }
-                            ]
-                        },
-                        {
-                            "id" : "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
-                            "text" : "Clinician should recommend administring the Pneumococcal vaccine to decrease the risk of contracting Pneumococcal Pneumonia" ,
-                            "motivation": " ",
-                            "suggestion" : "recommend", 
-                            "drugTypeCode": "Pneumococcal.vaccine",
-                            "aboutExecutionOf" : "administration of Pneumococcal vaccine",
-                            "causationBeliefs" :
-                            [
-                                {
-                                "id": "http://anonymous.org/data/CBPneumococcalVaccineDecreasePneumoniaRisk",
-                                "contribution" : "positive", 
-                                "probability" : "always",
-                                "evidence" : "High Level",
-                                "author" : "Jesus",
-                                "transition" :
-                                {
-                                    "id": "http://anonymous.org/data/TrDecreasePneumoniaRisk",
-                                    "effect" : "Decrease",
-                                    "property" :
-                                    {
-                                         "display": "Pneumonia",
-                                         "code": "Pneumonia"
-                                    },
-                                    "situationTypes" :
-                                    [
-                                        {
-                                            "id":"http://anonymous.org/data/SitPneumoniaHighRisk",
-                                            "type" : "hasTransformableSituation", 
-                                            "value" : 
-                                            {       
-                                            "representation" : "high risk",
-                                            "display" : "having a high risk of developing Pneumonia"
-                                            }
-                                        },
-                                        {
-                                            "id":"http://anonymous.org/data/SitPneumoniaLowRisk",
-                                            "type" : "hasExpectedSituation",
-                                            "value" :
-                                            { 
-                                                 "representation" : "low risk",
-                                                 "display" : "having a low risk of developing Pneumonia"
-                                            } 
-                                        }
-                                    ]
-                                }		
-                                }
-                            ]
                         }		
 				]
 			}
