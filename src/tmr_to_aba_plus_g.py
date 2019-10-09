@@ -56,11 +56,7 @@ def create_assumptions(recommendations, interactions):
 def create_rules(recommendations, interactions):
     rules = []
     for r in recommendations:
-        if 'drugTypeCode' in r.keys():
-            action = r['drugTypeCode']
-        elif 'nonDrugTypeCode' in r.keys():
-            action = r['nonDrugTypeCode']
-
+        action = r['careActionTypeId']
         for b in r['causationBeliefs']:
             transition = b['transition']
             effect = transition['effect']
@@ -108,10 +104,7 @@ def create_guideline_preferences(recommendations, dss_data):
         alternative_recs = []
 
         for r in recommendations:
-            if 'drugTypeCode' in r.keys():
-                action = r['drugTypeCode']
-            elif 'nonDrugTypeCode' in r.keys():
-                action = r['nonDrugTypeCode']
+            action = r['careActionTypeId']
             if action == preferred:
                 preferred_recs.append(r['id'])
             if action in alternatives:
