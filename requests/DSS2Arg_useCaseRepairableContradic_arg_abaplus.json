@@ -1,0 +1,59 @@
+myAsm(R-LAMA).
+myAsm(R-LABAICS).
+myAsm(R-LABALAMA).
+myAsm(R-Smoking).
+myAsm(R-Ics).
+myAsm(R-SABALABA).
+myAsm(R-Pneum).
+myAsm(needs_repair(R-Ics)).
+contrary(R-LAMA, c_R-LAMA).
+contrary(R-LABAICS, c_R-LABAICS).
+contrary(R-LABALAMA, c_R-LABALAMA).
+contrary(R-Smoking, c_R-Smoking).
+contrary(R-Ics, c_R-Ics).
+contrary(R-SABALABA, c_R-SABALABA).
+contrary(R-Pneum, c_R-Pneum).
+contrary(needs_repair(R-Ics), c_needs_repair(R-Ics)).
+myRule(Lama, [R-LAMA]).
+myRule(Decrease_COPD.stage, [Lama]).
+myRule(moderate_COPD.stage, [severe_COPD.stage, Decrease_COPD.stage]).
+myRule(LabaIcs, [R-LABAICS]).
+myRule(Decrease_COPD.stage, [LabaIcs]).
+myRule(moderae_COPD.stage, [severe_COPD.stage, Decrease_COPD.stage]).
+myRule(LabaLama, [R-LABALAMA]).
+myRule(Decrease_COPD.stage, [LabaLama]).
+myRule(moderate_COPD.stage, [severe_COPD.stage, Decrease_COPD.stage]).
+myRule(SmokingCessation, [R-Smoking]).
+myRule(Decrease_airflow.limitation.severity, [SmokingCessation]).
+myRule(low_airflow.limitation.severity, [high_airflow.limitation.severity, Decrease_airflow.limitation.severity]).
+myRule(not_Ics, [R-Ics]).
+myRule(not_Increase_Pneumonia, [not_Ics]).
+myRule(not_high risk_Pneumonia, [low risk_Pneumonia, not_Increase_Pneumonia]).
+myRule(not_SabaLaba, [R-SABALABA]).
+myRule(not_Decrease_cvd.CRD, [not_SabaLaba]).
+myRule(not_high risk_cvd.CRD, [low risk_cvd.CRD, not_Decrease_cvd.CRD]).
+myRule(Pneumococcal.vaccine, [R-Pneum]).
+myRule(Decrease_Pneumonia, [Pneumococcal.vaccine]).
+myRule(low risk_Pneumonia, [high risk_Pneumonia, Decrease_Pneumonia]).
+myRule(c_R-LAMA, [R-LABALAMA]).
+myRule(c_R-LAMA, [R-LABAICS]).
+myRule(c_R-LABALAMA, [R-LAMA]).
+myRule(c_R-LABALAMA, [R-LABAICS]).
+myRule(c_R-LABAICS, [R-LAMA]).
+myRule(c_R-LABAICS, [R-LABALAMA]).
+myRule(c_R-LAMA, [R-LABALAMA]).
+myRule(c_R-LAMA, [R-LABAICS]).
+myRule(c_R-LABALAMA, [R-LAMA]).
+myRule(c_R-LABALAMA, [R-LABAICS]).
+myRule(c_R-LABAICS, [R-LAMA]).
+myRule(c_R-LABAICS, [R-LABALAMA]).
+myRule(c_R-LABAICS, [R-Ics]).
+myRule(c_R-Ics, [R-LABAICS]).
+myRule(R-Pneum, [R-Ics, needs_repair(R-Ics)]).
+myRule(c_needs_repair(R-Ics), [R-Pneum]).
+myRule(c_R-LABALAMA, [R-SABALABA]).
+myRule(c_R-SABALABA, [R-LABALAMA]).
+myRule(c_R-LABAICS, [R-SABALABA]).
+myRule(c_R-SABALABA, [R-LABAICS]).
+myPrefLT(R-LAMA, R-LABALAMA).
+myPrefLT(R-LABAICS, R-LABALAMA).
