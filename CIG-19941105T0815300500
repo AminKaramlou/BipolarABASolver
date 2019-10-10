@@ -1,59 +1,34 @@
-myAsm(http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should).
-myAsm(http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should).
-myAsm(http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should).
+myAsm(http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should).
+myAsm(http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should).
+myAsm(http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should).
 myAsm(http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould).
-myAsm(http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot).
-myAsm(http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot).
-myAsm(http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould).
-myAsm(needs_repair(http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot)).
-contrary(http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should, c_http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should).
-contrary(http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should, c_http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should).
-contrary(http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should, c_http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should).
+contrary(http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should, c_http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should).
+contrary(http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should, c_http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should).
+contrary(http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should, c_http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should).
 contrary(http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould, c_http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould).
-contrary(http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot, c_http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot).
-contrary(http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot, c_http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot).
-contrary(http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould, c_http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould).
-contrary(needs_repair(http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot), c_needs_repair(http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot)).
-myRule(Lama, [http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should]).
-myRule(Decrease_COPD.stage, [Lama]).
-myRule(moderate_COPD.stage, [severe_COPD.stage, Decrease_COPD.stage]).
-myRule(LabaIcs, [http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should]).
-myRule(Decrease_COPD.stage, [LabaIcs]).
-myRule(moderae_COPD.stage, [severe_COPD.stage, Decrease_COPD.stage]).
-myRule(LabaLama, [http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should]).
-myRule(Decrease_COPD.stage, [LabaLama]).
-myRule(moderate_COPD.stage, [severe_COPD.stage, Decrease_COPD.stage]).
-myRule(SmokingCessation, [http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould]).
-myRule(Decrease_airflow.limitation.severity, [SmokingCessation]).
-myRule(low_airflow.limitation.severity, [high_airflow.limitation.severity, Decrease_airflow.limitation.severity]).
-myRule(not_Ics, [http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot]).
-myRule(not_Increase_Pneumonia, [not_Ics]).
-myRule(not_high risk_Pneumonia, [low risk_Pneumonia, not_Increase_Pneumonia]).
-myRule(not_SabaLaba, [http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot]).
-myRule(not_Decrease_cvd.CRD, [not_SabaLaba]).
-myRule(not_high risk_cvd.CRD, [low risk_cvd.CRD, not_Decrease_cvd.CRD]).
-myRule(Pneumococcal.vaccine, [http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould]).
-myRule(Decrease_Pneumonia, [Pneumococcal.vaccine]).
-myRule(low risk_Pneumonia, [high risk_Pneumonia, Decrease_Pneumonia]).
-myRule(c_http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should]).
-myRule(c_http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should]).
-myRule(c_http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should]).
-myRule(c_http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should]).
-myRule(c_http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should]).
-myRule(c_http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should]).
-myRule(c_http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should]).
-myRule(c_http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should]).
-myRule(c_http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should]).
-myRule(c_http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should]).
-myRule(c_http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should]).
-myRule(c_http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should]).
-myRule(c_http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot]).
-myRule(c_http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot, [http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should]).
-myRule(http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould, [http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot, needs_repair(http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot)]).
-myRule(c_needs_repair(http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot), [http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould]).
-myRule(c_http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot]).
-myRule(c_http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot, [http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should]).
-myRule(c_http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should, [http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot]).
-myRule(c_http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot, [http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should]).
-myPrefLT(http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should, http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should).
-myPrefLT(http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should, http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should).
+myRule(http://anonymous.org/data/ActAdministerLaba, [http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should]).
+myRule(Decrease_COPD.stage, [http://anonymous.org/data/ActAdministerLaba]).
+myRule(Mild_COPD.stage, [Moderate_COPD.stage, Decrease_COPD.stage]).
+myRule(http://anonymous.org/data/ActAdministerLama, [http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should]).
+myRule(Decrease_COPD.stage, [http://anonymous.org/data/ActAdministerLama]).
+myRule(Mild_COPD.stage, [Moderate_COPD.stage, Decrease_COPD.stage]).
+myRule(http://anonymous.org/data/ActAdministerLabaLama, [http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should]).
+myRule(Decrease_COPD.stage, [http://anonymous.org/data/ActAdministerLabaLama]).
+myRule(Mild_COPD.stage, [Moderate_COPD.stage, Decrease_COPD.stage]).
+myRule(http://anonymous.org/data/ActAdministerSmokingCessation, [http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould]).
+myRule(Decrease_airflow.limitation.severity, [http://anonymous.org/data/ActAdministerSmokingCessation]).
+myRule(Low_airflow.limitation.severity, [High_airflow.limitation.severity, Decrease_airflow.limitation.severity]).
+myRule(c_http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should, [http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should]).
+myRule(c_http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should, [http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should]).
+myRule(c_http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should, [http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should]).
+myRule(c_http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should, [http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should]).
+myRule(c_http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should, [http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should]).
+myRule(c_http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should, [http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should]).
+myRule(c_http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should, [http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should]).
+myRule(c_http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should, [http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should]).
+myRule(c_http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should, [http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should]).
+myRule(c_http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should, [http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should]).
+myRule(c_http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should, [http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should]).
+myRule(c_http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should, [http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should]).
+myPrefLT(http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should, http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should).
+myPrefLT(http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should, http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should).

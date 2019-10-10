@@ -1,0 +1,650 @@
+{
+    "extensions": [
+        {
+            "recommendationsInformation": [
+                {
+                    "aboutRecommendation": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould suggests administration of Pneumococcal vaccine, because administration of Pneumococcal vaccine has: positive contribution to Decrease Pneumonia resulting into having a low risk of developing Pneumonia of Pneumonia ( ); ",
+                    "interactionsInformation": [
+                        {
+                            "interactionType": "repairable",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot which suggests avoiding administration of ICS is considered repairable by http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould"
+                        }
+                    ],
+                    "id": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
+                    "text": "Clinician should recommend administring the Pneumococcal vaccine to decrease the risk of contracting Pneumococcal Pneumonia",
+                    "motivation": " ",
+                    "suggestion": "recommend",
+                    "careActionTypeId": "Pneumococcal.vaccine",
+                    "aboutExecutionOf": "administration of Pneumococcal vaccine",
+                    "causationBeliefs": [
+                        {
+                            "id": "http://anonymous.org/data/CBPneumococcalVaccineDecreasePneumoniaRisk",
+                            "contribution": "positive",
+                            "probability": "always",
+                            "evidence": "High Level",
+                            "author": "Jesus",
+                            "transition": {
+                                "id": "http://anonymous.org/data/TrDecreasePneumoniaRisk",
+                                "effect": "Decrease",
+                                "property": {
+                                    "display": "Pneumonia",
+                                    "code": "Pneumonia"
+                                },
+                                "situationTypes": [
+                                    {
+                                        "id": "http://anonymous.org/data/SitPneumoniaHighRisk",
+                                        "type": "hasTransformableSituation",
+                                        "value": {
+                                            "representation": "high risk",
+                                            "display": "having a high risk of developing Pneumonia"
+                                        }
+                                    },
+                                    {
+                                        "id": "http://anonymous.org/data/SitPneumoniaLowRisk",
+                                        "type": "hasExpectedSituation",
+                                        "value": {
+                                            "representation": "low risk",
+                                            "display": "having a low risk of developing Pneumonia"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "aboutRecommendation": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should suggests administration of LABA + LAMA, because administration of LABA + LAMA has: positive contribution to Decrease COPD stage resulting into having a moderate COPD stage of COPD stage (A combination of bronchodilators is recommended as initial therapy for patients with  severe breathlessness. Also for patients on monotherapy with persistent breathlessness); ",
+                    "interactionsInformation": [
+                        {
+                            "interactionType": "alternative",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should which suggests administration of LAMA was considered as a(n) alternative recommendation but http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is preferred"
+                        },
+                        {
+                            "interactionType": "repetition",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should which suggests administration of LAMA was considered as a(n) repetition recommendation but http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is preferred"
+                        },
+                        {
+                            "interactionType": "contradiction",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot which suggests avoiding administration of SABA or LABA was considered as a(n) contradiction recommendation but http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is acceptable in the presence of http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot"
+                        }
+                    ],
+                    "id": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
+                    "text": "Clinician should recommend administering LABA + LAMA",
+                    "motivation": "A combination of bronchodilators is recommended as initial therapy for patients with  severe breathlessness. Also for patients on monotherapy with persistent breathlessness",
+                    "suggestion": "recommend",
+                    "careActionTypeId": "LabaLama",
+                    "aboutExecutionOf": "administration of LABA + LAMA",
+                    "causationBeliefs": [
+                        {
+                            "id": "http://anonymous.org/data/CBLabaLamaDecreaseCOPDStage3",
+                            "contribution": "positive",
+                            "probability": "always",
+                            "evidence": "High Level",
+                            "author": "Jesus",
+                            "transition": {
+                                "id": "http://anonymous.org/data/TrDecreaseCOPDStage3",
+                                "effect": "Decrease",
+                                "property": {
+                                    "display": "COPD stage",
+                                    "code": "COPD.stage"
+                                },
+                                "situationTypes": [
+                                    {
+                                        "id": "http://anonymous.org/data/SitCOPDStageSevere",
+                                        "type": "hasTransformableSituation",
+                                        "value": {
+                                            "representation": "severe",
+                                            "display": "having a severe COPD stage"
+                                        }
+                                    },
+                                    {
+                                        "id": "http://anonymous.org/data/SitCOPDStageModerate",
+                                        "type": "hasExpectedSituation",
+                                        "value": {
+                                            "representation": "moderate",
+                                            "display": "having a moderate COPD stage"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "aboutRecommendation": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould suggests application of smoking cessation therapy, because application of smoking cessation therapy has: positive contribution to Decrease airflow limitation severity resulting into Having a low airflow limitation severity of airflow limitation severity (Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved); ",
+                    "interactionsInformation": [],
+                    "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
+                    "text": "Clinician should encourage patient to quit smoking",
+                    "motivation": "Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved",
+                    "suggestion": "recommend",
+                    "careActionTypeId": "SmokingCessation",
+                    "aboutExecutionOf": "application of smoking cessation therapy",
+                    "causationBeliefs": [
+                        {
+                            "id": "http://anonymous.org/data/CBSmokingCessationDecreaseALS",
+                            "contribution": "positive",
+                            "probability": "always",
+                            "evidence": "High Level",
+                            "author": "Jesus",
+                            "transition": {
+                                "id": "http://anonymous.org/data/TrDecreaseALS",
+                                "effect": "Decrease",
+                                "property": {
+                                    "display": "airflow limitation severity",
+                                    "code": "airflow.limitation.severity"
+                                },
+                                "situationTypes": [
+                                    {
+                                        "id": "http://anonymous.org/data/SitALSHigh",
+                                        "type": "hasTransformableSituation",
+                                        "value": {
+                                            "representation": "high",
+                                            "display": "Having a high airflow limitation severity"
+                                        }
+                                    },
+                                    {
+                                        "id": "http://anonymous.org/data/SitALSLow",
+                                        "type": "hasExpectedSituation",
+                                        "value": {
+                                            "representation": "low",
+                                            "display": "Having a low airflow limitation severity"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "recommendationsInformation": [
+                {
+                    "aboutRecommendation": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should suggests administration of LAMA, because administration of LAMA has: positive contribution to Decrease COPD stage resulting into having a moderate COPD stage of COPD stage (Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators); ",
+                    "interactionsInformation": [
+                        {
+                            "interactionType": "alternative",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should which suggests administration of LABA + LAMA was considered as a(n) alternative recommendation but http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should is acceptable in the presence of http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should"
+                        },
+                        {
+                            "interactionType": "repetition",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should which suggests administration of LABA + LAMA was considered as a(n) repetition recommendation but http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should is acceptable in the presence of http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should"
+                        }
+                    ],
+                    "id": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
+                    "text": "Clinician should recommend administering LAMA",
+                    "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
+                    "suggestion": "recommend",
+                    "careActionTypeId": "Lama",
+                    "aboutExecutionOf": "administration of LAMA",
+                    "causationBeliefs": [
+                        {
+                            "id": "http://anonymous.org/data/CBLamaDecreaseCOPDStage3",
+                            "contribution": "positive",
+                            "probability": "always",
+                            "evidence": "High Level",
+                            "author": "Jesus",
+                            "transition": {
+                                "id": "http://anonymous.org/data/TrDecreaseCOPDStage3",
+                                "effect": "Decrease",
+                                "property": {
+                                    "display": "COPD stage",
+                                    "code": "COPD.stage"
+                                },
+                                "situationTypes": [
+                                    {
+                                        "id": "http://anonymous.org/data/SitCOPD.stageSevere",
+                                        "type": "hasTransformableSituation",
+                                        "value": {
+                                            "representation": "severe",
+                                            "display": "having a severe COPD stage"
+                                        }
+                                    },
+                                    {
+                                        "id": "http://anonymous.org/data/SitCOPDStageModerate",
+                                        "type": "hasExpectedSituation",
+                                        "value": {
+                                            "representation": "moderate",
+                                            "display": "having a moderate COPD stage"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "aboutRecommendation": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould suggests application of smoking cessation therapy, because application of smoking cessation therapy has: positive contribution to Decrease airflow limitation severity resulting into Having a low airflow limitation severity of airflow limitation severity (Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved); ",
+                    "interactionsInformation": [],
+                    "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
+                    "text": "Clinician should encourage patient to quit smoking",
+                    "motivation": "Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved",
+                    "suggestion": "recommend",
+                    "careActionTypeId": "SmokingCessation",
+                    "aboutExecutionOf": "application of smoking cessation therapy",
+                    "causationBeliefs": [
+                        {
+                            "id": "http://anonymous.org/data/CBSmokingCessationDecreaseALS",
+                            "contribution": "positive",
+                            "probability": "always",
+                            "evidence": "High Level",
+                            "author": "Jesus",
+                            "transition": {
+                                "id": "http://anonymous.org/data/TrDecreaseALS",
+                                "effect": "Decrease",
+                                "property": {
+                                    "display": "airflow limitation severity",
+                                    "code": "airflow.limitation.severity"
+                                },
+                                "situationTypes": [
+                                    {
+                                        "id": "http://anonymous.org/data/SitALSHigh",
+                                        "type": "hasTransformableSituation",
+                                        "value": {
+                                            "representation": "high",
+                                            "display": "Having a high airflow limitation severity"
+                                        }
+                                    },
+                                    {
+                                        "id": "http://anonymous.org/data/SitALSLow",
+                                        "type": "hasExpectedSituation",
+                                        "value": {
+                                            "representation": "low",
+                                            "display": "Having a low airflow limitation severity"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "aboutRecommendation": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould suggests administration of Pneumococcal vaccine, because administration of Pneumococcal vaccine has: positive contribution to Decrease Pneumonia resulting into having a low risk of developing Pneumonia of Pneumonia ( ); ",
+                    "interactionsInformation": [
+                        {
+                            "interactionType": "repairable",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot which suggests avoiding administration of ICS is considered repairable by http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould"
+                        }
+                    ],
+                    "id": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
+                    "text": "Clinician should recommend administring the Pneumococcal vaccine to decrease the risk of contracting Pneumococcal Pneumonia",
+                    "motivation": " ",
+                    "suggestion": "recommend",
+                    "careActionTypeId": "Pneumococcal.vaccine",
+                    "aboutExecutionOf": "administration of Pneumococcal vaccine",
+                    "causationBeliefs": [
+                        {
+                            "id": "http://anonymous.org/data/CBPneumococcalVaccineDecreasePneumoniaRisk",
+                            "contribution": "positive",
+                            "probability": "always",
+                            "evidence": "High Level",
+                            "author": "Jesus",
+                            "transition": {
+                                "id": "http://anonymous.org/data/TrDecreasePneumoniaRisk",
+                                "effect": "Decrease",
+                                "property": {
+                                    "display": "Pneumonia",
+                                    "code": "Pneumonia"
+                                },
+                                "situationTypes": [
+                                    {
+                                        "id": "http://anonymous.org/data/SitPneumoniaHighRisk",
+                                        "type": "hasTransformableSituation",
+                                        "value": {
+                                            "representation": "high risk",
+                                            "display": "having a high risk of developing Pneumonia"
+                                        }
+                                    },
+                                    {
+                                        "id": "http://anonymous.org/data/SitPneumoniaLowRisk",
+                                        "type": "hasExpectedSituation",
+                                        "value": {
+                                            "representation": "low risk",
+                                            "display": "having a low risk of developing Pneumonia"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "aboutRecommendation": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot suggests avoiding administration of ICS, because administration of ICS has: negative contribution to Increase Pneumonia resulting into having a high risk of developing Pneumonia of Pneumonia (); ",
+                    "interactionsInformation": [
+                        {
+                            "interactionType": "contradiction",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should which suggests administration of LABA + ICS was considered as a(n) contradiction recommendation but http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot is acceptable in the presence of http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should"
+                        },
+                        {
+                            "interactionType": "repairable",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot is considered repairable by http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould which suggests administration of Pneumococcal vaccine"
+                        }
+                    ],
+                    "id": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+                    "text": "Clinician should be aware that administering ICS increases the risk of Pneumonia",
+                    "motivation": "",
+                    "suggestion": "nonRecommend",
+                    "careActionTypeId": "Ics",
+                    "aboutExecutionOf": "administration of ICS",
+                    "causationBeliefs": [
+                        {
+                            "id": "http://anonymous.org/data/CBIcsIncreasePneumoniaRisk",
+                            "contribution": "negative",
+                            "probability": "always",
+                            "evidence": "High Level",
+                            "author": "Jesus",
+                            "transition": {
+                                "id": "http://anonymous.org/data/TrIncreasePneumoniaRisk",
+                                "effect": "Increase",
+                                "property": {
+                                    "display": "Pneumonia",
+                                    "code": "Pneumonia"
+                                },
+                                "situationTypes": [
+                                    {
+                                        "id": "http://anonymous.org/data/SitPneumoniaLowRisk",
+                                        "type": "hasTransformableSituation",
+                                        "value": {
+                                            "representation": "low risk",
+                                            "display": "having a low risk of developing Pneumonia"
+                                        }
+                                    },
+                                    {
+                                        "id": "http://anonymous.org/data/SitPneumoniaHighRisk",
+                                        "type": "hasExpectedSituation",
+                                        "value": {
+                                            "representation": "high risk",
+                                            "display": "having a high risk of developing Pneumonia"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "aboutRecommendation": "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot suggests avoiding administration of SABA or LABA, because administration of SABA or LABA has: negative contribution to Decrease cardiac rythm disturbances resulting into having a high risk of cardiac rythm disturbances on susceptible patients of cardiac rythm disturbances ( ); ",
+                    "interactionsInformation": [
+                        {
+                            "interactionType": "contradiction",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should which suggests administration of LABA + LAMA was considered as a(n) contradiction recommendation but http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot is acceptable in the presence of http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should"
+                        },
+                        {
+                            "interactionType": "contradiction",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should which suggests administration of LABA + ICS was considered as a(n) contradiction recommendation but http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot is acceptable in the presence of http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should"
+                        }
+                    ],
+                    "id": "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot",
+                    "text": "Clinician should not recommend administering SABA or LABA to susceptible patients when cardiovascular disease is present",
+                    "motivation": " ",
+                    "suggestion": "nonRecommend",
+                    "careActionTypeId": "SabaLaba",
+                    "aboutExecutionOf": "administration of SABA or LABA",
+                    "causationBeliefs": [
+                        {
+                            "id": "http://anonymous.org/data/CBSabaLabaIncreaseCRDRisk",
+                            "contribution": "negative",
+                            "probability": "always",
+                            "evidence": "High Level",
+                            "author": "Jesus",
+                            "transition": {
+                                "id": "http://anonymous.org/data/TrIncreaseCRDRisk",
+                                "effect": "Decrease",
+                                "property": {
+                                    "display": "cardiac rythm disturbances",
+                                    "code": "cvd.CRD"
+                                },
+                                "situationTypes": [
+                                    {
+                                        "id": "http://anonymous.org/data/SitCRDLowRisk",
+                                        "type": "hasTransformableSituation",
+                                        "value": {
+                                            "representation": "low risk",
+                                            "display": "having a low risk of cardiac rythm disturbances on susceptible patients"
+                                        }
+                                    },
+                                    {
+                                        "id": "http://anonymous.org/data/SitCRDHighRisk",
+                                        "type": "hasExpectedSituation",
+                                        "value": {
+                                            "representation": "high risk",
+                                            "display": "having a high risk of cardiac rythm disturbances on susceptible patients"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "recommendationsInformation": [
+                {
+                    "aboutRecommendation": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould suggests administration of Pneumococcal vaccine, because administration of Pneumococcal vaccine has: positive contribution to Decrease Pneumonia resulting into having a low risk of developing Pneumonia of Pneumonia ( ); ",
+                    "interactionsInformation": [
+                        {
+                            "interactionType": "repairable",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot which suggests avoiding administration of ICS is considered repairable by http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould"
+                        }
+                    ],
+                    "id": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
+                    "text": "Clinician should recommend administring the Pneumococcal vaccine to decrease the risk of contracting Pneumococcal Pneumonia",
+                    "motivation": " ",
+                    "suggestion": "recommend",
+                    "careActionTypeId": "Pneumococcal.vaccine",
+                    "aboutExecutionOf": "administration of Pneumococcal vaccine",
+                    "causationBeliefs": [
+                        {
+                            "id": "http://anonymous.org/data/CBPneumococcalVaccineDecreasePneumoniaRisk",
+                            "contribution": "positive",
+                            "probability": "always",
+                            "evidence": "High Level",
+                            "author": "Jesus",
+                            "transition": {
+                                "id": "http://anonymous.org/data/TrDecreasePneumoniaRisk",
+                                "effect": "Decrease",
+                                "property": {
+                                    "display": "Pneumonia",
+                                    "code": "Pneumonia"
+                                },
+                                "situationTypes": [
+                                    {
+                                        "id": "http://anonymous.org/data/SitPneumoniaHighRisk",
+                                        "type": "hasTransformableSituation",
+                                        "value": {
+                                            "representation": "high risk",
+                                            "display": "having a high risk of developing Pneumonia"
+                                        }
+                                    },
+                                    {
+                                        "id": "http://anonymous.org/data/SitPneumoniaLowRisk",
+                                        "type": "hasExpectedSituation",
+                                        "value": {
+                                            "representation": "low risk",
+                                            "display": "having a low risk of developing Pneumonia"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "aboutRecommendation": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot suggests avoiding administration of ICS, because administration of ICS has: negative contribution to Increase Pneumonia resulting into having a high risk of developing Pneumonia of Pneumonia (); ",
+                    "interactionsInformation": [
+                        {
+                            "interactionType": "contradiction",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should which suggests administration of LABA + ICS was considered as a(n) contradiction recommendation but http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot is acceptable in the presence of http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should"
+                        },
+                        {
+                            "interactionType": "repairable",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot is considered repairable by http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould which suggests administration of Pneumococcal vaccine"
+                        }
+                    ],
+                    "id": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+                    "text": "Clinician should be aware that administering ICS increases the risk of Pneumonia",
+                    "motivation": "",
+                    "suggestion": "nonRecommend",
+                    "careActionTypeId": "Ics",
+                    "aboutExecutionOf": "administration of ICS",
+                    "causationBeliefs": [
+                        {
+                            "id": "http://anonymous.org/data/CBIcsIncreasePneumoniaRisk",
+                            "contribution": "negative",
+                            "probability": "always",
+                            "evidence": "High Level",
+                            "author": "Jesus",
+                            "transition": {
+                                "id": "http://anonymous.org/data/TrIncreasePneumoniaRisk",
+                                "effect": "Increase",
+                                "property": {
+                                    "display": "Pneumonia",
+                                    "code": "Pneumonia"
+                                },
+                                "situationTypes": [
+                                    {
+                                        "id": "http://anonymous.org/data/SitPneumoniaLowRisk",
+                                        "type": "hasTransformableSituation",
+                                        "value": {
+                                            "representation": "low risk",
+                                            "display": "having a low risk of developing Pneumonia"
+                                        }
+                                    },
+                                    {
+                                        "id": "http://anonymous.org/data/SitPneumoniaHighRisk",
+                                        "type": "hasExpectedSituation",
+                                        "value": {
+                                            "representation": "high risk",
+                                            "display": "having a high risk of developing Pneumonia"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "aboutRecommendation": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should suggests administration of LABA + LAMA, because administration of LABA + LAMA has: positive contribution to Decrease COPD stage resulting into having a moderate COPD stage of COPD stage (A combination of bronchodilators is recommended as initial therapy for patients with  severe breathlessness. Also for patients on monotherapy with persistent breathlessness); ",
+                    "interactionsInformation": [
+                        {
+                            "interactionType": "alternative",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should which suggests administration of LAMA was considered as a(n) alternative recommendation but http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is preferred"
+                        },
+                        {
+                            "interactionType": "repetition",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should which suggests administration of LAMA was considered as a(n) repetition recommendation but http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is preferred"
+                        },
+                        {
+                            "interactionType": "contradiction",
+                            "otherRecommendationRecId": "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot",
+                            "explanatoryText": "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot which suggests avoiding administration of SABA or LABA was considered as a(n) contradiction recommendation but http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is acceptable in the presence of http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot"
+                        }
+                    ],
+                    "id": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
+                    "text": "Clinician should recommend administering LABA + LAMA",
+                    "motivation": "A combination of bronchodilators is recommended as initial therapy for patients with  severe breathlessness. Also for patients on monotherapy with persistent breathlessness",
+                    "suggestion": "recommend",
+                    "careActionTypeId": "LabaLama",
+                    "aboutExecutionOf": "administration of LABA + LAMA",
+                    "causationBeliefs": [
+                        {
+                            "id": "http://anonymous.org/data/CBLabaLamaDecreaseCOPDStage3",
+                            "contribution": "positive",
+                            "probability": "always",
+                            "evidence": "High Level",
+                            "author": "Jesus",
+                            "transition": {
+                                "id": "http://anonymous.org/data/TrDecreaseCOPDStage3",
+                                "effect": "Decrease",
+                                "property": {
+                                    "display": "COPD stage",
+                                    "code": "COPD.stage"
+                                },
+                                "situationTypes": [
+                                    {
+                                        "id": "http://anonymous.org/data/SitCOPDStageSevere",
+                                        "type": "hasTransformableSituation",
+                                        "value": {
+                                            "representation": "severe",
+                                            "display": "having a severe COPD stage"
+                                        }
+                                    },
+                                    {
+                                        "id": "http://anonymous.org/data/SitCOPDStageModerate",
+                                        "type": "hasExpectedSituation",
+                                        "value": {
+                                            "representation": "moderate",
+                                            "display": "having a moderate COPD stage"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "aboutRecommendation": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould suggests application of smoking cessation therapy, because application of smoking cessation therapy has: positive contribution to Decrease airflow limitation severity resulting into Having a low airflow limitation severity of airflow limitation severity (Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved); ",
+                    "interactionsInformation": [],
+                    "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
+                    "text": "Clinician should encourage patient to quit smoking",
+                    "motivation": "Smoking cessation has the greatest capacity to influence the natural history of COPD. If effective resources and time are dedicated to smoking cessation, long term quit success rates of up to 25% can be achieved",
+                    "suggestion": "recommend",
+                    "careActionTypeId": "SmokingCessation",
+                    "aboutExecutionOf": "application of smoking cessation therapy",
+                    "causationBeliefs": [
+                        {
+                            "id": "http://anonymous.org/data/CBSmokingCessationDecreaseALS",
+                            "contribution": "positive",
+                            "probability": "always",
+                            "evidence": "High Level",
+                            "author": "Jesus",
+                            "transition": {
+                                "id": "http://anonymous.org/data/TrDecreaseALS",
+                                "effect": "Decrease",
+                                "property": {
+                                    "display": "airflow limitation severity",
+                                    "code": "airflow.limitation.severity"
+                                },
+                                "situationTypes": [
+                                    {
+                                        "id": "http://anonymous.org/data/SitALSHigh",
+                                        "type": "hasTransformableSituation",
+                                        "value": {
+                                            "representation": "high",
+                                            "display": "Having a high airflow limitation severity"
+                                        }
+                                    },
+                                    {
+                                        "id": "http://anonymous.org/data/SitALSLow",
+                                        "type": "hasExpectedSituation",
+                                        "value": {
+                                            "representation": "low",
+                                            "display": "Having a low airflow limitation severity"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
