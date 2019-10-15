@@ -48,30 +48,31 @@ def create_assumptions(recommendations, interactions):
     assumptions = [r['id'] for r in recommendations]
     for i in interactions:
         if i['type'] == 'repairable':
-            primary_recommendation = next(r for r in i['interactionNorms'] if r['type'] == 'primary')
-            assumptions.append('needs_repair({})'.format(primary_recommendation['id']))
+            repairable_recommendation = next(r for r in i['interactionNorms'] if r['type'] == 'secondary')
+            assumptions.append('needs_repair({})'.format(repairable_recommendation['recId']))
     return assumptions
 
 
 def create_rules(recommendations, interactions):
     rules = []
     for r in recommendations:
-        transition = r['causationBelief']['transition']
-        effect = transition['effect']
-        property = transition['property']
-        initial_value = next(s['id'] for s in transition['situationTypes'] if s['type'] =='hasTransformableSituation')
-        final_value = next(s['id'] for s in transition['situationTypes'] if s['type'] =='hasExpectedSituation')
-        action = r['causationBelief']['careActionTypeId']
+        action = r['careActionTypeId']
+        for b in r['causationBeliefs']:
+            transition = b['transition']
+            effect = transition['effect']
+            property = transition['property']['code']
+            initial_value = next(s['value']['representation'] for s in transition['situationTypes'] if s['type'] =='hasTransformableSituation')
+            final_value = next(s['value']['representation'] for s in transition['situationTypes'] if s['type'] =='hasExpectedSituation')           
 
-        if r['suggestion'] == 'recommend':
-            rules.append((action, [r['id']])) # Action rules
-            rules.append((effect + '_' + property, [action])) # Effect rules
-            rules.append((final_value + '_' + property, [initial_value + '_' + property, effect + '_' + property])) # Value rules
+            if r['suggestion'] == 'recommend':
+                rules.append((action, [r['id']])) # Action rules
+                rules.append((effect + '_' + property, [action])) # Effect rules
+                rules.append((final_value + '_' + property, [initial_value + '_' + property, effect + '_' + property])) # Value rules
 
-        elif r['suggestion'] == 'nonrecommend':
-            rules.append(('not_' + action, [r['id']])) # Action rules
-            rules.append(('not_' + effect + '_' + property, ['not_' + action])) # Effect rules
-            rules.append(('not_' + final_value + '_' + property, [initial_value + '_' + property, 'not_' + effect + '_' + property])) # Value rules
+            elif r['suggestion'] == 'nonRecommend':
+                rules.append(('not_' + action, [r['id']])) # Action rules
+                rules.append(('not_' + effect + '_' + property, ['not_' + action])) # Effect rules
+                rules.append(('not_' + final_value + '_' + property, [initial_value + '_' + property, 'not_' + effect + '_' + property])) # Value rules
 
     for i in interactions:
         if i['type'] == 'contradiction' or i['type'] == 'alternative' or i['type'] == 'repetition':
@@ -84,11 +85,11 @@ def create_rules(recommendations, interactions):
                         rules.append(('c_' + r1, [r2]))
 
         elif i['type'] == 'repairable':
-            primary_rec = next (r['recId'] for r in i['interactionNorms'] if r['type'] == 'primary')
-            secondary_rec = next (r['recId'] for r in i['interactionNorms'] if r['type'] == 'secondary')
+            repairing_recommendation = next (r['recId'] for r in i['interactionNorms'] if r['type'] == 'primary')
+            repairable_recommendation = next (r['recId'] for r in i['interactionNorms'] if r['type'] == 'secondary')
 
-            rules.append((secondary_rec, [primary_rec, 'needs_repair({})'.format(primary_rec)]))
-            rules.append(('c_needs_repair({})'.format(primary_rec), [secondary_rec]))
+            rules.append((repairing_recommendation, [repairable_recommendation, 'needs_repair({})'.format(repairable_recommendation)]))
+            rules.append(('c_needs_repair({})'.format(repairable_recommendation), [repairing_recommendation]))
 
     return rules
 
@@ -96,19 +97,21 @@ def create_rules(recommendations, interactions):
 def create_guideline_preferences(recommendations, dss_data):
     strict_preferences = []
 
-    for preference in dss_data['proposedTreatment']['resource']['other']['drugTypePreferences']['entries']:
+    for preference in dss_data['proposedTreatment']['resource']['other']['drugTypes']['drugTypePreferences']['entries']:
         preferred = preference['preferred']['administrationOf']
         alternatives = [alt['administrationOf'] for alt in preference['alternative']]
         preferred_recs = []
         alternative_recs = []
 
         for r in recommendations:
-            if r['causationBelief']['careActionTypeId'] == preferred:
+            action = r['careActionTypeId']
+            if action == preferred:
                 preferred_recs.append(r['id'])
-            if r['causationBelief']['careActionTypeId'] in alternatives:
+            if action in alternatives:
                 alternative_recs.append(r['id'])
 
         for p in preferred_recs:
             for a in alternative_recs:
-                strict_preferences.append((p, a))
-        return strict_preferences
+                strict_preferences.append((a, p))
+
+    return strict_preferences

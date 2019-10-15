@@ -1,0 +1,187 @@
+{
+    "extensions": [
+        {
+            "extension": [
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
+                        "action": "http://anonymous.org/data/ActAdministerSmokingCessation",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "airflow.limitation.severity",
+                                "effect": "http://anonymous.org/data/TrDecreaseALS",
+                                "currentSituation": "http://anonymous.org/data/SitALSHigh",
+                                "expectedSituation": "http://anonymous.org/data/SitALSLow"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": []
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should",
+                        "action": "http://anonymous.org/data/ActAdministerLama",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "COPD.stage",
+                                "effect": "http://anonymous.org/data/TrDecreaseCOPDStage2",
+                                "currentSituation": "http://anonymous.org/data/SitCOPDStageModerate",
+                                "expectedSituation": "http://anonymous.org/data/SitCOPDStageMild"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": [
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should",
+                            "interactionTypes": [
+                                "alternative",
+                                "repetition"
+                            ],
+                            "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLaba",
+                            "interactingRecommendationSuggestion": "recommend",
+                            "commentPreference": null,
+                            "commentRepairable": null
+                        },
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should",
+                            "interactionTypes": [
+                                "alternative",
+                                "repetition"
+                            ],
+                            "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLabaLama",
+                            "interactingRecommendationSuggestion": "recommend",
+                            "commentPreference": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should is preferred",
+                            "commentRepairable": null
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
+                        "action": "http://anonymous.org/data/ActAdministerSmokingCessation",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "airflow.limitation.severity",
+                                "effect": "http://anonymous.org/data/TrDecreaseALS",
+                                "currentSituation": "http://anonymous.org/data/SitALSHigh",
+                                "expectedSituation": "http://anonymous.org/data/SitALSLow"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": []
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should",
+                        "action": "http://anonymous.org/data/ActAdministerLaba",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "COPD.stage",
+                                "effect": "http://anonymous.org/data/TrDecreaseCOPDStage2",
+                                "currentSituation": "http://anonymous.org/data/SitCOPDStageModerate",
+                                "expectedSituation": "http://anonymous.org/data/SitCOPDStageMild"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": [
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should",
+                            "interactionTypes": [
+                                "alternative",
+                                "repetition"
+                            ],
+                            "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLama",
+                            "interactingRecommendationSuggestion": "recommend",
+                            "commentPreference": null,
+                            "commentRepairable": null
+                        },
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should",
+                            "interactionTypes": [
+                                "alternative",
+                                "repetition"
+                            ],
+                            "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLabaLama",
+                            "interactingRecommendationSuggestion": "recommend",
+                            "commentPreference": "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should is preferred",
+                            "commentRepairable": null
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
+                        "action": "http://anonymous.org/data/ActAdministerSmokingCessation",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "airflow.limitation.severity",
+                                "effect": "http://anonymous.org/data/TrDecreaseALS",
+                                "currentSituation": "http://anonymous.org/data/SitALSHigh",
+                                "expectedSituation": "http://anonymous.org/data/SitALSLow"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": []
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should",
+                        "action": "http://anonymous.org/data/ActAdministerLabaLama",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "COPD.stage",
+                                "effect": "http://anonymous.org/data/TrDecreaseCOPDStage2",
+                                "currentSituation": "http://anonymous.org/data/SitCOPDStageModerate",
+                                "expectedSituation": "http://anonymous.org/data/SitCOPDStageMild"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": [
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should",
+                            "interactionTypes": [
+                                "alternative",
+                                "repetition"
+                            ],
+                            "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLaba",
+                            "interactingRecommendationSuggestion": "recommend",
+                            "commentPreference": "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should not acceptable even though preferred",
+                            "commentRepairable": null
+                        },
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should",
+                            "interactionTypes": [
+                                "alternative",
+                                "repetition"
+                            ],
+                            "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLama",
+                            "interactingRecommendationSuggestion": "recommend",
+                            "commentPreference": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should not acceptable even though preferred",
+                            "commentRepairable": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

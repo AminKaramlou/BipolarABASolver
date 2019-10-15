@@ -1,0 +1,34 @@
+myAsm(R-LABA).
+myAsm(R-LAMA).
+myAsm(R-LABALAMA).
+myAsm(R-Smoking).
+contrary(R-LABA, c_R-LABA).
+contrary(R-LAMA, c_R-LAMA).
+contrary(R-LABALAMA, c_R-LABALAMA).
+contrary(R-Smoking, c_R-Smoking).
+myRule(Laba, [R-LABA]).
+myRule(Decrease_COPD.stage, [Laba]).
+myRule(Mild_COPD.stage, [Moderate_COPD.stage, Decrease_COPD.stage]).
+myRule(Lama, [R-LAMA]).
+myRule(Decrease_COPD.stage, [Lama]).
+myRule(Mild_COPD.stage, [Moderate_COPD.stage, Decrease_COPD.stage]).
+myRule(LabaLama, [R-LABALAMA]).
+myRule(Decrease_COPD.stage, [LabaLama]).
+myRule(Mild_COPD.stage, [Moderate_COPD.stage, Decrease_COPD.stage]).
+myRule(Smoking, [R-Smoking]).
+myRule(Decrease_airflow.limitation.severity, [Smoking]).
+myRule(Low_airflow.limitation.severity, [High_airflow.limitation.severity, Decrease_airflow.limitation.severity]).
+myRule(c_R-LABA, [R-LAMA]).
+myRule(c_R-LABA, [R-LABALAMA]).
+myRule(c_R-LAMA, [R-LABA]).
+myRule(c_R-LAMA, [R-LABALAMA]).
+myRule(c_R-LABALAMA, [R-LABA]).
+myRule(c_R-LABALAMA, [R-LAMA]).
+myRule(c_R-LABA, [R-LAMA]).
+myRule(c_R-LABA, [R-LABALAMA]).
+myRule(c_R-LAMA, [R-LABA]).
+myRule(c_R-LAMA, [R-LABALAMA]).
+myRule(c_R-LABALAMA, [R-LABA]).
+myRule(c_R-LABALAMA, [R-LAMA]).
+myPrefLT(R-LABALAMA, R-LABA).
+myPrefLT(R-LABALAMA, R-LAMA).
