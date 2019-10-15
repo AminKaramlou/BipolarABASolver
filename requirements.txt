@@ -11,6 +11,7 @@ flask-cors==3.0.7
 flask-socketio==3.3.2
 flask==1.0.2
 greenlet==0.4.15          # via eventlet
+gunicorn==19.9.0
 itsdangerous==1.1.0       # via flask
 jinja2==2.10.1            # via flask
 markupsafe==1.1.1         # via jinja2
