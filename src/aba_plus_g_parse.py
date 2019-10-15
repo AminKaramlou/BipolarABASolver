@@ -1,5 +1,5 @@
 """
-This module contains functions for generating BipolarABA objects from files and strings.
+This module contains functions for generating ABAPlusG objects from files and strings.
 """
 
 from src.aba_plus_g import ABAPlusG, Rule
@@ -28,7 +28,7 @@ NON_STRICT_PREFERENCES_REGEX = r"myPrefLE\((.+),(.+)\)"
 DUPLICATE_USE_FOUND = "_duplicate"
 
 
-def generate_bipolar_aba_framework_from_file(filename):
+def generate_aba_plus_g_framework_from_file(filename):
     """
     :param filename: Name of the file definining an ABA+ framework
     :return: A BipolarABA object generated from file
@@ -36,11 +36,11 @@ def generate_bipolar_aba_framework_from_file(filename):
     file = open(filename, 'r')
     input = file.read()
     file.close()
-    framework = generate_bipolar_aba_framework(input)
+    framework = generate_aba_plus_g_framework(input)
     return framework
 
 
-def generate_bipolar_aba_framework(input_string):
+def generate_aba_plus_g_framework(input_string):
     """
     :param input_string: A string defining an ABA+ framework
     :return: A BipolarABA object generated from file

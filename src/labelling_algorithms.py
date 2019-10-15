@@ -21,7 +21,7 @@ def _is_terminal_labelling(labelling):
 
 def _get_next_must_in_assumption(framework, labelling):
     '''
-    :param framework: A BipolarABA object.
+    :param framework: A ABAPlusG object.
     :param labelling: A dictionary of Assumption, Label pairs.
     :return: A must_in Assumption in framework under labelling in the spirit of [NAD16].
     '''
@@ -32,7 +32,7 @@ def _get_next_must_in_assumption(framework, labelling):
 
 def _propagate_labelling(framework, labelling):
     '''
-    :param framework: A BipolarABA object.
+    :param framework: A ABAPlusG object.
     :param labelling: A dictionary of Assumption, Label pairs.
     :return: propagate labelling in framework in the spirit of [NAD16].
     '''
@@ -47,7 +47,7 @@ def _propagate_labelling(framework, labelling):
 
 def _get_most_influential_assumption(framework, labelling):
     '''
-    :param framework: A BipolarABA object.
+    :param framework: A ABAPlusG object.
     :param labelling: A dictionary of Assumption, Label pairs.
     :return: The most influential assumption labelled BLANK in the spirit of [NAD16].
     '''
@@ -98,7 +98,7 @@ def _apply_preferred_right_transition_to_labelling(labelling, target_assumption)
 
 def _is_preferred_hopeless_labelling(framework, labelling):
     '''
-    :param framework: A BipolarABA object.
+    :param framework: A ABAPlusG object.
     :param labelling: A dictionary of Assumption, Label pairs.
     :return: True, if labelling is hopeless in framework under preferred semantics, in the spirit of [NAD16].
     '''
@@ -242,7 +242,7 @@ def assign_initial_labelling_for_set_stable_semantics(framework):
 
 def _is_set_stable_hopeless_labelling(framework, labelling):
     '''
-    :param framework: A BipolarABA object.
+    :param framework: A ABAPlusG object.
     :param labelling: A dictionary of Assumption, Label pairs.
     :return: True, if labelling is hopeless in framework under set-stable semantics, in the spirit of [NAD16].
     '''
@@ -328,7 +328,7 @@ def enumerate_set_stable_extensions_with_steps(framework, current_labelling, ext
 def construct_grounded_labelling(framework):
     '''
 
-    :param framework: A BipolarABA framework.
+    :param framework: A ABAPlusG framework.
     :return: A grounded labelling of framework based on the simple algorithm described in argumentation in ai.
     '''
     def add_assumption_to_label_in(a, labelling):

@@ -1,11 +1,6 @@
 from src.labelling_algorithms import assign_initial_labelling_for_set_stable_semantics, \
     assign_initial_labelling_for_preferred_semantics, enumerate_preferred_extensions, enumerate_set_stable_extensions, enumerate_preferred_extensions_with_steps, enumerate_set_stable_extensions_with_steps
 
-class NonBipolarException(Exception):
-    def __init__(self, message):
-        self.message = message
-
-
 class ABAPlusG:
     def __init__(self, language, rules, assumptions, assumption_to_contrary_mapping, strict_preferences=[], non_strict_preferences=[]):
         """
@@ -119,17 +114,17 @@ class ABAPlusG:
                 inv_closure_mapping[assumption] = inv_closure
             return closure_mapping, inv_closure_mapping
 
-        def _validate_bipolar():
+        def _validate_framework():
             if assumption_to_contrary_mapping.keys() != assumptions:
-                raise NonBipolarException("Assumption to contrary mapping must be a total mapping on assumptions.")
+                raise Exception("Assumption to contrary mapping must be a total mapping on assumptions.")
             for a, c in assumption_to_contrary_mapping.items():
                 if a not in language or c not in language:
-                    raise NonBipolarException("Assumptions and contraries"
+                    raise Exception("Assumptions and contraries"
                                               " in a BipolarABA framework should be part of the language.")
             if is_preference_relation_cyclic():
-                raise NonBipolarException("The preference relationship cannot be cyclic.")
+                raise Exception("The preference relationship cannot be cyclic.")
 
-        _validate_bipolar()
+        _validate_framework()
         self.language = language
         self.rules = rules
         self.assumptions = assumptions
