@@ -1,1 +1,1 @@
-web gunicorn app:app --chdir ./src/flask-app
+web gunicorn -k eventlet -w 1 app:app --chdir ./src/flask-app
