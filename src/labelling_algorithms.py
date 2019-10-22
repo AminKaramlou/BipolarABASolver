@@ -74,7 +74,7 @@ def _apply_left_transition_to_labelling(framework, labelling, target_assumption)
         for attacked in framework.assumptions_directly_attacked_by(a):
             for assumption in framework.get_inverse_closure(attacked):
                 labelling[assumption] = Label.OUT
-        for a in framework.direct_attacks[target_assumption]:
+        for a in framework.direct_attacked_by[target_assumption]:
             if labelling[a] != Label.OUT:
                 labelling[a] = Label.MUST_OUT
 
