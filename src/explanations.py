@@ -2,7 +2,6 @@ import json
 
 
 def get_explanations_json(framework, extensions, dss):
-
     guideline_group_data = dss['TMR']['guidelineGroup']
     extensions_information = []
     for e in extensions:
