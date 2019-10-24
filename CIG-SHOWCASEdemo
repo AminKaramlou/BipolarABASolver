@@ -1,0 +1,34 @@
+myAsm(http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should).
+myAsm(http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stageModerateShould).
+myAsm(http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stageModerateShould).
+myAsm(http://anonymous.org/data/RecSHOWCASEdemo-SmokingCessationDecreaseCOPD.stageModerateShould).
+contrary(http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should, c_http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should).
+contrary(http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stageModerateShould, c_http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stageModerateShould).
+contrary(http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stageModerateShould, c_http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stageModerateShould).
+contrary(http://anonymous.org/data/RecSHOWCASEdemo-SmokingCessationDecreaseCOPD.stageModerateShould, c_http://anonymous.org/data/RecSHOWCASEdemo-SmokingCessationDecreaseCOPD.stageModerateShould).
+myRule(Laba, [http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should]).
+myRule(Decrease_COPD.stage, [Laba]).
+myRule(Mild_COPD.stage, [Moderate_COPD.stage, Decrease_COPD.stage]).
+myRule(Lama, [http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stageModerateShould]).
+myRule(Decrease_COPD.stage, [Lama]).
+myRule(Mild_COPD.stage, [Moderate_COPD.stage, Decrease_COPD.stage]).
+myRule(LabaLama, [http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stageModerateShould]).
+myRule(Decrease_COPD.stage, [LabaLama]).
+myRule(Mild_COPD.stage, [Moderate_COPD.stage, Decrease_COPD.stage]).
+myRule(SmokingCessation, [http://anonymous.org/data/RecSHOWCASEdemo-SmokingCessationDecreaseCOPD.stageModerateShould]).
+myRule(Decrease_COPD.stage, [SmokingCessation]).
+myRule(Mild_COPD.stage, [Moderate_COPD.stage, Decrease_COPD.stage]).
+myRule(c_http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should, [http://anonymous.org/data/RecSHOWCASEdemo-LamaDecreaseCOPD.stage2Should]).
+myRule(c_http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should, [http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should]).
+myRule(c_http://anonymous.org/data/RecSHOWCASEdemo-LamaDecreaseCOPD.stage2Should, [http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should]).
+myRule(c_http://anonymous.org/data/RecSHOWCASEdemo-LamaDecreaseCOPD.stage2Should, [http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should]).
+myRule(c_http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should, [http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should]).
+myRule(c_http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should, [http://anonymous.org/data/RecSHOWCASEdemo-LamaDecreaseCOPD.stage2Should]).
+myRule(c_http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should, [http://anonymous.org/data/RecSHOWCASEdemo-LamaDecreaseCOPD.stage2Should]).
+myRule(c_http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should, [http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should]).
+myRule(c_http://anonymous.org/data/RecSHOWCASEdemo-LamaDecreaseCOPD.stage2Should, [http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should]).
+myRule(c_http://anonymous.org/data/RecSHOWCASEdemo-LamaDecreaseCOPD.stage2Should, [http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should]).
+myRule(c_http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should, [http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should]).
+myRule(c_http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should, [http://anonymous.org/data/RecSHOWCASEdemo-LamaDecreaseCOPD.stage2Should]).
+myPrefLT(http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stageModerateShould, http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should).
+myPrefLT(http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stageModerateShould, http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stageModerateShould).

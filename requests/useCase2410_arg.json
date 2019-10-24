@@ -1,0 +1,76 @@
+{
+    "extensions": [
+        {
+            "extension": [
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stageModerateShould",
+                        "action": "LabaLama",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "COPD.stage",
+                                "effect": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
+                                "currentSituation": "http://anonymous.org/data/SitCOPD.stage-Moderate",
+                                "expectedSituation": "http://anonymous.org/data/SitCOPD.stage-Mild"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": []
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecSHOWCASEdemo-SmokingCessationDecreaseCOPD.stageModerateShould",
+                        "action": "SmokingCessation",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "COPD.stage",
+                                "effect": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
+                                "currentSituation": "http://anonymous.org/data/SitCOPD.stage-Moderate",
+                                "expectedSituation": "http://anonymous.org/data/SitCOPD.stage-Mild"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": []
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stageModerateShould",
+                        "action": "Lama",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "COPD.stage",
+                                "effect": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
+                                "currentSituation": "http://anonymous.org/data/SitCOPD.stage-Moderate",
+                                "expectedSituation": "http://anonymous.org/data/SitCOPD.stage-Mild"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": []
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should",
+                        "action": "Laba",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "COPD.stage",
+                                "effect": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
+                                "currentSituation": "http://anonymous.org/data/SitCOPD.stage-Moderate",
+                                "expectedSituation": "http://anonymous.org/data/SitCOPD.stage-Mild"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": []
+                }
+            ]
+        }
+    ]
+}

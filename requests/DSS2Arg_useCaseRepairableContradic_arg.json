@@ -4,6 +4,122 @@
             "extension": [
                 {
                     "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
+                        "action": "LabaLama",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "COPD.stage",
+                                "effect": "http://anonymous.org/data/TrDecreaseCOPDStage3",
+                                "currentSituation": "http://anonymous.org/data/SitCOPDStageSevere",
+                                "expectedSituation": "http://anonymous.org/data/SitCOPDStageModerate"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": [
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
+                            "interactionTypes": [
+                                "alternative",
+                                "repetition"
+                            ],
+                            "interactingRecommendationActionId": "Lama",
+                            "interactingRecommendationSuggestion": "recommend",
+                            "commentPreference": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is preferred",
+                            "commentRepairable": null
+                        },
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                            "interactionTypes": [
+                                "alternative",
+                                "repetition"
+                            ],
+                            "interactingRecommendationActionId": "LabaIcs",
+                            "interactingRecommendationSuggestion": "recommend",
+                            "commentPreference": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is preferred",
+                            "commentRepairable": null
+                        },
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot",
+                            "interactionTypes": [
+                                "contradiction"
+                            ],
+                            "interactingRecommendationActionId": "SabaLaba",
+                            "interactingRecommendationSuggestion": "nonRecommend",
+                            "commentPreference": null,
+                            "commentRepairable": null
+                        }
+                    ]
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
+                        "action": "Pneumococcal.vaccine",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "Pneumonia",
+                                "effect": "http://anonymous.org/data/TrDecreasePneumoniaRisk",
+                                "currentSituation": "http://anonymous.org/data/SitPneumoniaHighRisk",
+                                "expectedSituation": "http://anonymous.org/data/SitPneumoniaLowRisk"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": [
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+                            "interactionTypes": [
+                                "repairable"
+                            ],
+                            "interactingRecommendationActionId": "Ics",
+                            "interactingRecommendationSuggestion": "nonRecommend",
+                            "commentPreference": null,
+                            "commentRepairable": "Repaired by http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould"
+                        }
+                    ]
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+                        "action": "Ics",
+                        "suggestion": "nonRecommend",
+                        "reasons": [
+                            {
+                                "contribution": "negative",
+                                "property": "Pneumonia",
+                                "effect": "http://anonymous.org/data/TrIncreasePneumoniaRisk",
+                                "currentSituation": "http://anonymous.org/data/SitPneumoniaLowRisk",
+                                "expectedSituation": "http://anonymous.org/data/SitPneumoniaHighRisk"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": [
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                            "interactionTypes": [
+                                "contradiction"
+                            ],
+                            "interactingRecommendationActionId": "LabaIcs",
+                            "interactingRecommendationSuggestion": "recommend",
+                            "commentPreference": null,
+                            "commentRepairable": null
+                        },
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
+                            "interactionTypes": [
+                                "repairable"
+                            ],
+                            "interactingRecommendationActionId": "Pneumococcal.vaccine",
+                            "interactingRecommendationSuggestion": "recommend",
+                            "commentPreference": null,
+                            "commentRepairable": "Repairing http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot"
+                        }
+                    ]
+                },
+                {
+                    "aboutRecommendation": {
                         "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
                         "action": "SmokingCessation",
                         "suggestion": "recommend",
@@ -18,6 +134,38 @@
                         ]
                     },
                     "interactionsInformation": []
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
+                        "action": "Pneumococcal.vaccine",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "Pneumonia",
+                                "effect": "http://anonymous.org/data/TrDecreasePneumoniaRisk",
+                                "currentSituation": "http://anonymous.org/data/SitPneumoniaHighRisk",
+                                "expectedSituation": "http://anonymous.org/data/SitPneumoniaLowRisk"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": [
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+                            "interactionTypes": [
+                                "repairable"
+                            ],
+                            "interactingRecommendationActionId": "Ics",
+                            "interactingRecommendationSuggestion": "nonRecommend",
+                            "commentPreference": null,
+                            "commentRepairable": "Repaired by http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould"
+                        }
+                    ]
                 },
                 {
                     "aboutRecommendation": {
@@ -59,31 +207,58 @@
                 },
                 {
                     "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
-                        "action": "Pneumococcal.vaccine",
-                        "suggestion": "recommend",
+                        "id": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+                        "action": "Ics",
+                        "suggestion": "nonRecommend",
                         "reasons": [
                             {
-                                "contribution": "positive",
+                                "contribution": "negative",
                                 "property": "Pneumonia",
-                                "effect": "http://anonymous.org/data/TrDecreasePneumoniaRisk",
-                                "currentSituation": "http://anonymous.org/data/SitPneumoniaHighRisk",
-                                "expectedSituation": "http://anonymous.org/data/SitPneumoniaLowRisk"
+                                "effect": "http://anonymous.org/data/TrIncreasePneumoniaRisk",
+                                "currentSituation": "http://anonymous.org/data/SitPneumoniaLowRisk",
+                                "expectedSituation": "http://anonymous.org/data/SitPneumoniaHighRisk"
                             }
                         ]
                     },
                     "interactionsInformation": [
                         {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                            "interactionTypes": [
+                                "contradiction"
+                            ],
+                            "interactingRecommendationActionId": "LabaIcs",
+                            "interactingRecommendationSuggestion": "recommend",
+                            "commentPreference": null,
+                            "commentRepairable": null
+                        },
+                        {
+                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
                             "interactionTypes": [
                                 "repairable"
                             ],
-                            "interactingRecommendationActionId": "Ics",
-                            "interactingRecommendationSuggestion": "nonRecommend",
+                            "interactingRecommendationActionId": "Pneumococcal.vaccine",
+                            "interactingRecommendationSuggestion": "recommend",
                             "commentPreference": null,
-                            "commentRepairable": "Repaired by http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould"
+                            "commentRepairable": "Repairing http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot"
                         }
                     ]
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
+                        "action": "SmokingCessation",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "airflow.limitation.severity",
+                                "effect": "http://anonymous.org/data/TrDecreaseALS",
+                                "currentSituation": "http://anonymous.org/data/SitALSHigh",
+                                "expectedSituation": "http://anonymous.org/data/SitALSLow"
+                            }
+                        ]
+                    },
+                    "interactionsInformation": []
                 },
                 {
                     "aboutRecommendation": {
@@ -121,280 +296,6 @@
                             "interactingRecommendationActionId": "LabaLama",
                             "interactingRecommendationSuggestion": "recommend",
                             "commentPreference": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should not acceptable even though preferred",
-                            "commentRepairable": null
-                        }
-                    ]
-                },
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
-                        "action": "Ics",
-                        "suggestion": "nonRecommend",
-                        "reasons": [
-                            {
-                                "contribution": "negative",
-                                "property": "Pneumonia",
-                                "effect": "http://anonymous.org/data/TrIncreasePneumoniaRisk",
-                                "currentSituation": "http://anonymous.org/data/SitPneumoniaLowRisk",
-                                "expectedSituation": "http://anonymous.org/data/SitPneumoniaHighRisk"
-                            }
-                        ]
-                    },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "contradiction"
-                            ],
-                            "interactingRecommendationActionId": "LabaIcs",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": null,
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
-                            "interactionTypes": [
-                                "repairable"
-                            ],
-                            "interactingRecommendationActionId": "Pneumococcal.vaccine",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": null,
-                            "commentRepairable": "Repairing http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "extension": [
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
-                        "action": "SmokingCessation",
-                        "suggestion": "recommend",
-                        "reasons": [
-                            {
-                                "contribution": "positive",
-                                "property": "airflow.limitation.severity",
-                                "effect": "http://anonymous.org/data/TrDecreaseALS",
-                                "currentSituation": "http://anonymous.org/data/SitALSHigh",
-                                "expectedSituation": "http://anonymous.org/data/SitALSLow"
-                            }
-                        ]
-                    },
-                    "interactionsInformation": []
-                },
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
-                        "action": "Pneumococcal.vaccine",
-                        "suggestion": "recommend",
-                        "reasons": [
-                            {
-                                "contribution": "positive",
-                                "property": "Pneumonia",
-                                "effect": "http://anonymous.org/data/TrDecreasePneumoniaRisk",
-                                "currentSituation": "http://anonymous.org/data/SitPneumoniaHighRisk",
-                                "expectedSituation": "http://anonymous.org/data/SitPneumoniaLowRisk"
-                            }
-                        ]
-                    },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
-                            "interactionTypes": [
-                                "repairable"
-                            ],
-                            "interactingRecommendationActionId": "Ics",
-                            "interactingRecommendationSuggestion": "nonRecommend",
-                            "commentPreference": null,
-                            "commentRepairable": "Repaired by http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould"
-                        }
-                    ]
-                },
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
-                        "action": "LabaLama",
-                        "suggestion": "recommend",
-                        "reasons": [
-                            {
-                                "contribution": "positive",
-                                "property": "COPD.stage",
-                                "effect": "http://anonymous.org/data/TrDecreaseCOPDStage3",
-                                "currentSituation": "http://anonymous.org/data/SitCOPDStageSevere",
-                                "expectedSituation": "http://anonymous.org/data/SitCOPDStageModerate"
-                            }
-                        ]
-                    },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "alternative",
-                                "repetition"
-                            ],
-                            "interactingRecommendationActionId": "Lama",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is preferred",
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "alternative",
-                                "repetition"
-                            ],
-                            "interactingRecommendationActionId": "LabaIcs",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is preferred",
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot",
-                            "interactionTypes": [
-                                "contradiction"
-                            ],
-                            "interactingRecommendationActionId": "SabaLaba",
-                            "interactingRecommendationSuggestion": "nonRecommend",
-                            "commentPreference": null,
-                            "commentRepairable": null
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "extension": [
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
-                        "action": "SmokingCessation",
-                        "suggestion": "recommend",
-                        "reasons": [
-                            {
-                                "contribution": "positive",
-                                "property": "airflow.limitation.severity",
-                                "effect": "http://anonymous.org/data/TrDecreaseALS",
-                                "currentSituation": "http://anonymous.org/data/SitALSHigh",
-                                "expectedSituation": "http://anonymous.org/data/SitALSLow"
-                            }
-                        ]
-                    },
-                    "interactionsInformation": []
-                },
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
-                        "action": "Ics",
-                        "suggestion": "nonRecommend",
-                        "reasons": [
-                            {
-                                "contribution": "negative",
-                                "property": "Pneumonia",
-                                "effect": "http://anonymous.org/data/TrIncreasePneumoniaRisk",
-                                "currentSituation": "http://anonymous.org/data/SitPneumoniaLowRisk",
-                                "expectedSituation": "http://anonymous.org/data/SitPneumoniaHighRisk"
-                            }
-                        ]
-                    },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "contradiction"
-                            ],
-                            "interactingRecommendationActionId": "LabaIcs",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": null,
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
-                            "interactionTypes": [
-                                "repairable"
-                            ],
-                            "interactingRecommendationActionId": "Pneumococcal.vaccine",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": null,
-                            "commentRepairable": "Repairing http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot"
-                        }
-                    ]
-                },
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
-                        "action": "Pneumococcal.vaccine",
-                        "suggestion": "recommend",
-                        "reasons": [
-                            {
-                                "contribution": "positive",
-                                "property": "Pneumonia",
-                                "effect": "http://anonymous.org/data/TrDecreasePneumoniaRisk",
-                                "currentSituation": "http://anonymous.org/data/SitPneumoniaHighRisk",
-                                "expectedSituation": "http://anonymous.org/data/SitPneumoniaLowRisk"
-                            }
-                        ]
-                    },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
-                            "interactionTypes": [
-                                "repairable"
-                            ],
-                            "interactingRecommendationActionId": "Ics",
-                            "interactingRecommendationSuggestion": "nonRecommend",
-                            "commentPreference": null,
-                            "commentRepairable": "Repaired by http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould"
-                        }
-                    ]
-                },
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
-                        "action": "LabaLama",
-                        "suggestion": "recommend",
-                        "reasons": [
-                            {
-                                "contribution": "positive",
-                                "property": "COPD.stage",
-                                "effect": "http://anonymous.org/data/TrDecreaseCOPDStage3",
-                                "currentSituation": "http://anonymous.org/data/SitCOPDStageSevere",
-                                "expectedSituation": "http://anonymous.org/data/SitCOPDStageModerate"
-                            }
-                        ]
-                    },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "alternative",
-                                "repetition"
-                            ],
-                            "interactingRecommendationActionId": "Lama",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is preferred",
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "alternative",
-                                "repetition"
-                            ],
-                            "interactingRecommendationActionId": "LabaIcs",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is preferred",
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot",
-                            "interactionTypes": [
-                                "contradiction"
-                            ],
-                            "interactingRecommendationActionId": "SabaLaba",
-                            "interactingRecommendationSuggestion": "nonRecommend",
-                            "commentPreference": null,
                             "commentRepairable": null
                         }
                     ]
