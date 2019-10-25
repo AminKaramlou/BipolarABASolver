@@ -15,32 +15,36 @@
                                 "currentSituation": "http://anonymous.org/data/SitCOPDStageModerate",
                                 "expectedSituation": "http://anonymous.org/data/SitCOPDStageMild"
                             }
-                        ]
+                        ],
+                        "text": "Clinician should recommend administering LAMA because of: positive contribution on COPD stage to Decrease from a moderate airflow limitation severity to a mild airflow limitation severity"
                     },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should",
-                            "interactionTypes": [
-                                "alternative",
-                                "repetition"
-                            ],
-                            "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLaba",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": null,
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should",
-                            "interactionTypes": [
-                                "alternative",
-                                "repetition"
-                            ],
-                            "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLabaLama",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should is preferred",
-                            "commentRepairable": null
-                        }
-                    ]
+                    "interactionsInformation": {
+                        "interactingRecommendations": [
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should",
+                                "interactionTypes": [
+                                    "alternative",
+                                    "repetition"
+                                ],
+                                "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLaba",
+                                "interactingRecommendationSuggestion": "recommend",
+                                "commentPreference": null,
+                                "commentRepairable": null
+                            },
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should",
+                                "interactionTypes": [
+                                    "alternative",
+                                    "repetition"
+                                ],
+                                "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLabaLama",
+                                "interactingRecommendationSuggestion": "recommend",
+                                "commentPreference": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should is preferred",
+                                "commentRepairable": null
+                            }
+                        ],
+                        "text": "Considered alternatives: recommend administration of LABA; recommend administration of LABA + LAMA. No contradicting recommendations considered. Considered repetitive recommendations: recommend administration of LABA; recommend administration of LABA + LAMA. No recommendations in repairable relation considered."
+                    }
                 },
                 {
                     "aboutRecommendation": {
@@ -55,14 +59,39 @@
                                 "currentSituation": "http://anonymous.org/data/SitALSHigh",
                                 "expectedSituation": "http://anonymous.org/data/SitALSLow"
                             }
-                        ]
+                        ],
+                        "text": "Clinician should encourage patient to quit smoking because of: positive contribution on airflow limitation severity to Decrease from Having a high airflow limitation severity when inhaling and exhaling to Having a low airflow limitation severity when inhaling and exhaling"
                     },
-                    "interactionsInformation": []
+                    "interactionsInformation": {
+                        "interactingRecommendations": [],
+                        "text": "No applicable alternatives considered. No contradicting recommendations considered. No repetitive recommendations considered. No recommendations in repairable relation considered."
+                    }
                 }
             ]
         },
         {
             "extension": [
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
+                        "action": "http://anonymous.org/data/ActAdministerSmokingCessation",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "airflow.limitation.severity",
+                                "effect": "http://anonymous.org/data/TrDecreaseALS",
+                                "currentSituation": "http://anonymous.org/data/SitALSHigh",
+                                "expectedSituation": "http://anonymous.org/data/SitALSLow"
+                            }
+                        ],
+                        "text": "Clinician should encourage patient to quit smoking because of: positive contribution on airflow limitation severity to Decrease from Having a high airflow limitation severity when inhaling and exhaling to Having a low airflow limitation severity when inhaling and exhaling"
+                    },
+                    "interactionsInformation": {
+                        "interactingRecommendations": [],
+                        "text": "No applicable alternatives considered. No contradicting recommendations considered. No repetitive recommendations considered. No recommendations in repairable relation considered."
+                    }
+                },
                 {
                     "aboutRecommendation": {
                         "id": "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should",
@@ -76,49 +105,36 @@
                                 "currentSituation": "http://anonymous.org/data/SitCOPDStageModerate",
                                 "expectedSituation": "http://anonymous.org/data/SitCOPDStageMild"
                             }
-                        ]
+                        ],
+                        "text": "Clinician should recommend administering LABA because of: positive contribution on COPD stage to Decrease from a moderate airflow limitation severity to a mild airflow limitation severity"
                     },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should",
-                            "interactionTypes": [
-                                "alternative",
-                                "repetition"
-                            ],
-                            "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLama",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": null,
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should",
-                            "interactionTypes": [
-                                "alternative",
-                                "repetition"
-                            ],
-                            "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLabaLama",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should is preferred",
-                            "commentRepairable": null
-                        }
-                    ]
-                },
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
-                        "action": "http://anonymous.org/data/ActAdministerSmokingCessation",
-                        "suggestion": "recommend",
-                        "reasons": [
+                    "interactionsInformation": {
+                        "interactingRecommendations": [
                             {
-                                "contribution": "positive",
-                                "property": "airflow.limitation.severity",
-                                "effect": "http://anonymous.org/data/TrDecreaseALS",
-                                "currentSituation": "http://anonymous.org/data/SitALSHigh",
-                                "expectedSituation": "http://anonymous.org/data/SitALSLow"
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should",
+                                "interactionTypes": [
+                                    "alternative",
+                                    "repetition"
+                                ],
+                                "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLama",
+                                "interactingRecommendationSuggestion": "recommend",
+                                "commentPreference": null,
+                                "commentRepairable": null
+                            },
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage2Should",
+                                "interactionTypes": [
+                                    "alternative",
+                                    "repetition"
+                                ],
+                                "interactingRecommendationActionId": "http://anonymous.org/data/ActAdministerLabaLama",
+                                "interactingRecommendationSuggestion": "recommend",
+                                "commentPreference": "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should is preferred",
+                                "commentRepairable": null
                             }
-                        ]
-                    },
-                    "interactionsInformation": []
+                        ],
+                        "text": "Considered alternatives: recommend administration of LAMA; recommend administration of LABA + LAMA. No contradicting recommendations considered. Considered repetitive recommendations: recommend administration of LAMA; recommend administration of LABA + LAMA. No recommendations in repairable relation considered."
+                    }
                 }
             ]
         }

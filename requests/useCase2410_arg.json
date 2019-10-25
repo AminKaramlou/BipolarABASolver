@@ -4,8 +4,8 @@
             "extension": [
                 {
                     "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stageModerateShould",
-                        "action": "LabaLama",
+                        "id": "http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should",
+                        "action": "Laba",
                         "suggestion": "recommend",
                         "reasons": [
                             {
@@ -15,7 +15,8 @@
                                 "currentSituation": "http://anonymous.org/data/SitCOPD.stage-Moderate",
                                 "expectedSituation": "http://anonymous.org/data/SitCOPD.stage-Mild"
                             }
-                        ]
+                        ],
+                        "text": "Clinician should recommend administering LABA because of: positive contribution on COPD stage to Decrease from a moderate airflow limitation severity to a mild airflow limitation severity"
                     },
                     "interactionsInformation": []
                 },
@@ -32,7 +33,26 @@
                                 "currentSituation": "http://anonymous.org/data/SitCOPD.stage-Moderate",
                                 "expectedSituation": "http://anonymous.org/data/SitCOPD.stage-Mild"
                             }
-                        ]
+                        ],
+                        "text": "Clinician should encourage patient to quit smoking because of: positive contribution on COPD stage to Decrease from a moderate airflow limitation severity to a mild airflow limitation severity"
+                    },
+                    "interactionsInformation": []
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stageModerateShould",
+                        "action": "LabaLama",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "COPD.stage",
+                                "effect": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
+                                "currentSituation": "http://anonymous.org/data/SitCOPD.stage-Moderate",
+                                "expectedSituation": "http://anonymous.org/data/SitCOPD.stage-Mild"
+                            }
+                        ],
+                        "text": "Clinician should recommend administering LABA + LAMA because of: positive contribution on COPD stage to Decrease from a moderate airflow limitation severity to a mild airflow limitation severity"
                     },
                     "interactionsInformation": []
                 },
@@ -49,24 +69,8 @@
                                 "currentSituation": "http://anonymous.org/data/SitCOPD.stage-Moderate",
                                 "expectedSituation": "http://anonymous.org/data/SitCOPD.stage-Mild"
                             }
-                        ]
-                    },
-                    "interactionsInformation": []
-                },
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should",
-                        "action": "Laba",
-                        "suggestion": "recommend",
-                        "reasons": [
-                            {
-                                "contribution": "positive",
-                                "property": "COPD.stage",
-                                "effect": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
-                                "currentSituation": "http://anonymous.org/data/SitCOPD.stage-Moderate",
-                                "expectedSituation": "http://anonymous.org/data/SitCOPD.stage-Mild"
-                            }
-                        ]
+                        ],
+                        "text": "Clinician should recommend administering LAMA because of: positive contribution on COPD stage to Decrease from a moderate airflow limitation severity to a mild airflow limitation severity"
                     },
                     "interactionsInformation": []
                 }

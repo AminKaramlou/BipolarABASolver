@@ -4,23 +4,6 @@
             "extension": [
                 {
                     "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
-                        "action": "SmokingCessation",
-                        "suggestion": "recommend",
-                        "reasons": [
-                            {
-                                "contribution": "positive",
-                                "property": "airflow.limitation.severity",
-                                "effect": "http://anonymous.org/data/TrDecreaseALS",
-                                "currentSituation": "http://anonymous.org/data/SitALSHigh",
-                                "expectedSituation": "http://anonymous.org/data/SitALSLow"
-                            }
-                        ]
-                    },
-                    "interactionsInformation": []
-                },
-                {
-                    "aboutRecommendation": {
                         "id": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage2Should",
                         "action": "Lama",
                         "suggestion": "recommend",
@@ -32,7 +15,8 @@
                                 "currentSituation": "http://anonymous.org/data/SitCOPDStageModerate",
                                 "expectedSituation": "http://anonymous.org/data/SitCOPDStageMild"
                             }
-                        ]
+                        ],
+                        "text": "Clinician should recommend administering LAMA because of: {'positive contribution on COPD stage to Decrease from a moderate airflow limitation severity to a mild airflow limitation severity'}"
                     },
                     "interactionsInformation": [
                         {
@@ -58,11 +42,7 @@
                             "commentRepairable": null
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "extension": [
+                },
                 {
                     "aboutRecommendation": {
                         "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
@@ -76,10 +56,15 @@
                                 "currentSituation": "http://anonymous.org/data/SitALSHigh",
                                 "expectedSituation": "http://anonymous.org/data/SitALSLow"
                             }
-                        ]
+                        ],
+                        "text": "Clinician should encourage patient to quit smoking because of: {'positive contribution on airflow limitation severity to Decrease from Having a high airflow limitation severity when inhaling and exhaling to Having a low airflow limitation severity when inhaling and exhaling'}"
                     },
                     "interactionsInformation": []
-                },
+                }
+            ]
+        },
+        {
+            "extension": [
                 {
                     "aboutRecommendation": {
                         "id": "http://anonymous.org/data/RecCOPD-LabaDecreaseCOPDStage2Should",
@@ -93,7 +78,8 @@
                                 "currentSituation": "http://anonymous.org/data/SitCOPDStageModerate",
                                 "expectedSituation": "http://anonymous.org/data/SitCOPDStageMild"
                             }
-                        ]
+                        ],
+                        "text": "Clinician should recommend administering LABA because of: {'positive contribution on COPD stage to Decrease from a moderate airflow limitation severity to a mild airflow limitation severity'}"
                     },
                     "interactionsInformation": [
                         {
@@ -119,6 +105,24 @@
                             "commentRepairable": null
                         }
                     ]
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
+                        "action": "SmokingCessation",
+                        "suggestion": "recommend",
+                        "reasons": [
+                            {
+                                "contribution": "positive",
+                                "property": "airflow.limitation.severity",
+                                "effect": "http://anonymous.org/data/TrDecreaseALS",
+                                "currentSituation": "http://anonymous.org/data/SitALSHigh",
+                                "expectedSituation": "http://anonymous.org/data/SitALSLow"
+                            }
+                        ],
+                        "text": "Clinician should encourage patient to quit smoking because of: {'positive contribution on airflow limitation severity to Decrease from Having a high airflow limitation severity when inhaling and exhaling to Having a low airflow limitation severity when inhaling and exhaling'}"
+                    },
+                    "interactionsInformation": []
                 }
             ]
         }
