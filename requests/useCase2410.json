@@ -40,7 +40,8 @@
 	    {
 		    "proposedTreatment":
 		    {    
-				"resource": {  
+				"resource": 
+				{  
 					"reference" : {
 						"resourceType" : "Observation",
 						"id" : "COPD.group",
@@ -55,40 +56,40 @@
                         "drugTypes" : 
 						{  
                             "drugTypePreferences" : 
-							{
-								"reference":
 								{
-										"refId":"COPD.group",
-										"resultCode":"B"
-								},
-								"entries": 
-								[ 
-								   {
-                                    "preferred" : 
-                                    {   
-										"administrationOf":"Laba"
+									"reference":
+									{
+											"refId":"COPD.group",
+											"resultCode":"B"
 									},
-									"alternative" : 
-									[
+									"entries": 
+									[ 
+									   {
+											"preferred" : 
+											{   
+												"administrationOf":"Laba"
+											},
+											"alternative" : 
+											[
+												{
+													"administrationOf" : "LabaLama"
+												}
+											]
+										},
 										{
-											"administrationOf" : "LabaLama"
+											"preferred" : 
+											{
+												"administrationOf":"Lama"
+											},
+											"alternative" : 
+											[
+												{
+													"administrationOf" : "LabaLama"
+												}
+											]
 										}
 									]
-                                    },
-                                    {
-                                        "preferred" : 
-                                        {
-                                            "administrationOf":"Lama"
-                                        },
-                                        "alternative" : 
-                                        [
-                                            {
-                                                "administrationOf" : "LabaLama"
-                                            }
-                                        ]
-                                    }
-								]
-							}							
+								}							
 					}
 				}
 			}
@@ -190,7 +191,7 @@
                     ]
                     },
                     {
-                        "id" : "http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stageModerateShould",
+                        "id" : "http://anonymous.org/data/RecSHOWCASEdemo-LamaDecreaseCOPD.stage2Should",
                         "text" : "Clinician should recommend administering LAMA",
                         "motivation": "Initial therapy should consist of a long acting bronchodilator; long acting are recommended over short acting inhaled bronchodilators",
                         "suggestion" : "recommend",
@@ -239,7 +240,7 @@
                         ]
                         },
                         {
-                            "id" : "http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stageModerateShould",
+                            "id" : "http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should",
                             "text" : "Clinician should recommend administering LABA + LAMA" ,
                             "motivation": "A combination of bronchodilators is recommended as initial therapy for patients with  severe breathlessness. Also for patients on monotherapy with persistent breathlessness",
                             "suggestion" : "recommend", 

@@ -4,140 +4,246 @@
             "extension": [
                 {
                     "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
-                        "action": "Pneumococcal.vaccine",
-                        "suggestion": "recommend",
-                        "reasons": [
+                        "id": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
+                        "text": "Clinician should recommend administering LABA + LAMA",
+                        "causationBeliefs": [
                             {
+                                "id": "http://anonymous.org/data/CBLabaLamaDecreaseCOPDStage3",
                                 "contribution": "positive",
-                                "property": "Pneumonia",
-                                "effect": "http://anonymous.org/data/TrDecreasePneumoniaRisk",
-                                "currentSituation": "http://anonymous.org/data/SitPneumoniaHighRisk",
-                                "expectedSituation": "http://anonymous.org/data/SitPneumoniaLowRisk"
+                                "transition": {
+                                    "id": "http://anonymous.org/data/TrDecreaseCOPDStage3",
+                                    "effect": "Decrease",
+                                    "property": {
+                                        "display": "COPD stage",
+                                        "code": "COPD.stage"
+                                    },
+                                    "situationTypes": [
+                                        {
+                                            "id": "http://anonymous.org/data/SitCOPDStageSevere",
+                                            "type": "hasTransformableSituation",
+                                            "value": {
+                                                "representation": "severe",
+                                                "display": "having a severe COPD stage"
+                                            }
+                                        },
+                                        {
+                                            "id": "http://anonymous.org/data/SitCOPDStageModerate",
+                                            "type": "hasExpectedSituation",
+                                            "value": {
+                                                "representation": "moderate",
+                                                "display": "having a moderate COPD stage"
+                                            }
+                                        }
+                                    ]
+                                }
                             }
                         ],
-                        "text": "Clinician should recommend administring the Pneumococcal vaccine to decrease the risk of contracting Pneumococcal Pneumonia because of: {'positive contribution on Pneumonia to Decrease from having a high risk of developing Pneumonia to having a low risk of developing Pneumonia'}"
+                        "reasons": "positive contribution _ON_ COPD stage _TO_ Decrease _FROM_ having a severe COPD stage to having a moderate COPD stage"
                     },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
-                            "interactionTypes": [
-                                "repairable"
-                            ],
-                            "interactingRecommendationActionId": "Ics",
-                            "interactingRecommendationSuggestion": "nonRecommend",
-                            "commentPreference": null,
-                            "commentRepairable": "Repaired by http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould"
-                        }
-                    ]
+                    "interactionsInformation": {
+                        "interactingRecommendations": [
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
+                                "interactionTypes": [
+                                    "alternative",
+                                    "repetition"
+                                ],
+                                "preferred": false
+                            },
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                                "interactionTypes": [
+                                    "alternative",
+                                    "repetition"
+                                ],
+                                "preferred": false
+                            },
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot",
+                                "interactionTypes": [
+                                    "contradiction"
+                                ]
+                            }
+                        ],
+                        "alternatives": [
+                            "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
+                            "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should"
+                        ],
+                        "contradictions": [
+                            "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot"
+                        ],
+                        "repetitions": [
+                            "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
+                            "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should"
+                        ],
+                        "repairables": []
+                    }
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
+                        "text": "Clinician should recommend administring the Pneumococcal vaccine to decrease the risk of contracting Pneumococcal Pneumonia",
+                        "causationBeliefs": [
+                            {
+                                "id": "http://anonymous.org/data/CBPneumococcalVaccineDecreasePneumoniaRisk",
+                                "contribution": "positive",
+                                "transition": {
+                                    "id": "http://anonymous.org/data/TrDecreasePneumoniaRisk",
+                                    "effect": "Decrease",
+                                    "property": {
+                                        "display": "Pneumonia",
+                                        "code": "Pneumonia"
+                                    },
+                                    "situationTypes": [
+                                        {
+                                            "id": "http://anonymous.org/data/SitPneumoniaHighRisk",
+                                            "type": "hasTransformableSituation",
+                                            "value": {
+                                                "representation": "high risk",
+                                                "display": "having a high risk of developing Pneumonia"
+                                            }
+                                        },
+                                        {
+                                            "id": "http://anonymous.org/data/SitPneumoniaLowRisk",
+                                            "type": "hasExpectedSituation",
+                                            "value": {
+                                                "representation": "low risk",
+                                                "display": "having a low risk of developing Pneumonia"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "reasons": "positive contribution _ON_ Pneumonia _TO_ Decrease _FROM_ having a high risk of developing Pneumonia to having a low risk of developing Pneumonia"
+                    },
+                    "interactionsInformation": {
+                        "interactingRecommendations": [
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+                                "interactionTypes": [
+                                    "repairable"
+                                ],
+                                "repairable": false
+                            }
+                        ],
+                        "alternatives": [],
+                        "contradictions": [],
+                        "repetitions": [],
+                        "repairables": [
+                            "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot"
+                        ]
+                    }
                 },
                 {
                     "aboutRecommendation": {
                         "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
-                        "action": "SmokingCessation",
-                        "suggestion": "recommend",
-                        "reasons": [
+                        "text": "Clinician should encourage patient to quit smoking",
+                        "causationBeliefs": [
                             {
+                                "id": "http://anonymous.org/data/CBSmokingCessationDecreaseALS",
                                 "contribution": "positive",
-                                "property": "airflow.limitation.severity",
-                                "effect": "http://anonymous.org/data/TrDecreaseALS",
-                                "currentSituation": "http://anonymous.org/data/SitALSHigh",
-                                "expectedSituation": "http://anonymous.org/data/SitALSLow"
+                                "transition": {
+                                    "id": "http://anonymous.org/data/TrDecreaseALS",
+                                    "effect": "Decrease",
+                                    "property": {
+                                        "display": "airflow limitation severity",
+                                        "code": "airflow.limitation.severity"
+                                    },
+                                    "situationTypes": [
+                                        {
+                                            "id": "http://anonymous.org/data/SitALSHigh",
+                                            "type": "hasTransformableSituation",
+                                            "value": {
+                                                "representation": "high",
+                                                "display": "Having a high airflow limitation severity"
+                                            }
+                                        },
+                                        {
+                                            "id": "http://anonymous.org/data/SitALSLow",
+                                            "type": "hasExpectedSituation",
+                                            "value": {
+                                                "representation": "low",
+                                                "display": "Having a low airflow limitation severity"
+                                            }
+                                        }
+                                    ]
+                                }
                             }
                         ],
-                        "text": "Clinician should encourage patient to quit smoking because of: {'positive contribution on airflow limitation severity to Decrease from Having a high airflow limitation severity to Having a low airflow limitation severity'}"
+                        "reasons": "positive contribution _ON_ airflow limitation severity _TO_ Decrease _FROM_ Having a high airflow limitation severity to Having a low airflow limitation severity"
                     },
-                    "interactionsInformation": []
+                    "interactionsInformation": {
+                        "interactingRecommendations": [],
+                        "alternatives": [],
+                        "contradictions": [],
+                        "repetitions": [],
+                        "repairables": []
+                    }
                 },
                 {
                     "aboutRecommendation": {
                         "id": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
-                        "action": "Ics",
-                        "suggestion": "nonRecommend",
-                        "reasons": [
+                        "text": "Clinician should be aware that administering ICS increases the risk of Pneumonia",
+                        "causationBeliefs": [
                             {
+                                "id": "http://anonymous.org/data/CBIcsIncreasePneumoniaRisk",
                                 "contribution": "negative",
-                                "property": "Pneumonia",
-                                "effect": "http://anonymous.org/data/TrIncreasePneumoniaRisk",
-                                "currentSituation": "http://anonymous.org/data/SitPneumoniaLowRisk",
-                                "expectedSituation": "http://anonymous.org/data/SitPneumoniaHighRisk"
+                                "transition": {
+                                    "id": "http://anonymous.org/data/TrIncreasePneumoniaRisk",
+                                    "effect": "Increase",
+                                    "property": {
+                                        "display": "Pneumonia",
+                                        "code": "Pneumonia"
+                                    },
+                                    "situationTypes": [
+                                        {
+                                            "id": "http://anonymous.org/data/SitPneumoniaLowRisk",
+                                            "type": "hasTransformableSituation",
+                                            "value": {
+                                                "representation": "low risk",
+                                                "display": "having a low risk of developing Pneumonia"
+                                            }
+                                        },
+                                        {
+                                            "id": "http://anonymous.org/data/SitPneumoniaHighRisk",
+                                            "type": "hasExpectedSituation",
+                                            "value": {
+                                                "representation": "high risk",
+                                                "display": "having a high risk of developing Pneumonia"
+                                            }
+                                        }
+                                    ]
+                                }
                             }
                         ],
-                        "text": "Clinician should be aware that administering ICS increases the risk of Pneumonia because of: {'negative contribution on Pneumonia to Increase from having a low risk of developing Pneumonia to having a high risk of developing Pneumonia'}"
+                        "reasons": "negative contribution _ON_ Pneumonia _TO_ Increase _FROM_ having a low risk of developing Pneumonia to having a high risk of developing Pneumonia"
                     },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "contradiction"
-                            ],
-                            "interactingRecommendationActionId": "LabaIcs",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": null,
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
-                            "interactionTypes": [
-                                "repairable"
-                            ],
-                            "interactingRecommendationActionId": "Pneumococcal.vaccine",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": null,
-                            "commentRepairable": "Repairing http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot"
-                        }
-                    ]
-                },
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
-                        "action": "LabaLama",
-                        "suggestion": "recommend",
-                        "reasons": [
+                    "interactionsInformation": {
+                        "interactingRecommendations": [
                             {
-                                "contribution": "positive",
-                                "property": "COPD.stage",
-                                "effect": "http://anonymous.org/data/TrDecreaseCOPDStage3",
-                                "currentSituation": "http://anonymous.org/data/SitCOPDStageSevere",
-                                "expectedSituation": "http://anonymous.org/data/SitCOPDStageModerate"
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                                "interactionTypes": [
+                                    "contradiction"
+                                ]
+                            },
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
+                                "interactionTypes": [
+                                    "repairable"
+                                ],
+                                "repairable": true
                             }
                         ],
-                        "text": "Clinician should recommend administering LABA + LAMA because of: {'positive contribution on COPD stage to Decrease from having a severe COPD stage to having a moderate COPD stage'}"
-                    },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "alternative",
-                                "repetition"
-                            ],
-                            "interactingRecommendationActionId": "Lama",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is preferred",
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "alternative",
-                                "repetition"
-                            ],
-                            "interactingRecommendationActionId": "LabaIcs",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should is preferred",
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot",
-                            "interactionTypes": [
-                                "contradiction"
-                            ],
-                            "interactingRecommendationActionId": "SabaLaba",
-                            "interactingRecommendationSuggestion": "nonRecommend",
-                            "commentPreference": null,
-                            "commentRepairable": null
-                        }
-                    ]
+                        "alternatives": [],
+                        "contradictions": [
+                            "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should"
+                        ],
+                        "repetitions": [],
+                        "repairables": [
+                            "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould"
+                        ]
+                    }
                 }
             ]
         },
@@ -146,168 +252,298 @@
                 {
                     "aboutRecommendation": {
                         "id": "http://anonymous.org/data/RecCOPD-LamaDecreaseCOPDStage3Should",
-                        "action": "Lama",
-                        "suggestion": "recommend",
-                        "reasons": [
+                        "text": "Clinician should recommend administering LAMA",
+                        "causationBeliefs": [
                             {
+                                "id": "http://anonymous.org/data/CBLamaDecreaseCOPDStage3",
                                 "contribution": "positive",
-                                "property": "COPD.stage",
-                                "effect": "http://anonymous.org/data/TrDecreaseCOPDStage3",
-                                "currentSituation": "http://anonymous.org/data/SitCOPD.stageSevere",
-                                "expectedSituation": "http://anonymous.org/data/SitCOPDStageModerate"
+                                "transition": {
+                                    "id": "http://anonymous.org/data/TrDecreaseCOPDStage3",
+                                    "effect": "Decrease",
+                                    "property": {
+                                        "display": "COPD stage",
+                                        "code": "COPD.stage"
+                                    },
+                                    "situationTypes": [
+                                        {
+                                            "id": "http://anonymous.org/data/SitCOPD.stageSevere",
+                                            "type": "hasTransformableSituation",
+                                            "value": {
+                                                "representation": "severe",
+                                                "display": "having a severe COPD stage"
+                                            }
+                                        },
+                                        {
+                                            "id": "http://anonymous.org/data/SitCOPDStageModerate",
+                                            "type": "hasExpectedSituation",
+                                            "value": {
+                                                "representation": "moderate",
+                                                "display": "having a moderate COPD stage"
+                                            }
+                                        }
+                                    ]
+                                }
                             }
                         ],
-                        "text": "Clinician should recommend administering LAMA because of: {'positive contribution on COPD stage to Decrease from having a severe COPD stage to having a moderate COPD stage'}"
+                        "reasons": "positive contribution _ON_ COPD stage _TO_ Decrease _FROM_ having a severe COPD stage to having a moderate COPD stage"
                     },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "alternative",
-                                "repetition"
-                            ],
-                            "interactingRecommendationActionId": "LabaIcs",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": null,
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "alternative",
-                                "repetition"
-                            ],
-                            "interactingRecommendationActionId": "LabaLama",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should not acceptable even though preferred",
-                            "commentRepairable": null
-                        }
-                    ]
-                },
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
-                        "action": "Pneumococcal.vaccine",
-                        "suggestion": "recommend",
-                        "reasons": [
+                    "interactionsInformation": {
+                        "interactingRecommendations": [
                             {
-                                "contribution": "positive",
-                                "property": "Pneumonia",
-                                "effect": "http://anonymous.org/data/TrDecreasePneumoniaRisk",
-                                "currentSituation": "http://anonymous.org/data/SitPneumoniaHighRisk",
-                                "expectedSituation": "http://anonymous.org/data/SitPneumoniaLowRisk"
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                                "interactionTypes": [
+                                    "alternative",
+                                    "repetition"
+                                ]
+                            },
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
+                                "interactionTypes": [
+                                    "alternative",
+                                    "repetition"
+                                ],
+                                "preferred": true
                             }
                         ],
-                        "text": "Clinician should recommend administring the Pneumococcal vaccine to decrease the risk of contracting Pneumococcal Pneumonia because of: {'positive contribution on Pneumonia to Decrease from having a high risk of developing Pneumonia to having a low risk of developing Pneumonia'}"
-                    },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
-                            "interactionTypes": [
-                                "repairable"
-                            ],
-                            "interactingRecommendationActionId": "Ics",
-                            "interactingRecommendationSuggestion": "nonRecommend",
-                            "commentPreference": null,
-                            "commentRepairable": "Repaired by http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould"
-                        }
-                    ]
-                },
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
-                        "action": "SmokingCessation",
-                        "suggestion": "recommend",
-                        "reasons": [
-                            {
-                                "contribution": "positive",
-                                "property": "airflow.limitation.severity",
-                                "effect": "http://anonymous.org/data/TrDecreaseALS",
-                                "currentSituation": "http://anonymous.org/data/SitALSHigh",
-                                "expectedSituation": "http://anonymous.org/data/SitALSLow"
-                            }
+                        "alternatives": [
+                            "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                            "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should"
                         ],
-                        "text": "Clinician should encourage patient to quit smoking because of: {'positive contribution on airflow limitation severity to Decrease from Having a high airflow limitation severity to Having a low airflow limitation severity'}"
-                    },
-                    "interactionsInformation": []
+                        "contradictions": [],
+                        "repetitions": [
+                            "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                            "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should"
+                        ],
+                        "repairables": []
+                    }
                 },
                 {
                     "aboutRecommendation": {
                         "id": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
-                        "action": "Ics",
-                        "suggestion": "nonRecommend",
-                        "reasons": [
+                        "text": "Clinician should be aware that administering ICS increases the risk of Pneumonia",
+                        "causationBeliefs": [
                             {
+                                "id": "http://anonymous.org/data/CBIcsIncreasePneumoniaRisk",
                                 "contribution": "negative",
-                                "property": "Pneumonia",
-                                "effect": "http://anonymous.org/data/TrIncreasePneumoniaRisk",
-                                "currentSituation": "http://anonymous.org/data/SitPneumoniaLowRisk",
-                                "expectedSituation": "http://anonymous.org/data/SitPneumoniaHighRisk"
+                                "transition": {
+                                    "id": "http://anonymous.org/data/TrIncreasePneumoniaRisk",
+                                    "effect": "Increase",
+                                    "property": {
+                                        "display": "Pneumonia",
+                                        "code": "Pneumonia"
+                                    },
+                                    "situationTypes": [
+                                        {
+                                            "id": "http://anonymous.org/data/SitPneumoniaLowRisk",
+                                            "type": "hasTransformableSituation",
+                                            "value": {
+                                                "representation": "low risk",
+                                                "display": "having a low risk of developing Pneumonia"
+                                            }
+                                        },
+                                        {
+                                            "id": "http://anonymous.org/data/SitPneumoniaHighRisk",
+                                            "type": "hasExpectedSituation",
+                                            "value": {
+                                                "representation": "high risk",
+                                                "display": "having a high risk of developing Pneumonia"
+                                            }
+                                        }
+                                    ]
+                                }
                             }
                         ],
-                        "text": "Clinician should be aware that administering ICS increases the risk of Pneumonia because of: {'negative contribution on Pneumonia to Increase from having a low risk of developing Pneumonia to having a high risk of developing Pneumonia'}"
+                        "reasons": "negative contribution _ON_ Pneumonia _TO_ Increase _FROM_ having a low risk of developing Pneumonia to having a high risk of developing Pneumonia"
                     },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "contradiction"
-                            ],
-                            "interactingRecommendationActionId": "LabaIcs",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": null,
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
-                            "interactionTypes": [
-                                "repairable"
-                            ],
-                            "interactingRecommendationActionId": "Pneumococcal.vaccine",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": null,
-                            "commentRepairable": "Repairing http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot"
-                        }
-                    ]
+                    "interactionsInformation": {
+                        "interactingRecommendations": [
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                                "interactionTypes": [
+                                    "contradiction"
+                                ]
+                            },
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
+                                "interactionTypes": [
+                                    "repairable"
+                                ],
+                                "repairable": true
+                            }
+                        ],
+                        "alternatives": [],
+                        "contradictions": [
+                            "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should"
+                        ],
+                        "repetitions": [],
+                        "repairables": [
+                            "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould"
+                        ]
+                    }
                 },
                 {
                     "aboutRecommendation": {
                         "id": "http://anonymous.org/data/RecCOPD-SabaLabaIncreaseCRDRiskShouldnot",
-                        "action": "SabaLaba",
-                        "suggestion": "nonRecommend",
-                        "reasons": [
+                        "text": "Clinician should not recommend administering SABA or LABA to susceptible patients when cardiovascular disease is present",
+                        "causationBeliefs": [
                             {
+                                "id": "http://anonymous.org/data/CBSabaLabaIncreaseCRDRisk",
                                 "contribution": "negative",
-                                "property": "cvd.CRD",
-                                "effect": "http://anonymous.org/data/TrIncreaseCRDRisk",
-                                "currentSituation": "http://anonymous.org/data/SitCRDLowRisk",
-                                "expectedSituation": "http://anonymous.org/data/SitCRDHighRisk"
+                                "transition": {
+                                    "id": "http://anonymous.org/data/TrIncreaseCRDRisk",
+                                    "effect": "Decrease",
+                                    "property": {
+                                        "display": "cardiac rythm disturbances",
+                                        "code": "cvd.CRD"
+                                    },
+                                    "situationTypes": [
+                                        {
+                                            "id": "http://anonymous.org/data/SitCRDLowRisk",
+                                            "type": "hasTransformableSituation",
+                                            "value": {
+                                                "representation": "low risk",
+                                                "display": "having a low risk of cardiac rythm disturbances on susceptible patients"
+                                            }
+                                        },
+                                        {
+                                            "id": "http://anonymous.org/data/SitCRDHighRisk",
+                                            "type": "hasExpectedSituation",
+                                            "value": {
+                                                "representation": "high risk",
+                                                "display": "having a high risk of cardiac rythm disturbances on susceptible patients"
+                                            }
+                                        }
+                                    ]
+                                }
                             }
                         ],
-                        "text": "Clinician should not recommend administering SABA or LABA to susceptible patients when cardiovascular disease is present because of: {'negative contribution on cardiac rythm disturbances to Decrease from having a low risk of cardiac rythm disturbances on susceptible patients to having a high risk of cardiac rythm disturbances on susceptible patients'}"
+                        "reasons": "negative contribution _ON_ cardiac rythm disturbances _TO_ Decrease _FROM_ having a low risk of cardiac rythm disturbances on susceptible patients to having a high risk of cardiac rythm disturbances on susceptible patients"
                     },
-                    "interactionsInformation": [
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "contradiction"
-                            ],
-                            "interactingRecommendationActionId": "LabaIcs",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": null,
-                            "commentRepairable": null
-                        },
-                        {
-                            "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
-                            "interactionTypes": [
-                                "contradiction"
-                            ],
-                            "interactingRecommendationActionId": "LabaLama",
-                            "interactingRecommendationSuggestion": "recommend",
-                            "commentPreference": null,
-                            "commentRepairable": null
-                        }
-                    ]
+                    "interactionsInformation": {
+                        "interactingRecommendations": [
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                                "interactionTypes": [
+                                    "contradiction"
+                                ]
+                            },
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should",
+                                "interactionTypes": [
+                                    "contradiction"
+                                ]
+                            }
+                        ],
+                        "alternatives": [],
+                        "contradictions": [
+                            "http://anonymous.org/data/RecCOPD-LabaIcsDecreaseCOPDStage3Should",
+                            "http://anonymous.org/data/RecCOPD-LabaLamaDecreaseCOPDStage3Should"
+                        ],
+                        "repetitions": [],
+                        "repairables": []
+                    }
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-PneumococcalVaccineDecreasePneumoniaRiskShould",
+                        "text": "Clinician should recommend administring the Pneumococcal vaccine to decrease the risk of contracting Pneumococcal Pneumonia",
+                        "causationBeliefs": [
+                            {
+                                "id": "http://anonymous.org/data/CBPneumococcalVaccineDecreasePneumoniaRisk",
+                                "contribution": "positive",
+                                "transition": {
+                                    "id": "http://anonymous.org/data/TrDecreasePneumoniaRisk",
+                                    "effect": "Decrease",
+                                    "property": {
+                                        "display": "Pneumonia",
+                                        "code": "Pneumonia"
+                                    },
+                                    "situationTypes": [
+                                        {
+                                            "id": "http://anonymous.org/data/SitPneumoniaHighRisk",
+                                            "type": "hasTransformableSituation",
+                                            "value": {
+                                                "representation": "high risk",
+                                                "display": "having a high risk of developing Pneumonia"
+                                            }
+                                        },
+                                        {
+                                            "id": "http://anonymous.org/data/SitPneumoniaLowRisk",
+                                            "type": "hasExpectedSituation",
+                                            "value": {
+                                                "representation": "low risk",
+                                                "display": "having a low risk of developing Pneumonia"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "reasons": "positive contribution _ON_ Pneumonia _TO_ Decrease _FROM_ having a high risk of developing Pneumonia to having a low risk of developing Pneumonia"
+                    },
+                    "interactionsInformation": {
+                        "interactingRecommendations": [
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot",
+                                "interactionTypes": [
+                                    "repairable"
+                                ],
+                                "repairable": false
+                            }
+                        ],
+                        "alternatives": [],
+                        "contradictions": [],
+                        "repetitions": [],
+                        "repairables": [
+                            "http://anonymous.org/data/RecCOPD-IcsIncreasePneumoniaRiskShouldnot"
+                        ]
+                    }
+                },
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecCOPD-SmokingCessationDecreaseALSShould",
+                        "text": "Clinician should encourage patient to quit smoking",
+                        "causationBeliefs": [
+                            {
+                                "id": "http://anonymous.org/data/CBSmokingCessationDecreaseALS",
+                                "contribution": "positive",
+                                "transition": {
+                                    "id": "http://anonymous.org/data/TrDecreaseALS",
+                                    "effect": "Decrease",
+                                    "property": {
+                                        "display": "airflow limitation severity",
+                                        "code": "airflow.limitation.severity"
+                                    },
+                                    "situationTypes": [
+                                        {
+                                            "id": "http://anonymous.org/data/SitALSHigh",
+                                            "type": "hasTransformableSituation",
+                                            "value": {
+                                                "representation": "high",
+                                                "display": "Having a high airflow limitation severity"
+                                            }
+                                        },
+                                        {
+                                            "id": "http://anonymous.org/data/SitALSLow",
+                                            "type": "hasExpectedSituation",
+                                            "value": {
+                                                "representation": "low",
+                                                "display": "Having a low airflow limitation severity"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "reasons": "positive contribution _ON_ airflow limitation severity _TO_ Decrease _FROM_ Having a high airflow limitation severity to Having a low airflow limitation severity"
+                    },
+                    "interactionsInformation": {
+                        "interactingRecommendations": [],
+                        "alternatives": [],
+                        "contradictions": [],
+                        "repetitions": [],
+                        "repairables": []
+                    }
                 }
             ]
         }

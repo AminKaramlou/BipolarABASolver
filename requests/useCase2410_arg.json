@@ -5,74 +5,234 @@
                 {
                     "aboutRecommendation": {
                         "id": "http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should",
-                        "action": "Laba",
-                        "suggestion": "recommend",
-                        "reasons": [
+                        "text": "Clinician should recommend administering LABA",
+                        "causationBeliefs": [
                             {
+                                "id": "http://anonymous.org/data/CBLabaDecreaseCOPD.stageModerate",
                                 "contribution": "positive",
-                                "property": "COPD.stage",
-                                "effect": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
-                                "currentSituation": "http://anonymous.org/data/SitCOPD.stage-Moderate",
-                                "expectedSituation": "http://anonymous.org/data/SitCOPD.stage-Mild"
+                                "transition": {
+                                    "id": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
+                                    "effect": "Decrease",
+                                    "property": {
+                                        "display": "COPD stage",
+                                        "code": "COPD.stage"
+                                    },
+                                    "situationTypes": [
+                                        {
+                                            "id": "http://anonymous.org/data/SitCOPD.stage-Moderate",
+                                            "type": "hasTransformableSituation",
+                                            "value": {
+                                                "representation": "Moderate",
+                                                "display": "a moderate airflow limitation severity"
+                                            }
+                                        },
+                                        {
+                                            "id": "http://anonymous.org/data/SitCOPD.stage-Mild",
+                                            "type": "hasExpectedSituation",
+                                            "value": {
+                                                "representation": "Mild",
+                                                "display": "a mild airflow limitation severity"
+                                            }
+                                        }
+                                    ]
+                                }
                             }
                         ],
-                        "text": "Clinician should recommend administering LABA because of: positive contribution on COPD stage to Decrease from a moderate airflow limitation severity to a mild airflow limitation severity"
+                        "reasons": "positive contribution _ON_ COPD stage _TO_ Decrease _FROM_ a moderate airflow limitation severity to a mild airflow limitation severity"
                     },
-                    "interactionsInformation": []
+                    "interactionsInformation": {
+                        "interactingRecommendations": [
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecSHOWCASEdemo-LamaDecreaseCOPD.stage2Should",
+                                "interactionTypes": [
+                                    "alternative",
+                                    "repetition"
+                                ]
+                            },
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should",
+                                "interactionTypes": [
+                                    "alternative",
+                                    "repetition"
+                                ],
+                                "preferred": false
+                            }
+                        ],
+                        "alternatives": [
+                            "http://anonymous.org/data/RecSHOWCASEdemo-LamaDecreaseCOPD.stage2Should",
+                            "http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should"
+                        ],
+                        "contradictions": [],
+                        "repetitions": [
+                            "http://anonymous.org/data/RecSHOWCASEdemo-LamaDecreaseCOPD.stage2Should",
+                            "http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should"
+                        ],
+                        "repairables": []
+                    }
                 },
                 {
                     "aboutRecommendation": {
                         "id": "http://anonymous.org/data/RecSHOWCASEdemo-SmokingCessationDecreaseCOPD.stageModerateShould",
-                        "action": "SmokingCessation",
-                        "suggestion": "recommend",
-                        "reasons": [
+                        "text": "Clinician should encourage patient to quit smoking",
+                        "causationBeliefs": [
                             {
+                                "id": "http://anonymous.org/data/CBSmokingCessationDecreaseCOPD.stageModerate",
                                 "contribution": "positive",
-                                "property": "COPD.stage",
-                                "effect": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
-                                "currentSituation": "http://anonymous.org/data/SitCOPD.stage-Moderate",
-                                "expectedSituation": "http://anonymous.org/data/SitCOPD.stage-Mild"
+                                "transition": {
+                                    "id": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
+                                    "effect": "Decrease",
+                                    "property": {
+                                        "display": "COPD stage",
+                                        "code": "COPD.stage"
+                                    },
+                                    "situationTypes": [
+                                        {
+                                            "id": "http://anonymous.org/data/SitCOPD.stage-Moderate",
+                                            "type": "hasTransformableSituation",
+                                            "value": {
+                                                "representation": "Moderate",
+                                                "display": "a moderate airflow limitation severity"
+                                            }
+                                        },
+                                        {
+                                            "id": "http://anonymous.org/data/SitCOPD.stage-Mild",
+                                            "type": "hasExpectedSituation",
+                                            "value": {
+                                                "representation": "Mild",
+                                                "display": "a mild airflow limitation severity"
+                                            }
+                                        }
+                                    ]
+                                }
                             }
                         ],
-                        "text": "Clinician should encourage patient to quit smoking because of: positive contribution on COPD stage to Decrease from a moderate airflow limitation severity to a mild airflow limitation severity"
+                        "reasons": "positive contribution _ON_ COPD stage _TO_ Decrease _FROM_ a moderate airflow limitation severity to a mild airflow limitation severity"
                     },
-                    "interactionsInformation": []
+                    "interactionsInformation": {
+                        "interactingRecommendations": [],
+                        "alternatives": [],
+                        "contradictions": [],
+                        "repetitions": [],
+                        "repairables": []
+                    }
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "aboutRecommendation": {
+                        "id": "http://anonymous.org/data/RecSHOWCASEdemo-LamaDecreaseCOPD.stage2Should",
+                        "text": "Clinician should recommend administering LAMA",
+                        "causationBeliefs": [
+                            {
+                                "id": "http://anonymous.org/data/CBLamaDecreaseCOPD.stageModerate",
+                                "contribution": "positive",
+                                "transition": {
+                                    "id": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
+                                    "effect": "Decrease",
+                                    "property": {
+                                        "display": "COPD stage",
+                                        "code": "COPD.stage"
+                                    },
+                                    "situationTypes": [
+                                        {
+                                            "id": "http://anonymous.org/data/SitCOPD.stage-Moderate",
+                                            "type": "hasTransformableSituation",
+                                            "value": {
+                                                "representation": "Moderate",
+                                                "display": "a moderate airflow limitation severity"
+                                            }
+                                        },
+                                        {
+                                            "id": "http://anonymous.org/data/SitCOPD.stage-Mild",
+                                            "type": "hasExpectedSituation",
+                                            "value": {
+                                                "representation": "Mild",
+                                                "display": "a mild airflow limitation severity"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "reasons": "positive contribution _ON_ COPD stage _TO_ Decrease _FROM_ a moderate airflow limitation severity to a mild airflow limitation severity"
+                    },
+                    "interactionsInformation": {
+                        "interactingRecommendations": [
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should",
+                                "interactionTypes": [
+                                    "alternative",
+                                    "repetition"
+                                ]
+                            },
+                            {
+                                "interactingRecommendationId": "http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should",
+                                "interactionTypes": [
+                                    "alternative",
+                                    "repetition"
+                                ],
+                                "preferred": false
+                            }
+                        ],
+                        "alternatives": [
+                            "http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should",
+                            "http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should"
+                        ],
+                        "contradictions": [],
+                        "repetitions": [
+                            "http://anonymous.org/data/RecSHOWCASEdemo-LabaDecreaseCOPD.stage2Should",
+                            "http://anonymous.org/data/RecSHOWCASEdemo-LabaLamaDecreaseCOPD.stage2Should"
+                        ],
+                        "repairables": []
+                    }
                 },
                 {
                     "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD.groupB-LabaLamaDecreaseCOPD.stageModerateShould",
-                        "action": "LabaLama",
-                        "suggestion": "recommend",
-                        "reasons": [
+                        "id": "http://anonymous.org/data/RecSHOWCASEdemo-SmokingCessationDecreaseCOPD.stageModerateShould",
+                        "text": "Clinician should encourage patient to quit smoking",
+                        "causationBeliefs": [
                             {
+                                "id": "http://anonymous.org/data/CBSmokingCessationDecreaseCOPD.stageModerate",
                                 "contribution": "positive",
-                                "property": "COPD.stage",
-                                "effect": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
-                                "currentSituation": "http://anonymous.org/data/SitCOPD.stage-Moderate",
-                                "expectedSituation": "http://anonymous.org/data/SitCOPD.stage-Mild"
+                                "transition": {
+                                    "id": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
+                                    "effect": "Decrease",
+                                    "property": {
+                                        "display": "COPD stage",
+                                        "code": "COPD.stage"
+                                    },
+                                    "situationTypes": [
+                                        {
+                                            "id": "http://anonymous.org/data/SitCOPD.stage-Moderate",
+                                            "type": "hasTransformableSituation",
+                                            "value": {
+                                                "representation": "Moderate",
+                                                "display": "a moderate airflow limitation severity"
+                                            }
+                                        },
+                                        {
+                                            "id": "http://anonymous.org/data/SitCOPD.stage-Mild",
+                                            "type": "hasExpectedSituation",
+                                            "value": {
+                                                "representation": "Mild",
+                                                "display": "a mild airflow limitation severity"
+                                            }
+                                        }
+                                    ]
+                                }
                             }
                         ],
-                        "text": "Clinician should recommend administering LABA + LAMA because of: positive contribution on COPD stage to Decrease from a moderate airflow limitation severity to a mild airflow limitation severity"
+                        "reasons": "positive contribution _ON_ COPD stage _TO_ Decrease _FROM_ a moderate airflow limitation severity to a mild airflow limitation severity"
                     },
-                    "interactionsInformation": []
-                },
-                {
-                    "aboutRecommendation": {
-                        "id": "http://anonymous.org/data/RecCOPD.groupB-LamaDecreaseCOPD.stageModerateShould",
-                        "action": "Lama",
-                        "suggestion": "recommend",
-                        "reasons": [
-                            {
-                                "contribution": "positive",
-                                "property": "COPD.stage",
-                                "effect": "http://anonymous.org/data/TrDecrease-COPD.stageModerate",
-                                "currentSituation": "http://anonymous.org/data/SitCOPD.stage-Moderate",
-                                "expectedSituation": "http://anonymous.org/data/SitCOPD.stage-Mild"
-                            }
-                        ],
-                        "text": "Clinician should recommend administering LAMA because of: positive contribution on COPD stage to Decrease from a moderate airflow limitation severity to a mild airflow limitation severity"
-                    },
-                    "interactionsInformation": []
+                    "interactionsInformation": {
+                        "interactingRecommendations": [],
+                        "alternatives": [],
+                        "contradictions": [],
+                        "repetitions": [],
+                        "repairables": []
+                    }
                 }
             ]
         }
