@@ -16,7 +16,7 @@ itsdangerous==1.1.0       # via flask
 jinja2==2.10.1            # via flask
 markupsafe==1.1.1         # via jinja2
 monotonic==1.5            # via eventlet
-numpy==1.14.3             # via pandas
+numpy==1.22.0             # via pandas
 pandas==0.23.0
 python-dateutil==2.7.3    # via pandas
 python-engineio==3.5.1    # via python-socketio
